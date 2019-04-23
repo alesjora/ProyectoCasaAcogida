@@ -11,21 +11,22 @@
       <mat-form-field>
         <input matInput placeholder="Email" formControlName="email">
         <mat-error *ngIf="email?.invalid">El email es obligatorio</mat-error>
-      </mat-form-field>    
+      </mat-form-field>
       <mat-form-field>
         <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="password">
         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         <mat-error *ngIf="password?.invalid">La contraseña es obligatoria</mat-error>
       </mat-form-field>
-    </form>
-    <div class="buttons">
-      <div class="login">
-        <!-- <button mat-raised-button color="primary" [disabled]="!loginForm?.valid">Iniciar sesión</button> -->
-        <button mat-raised-button color="primary">Iniciar sesión</button>
+      <div class="buttons">
+        <div class="login">
+          <!-- <button mat-raised-button color="primary" [disabled]="!loginForm?.valid">Iniciar sesión</button> -->
+          <button type="submit" mat-raised-button color="primary">Iniciar sesión</button>
+        </div>
+        <div class="register">
+          <button routerLink="/forgot_password" mat-button color="primary">He olvidado la contraseña</button>
+        </div>
       </div>
-      <div class="register">
-        <button mat-button color="primary">He olvidado la contraseña</button>
-      </div>      
-    </div>
+    </form>
+
   </div>
 </div>
