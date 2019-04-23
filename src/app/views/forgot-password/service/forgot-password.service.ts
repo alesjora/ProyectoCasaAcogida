@@ -11,6 +11,6 @@ export class ForgotPasswordService {
   constructor(private httpClient: HttpClient) { }
 
   sendEmail(email): Observable<any> {
-    return this.httpClient.post(environment.urlAPI + 'forgotPassword', email);
+    return this.httpClient.post(environment.urlMarcos + 'forgotPassword', email);
   }
 }

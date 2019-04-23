@@ -24,9 +24,10 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   sendEmail() {
-    this.forgotPasswordService.sendEmail({ email: 'jose' }).subscribe(
-      this.showSnackbar.bind(this, 'Correo enviado satisfactoriamente.' ,1000, 'bottom', 'success'),
-      this.showSnackbar.bind(this, 'Error al enviar el correo.', 1000, 'bottom', 'error'));
+    this.forgotPasswordService.sendEmail({ email: this.email.value }).subscribe(
+      (succes) => {console.log(succes); this.showSnackbar.bind(this, 'Correo enviado satisfactoriamente.' , 1000, 'bottom', 'success')},
+      this.showSnackbar.bind(this, 'Error al enviar el correo.', 1000, 'bottom', 'error')
+      );
   }
 
   showSnackbar(mensaje, duracion, posicion, clase) {
