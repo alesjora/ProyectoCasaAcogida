@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
+import { ForgotPasswordService } from '../service/forgot-password.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,13 +14,29 @@ export class ForgotPasswordComponent implements OnInit {
     email: ['', [Validators.required]],
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private forgotPasswordService: ForgotPasswordService, private snackBar: MatSnackBar) { }
 
   get email() {
     return this.forgotForm.get('email');
   }
 
   ngOnInit() {
+  }
+
+  sendEmail() {
+    this.forgotPasswordService.sendEmail({ email: 'jose' }).subscribe(
+      this.showSnackbar.bind(this, 'Correo enviado satisfactoriamente.' ,1000, 'bottom', 'success'),
+      this.showSnackbar.bind(this, 'Error al enviar el correo.', 1000, 'bottom', 'error'));
+  }
+
+  showSnackbar(mensaje, duracion, posicion, clase) {
+    this.snackBar.open(mensaje, '',
+      {
+        duration: duracion,
+        verticalPosition: posicion,
+        panelClass: clase
+      }
+    );
   }
 
 }
