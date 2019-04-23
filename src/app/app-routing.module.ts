@@ -10,7 +10,11 @@ const routes: Routes = [
   {
     path: 'forgot_password',
     loadChildren: './views/forgot-password/forgot-password.module#ForgotPasswordModule'
-  }
+  },
+  {
+    path: 'change_password',
+    loadChildren: './views/change-password/change-password.module#ChangePasswordModule'
+  },
 ];
 
 @NgModule({
