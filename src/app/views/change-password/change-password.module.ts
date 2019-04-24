@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ChangePasswordService } from './service/change-password.service';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @NgModule({
   declarations: [ChangePasswordComponent],
@@ -19,6 +20,6 @@ import { ChangePasswordService } from './service/change-password.service';
     RouterModule,
     HttpClientModule
   ],
-  providers: [ChangePasswordService]
+  providers: [ChangePasswordService, SnackBarService]
 })
 export class ChangePasswordModule { }
