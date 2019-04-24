@@ -6,6 +6,8 @@ import { ChangePasswordComponent } from './pages/change-password.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { ChangePasswordService } from './service/change-password.service';
 
 @NgModule({
   declarations: [ChangePasswordComponent],
@@ -14,7 +16,9 @@ import { RouterModule } from '@angular/router';
     ChangePasswordRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    RouterModule
-  ]
+    RouterModule,
+    HttpClientModule
+  ],
+  providers: [ChangePasswordService]
 })
 export class ChangePasswordModule { }

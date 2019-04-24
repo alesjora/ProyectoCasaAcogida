@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/login.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -13,6 +14,7 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     RouterModule
   ],
-  exports: [LoginComponent]
+  exports: [LoginComponent],
+  providers: [SnackBarService]
 })
 export class LoginModule { }

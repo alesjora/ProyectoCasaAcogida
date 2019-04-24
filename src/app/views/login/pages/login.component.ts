@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required]],
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private snackBarService: SnackBarService ) { }
 
   get email() {
     return this.loginForm.get('email');
@@ -25,5 +26,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (sessionStorage.getItem('caducado')) {
+      this.snackBarService.showSnackbar('El enlace ha expirado, solicite uno nuevo.', 2000, 'bottom', 'error');
+      sessionStorage.removeItem('caducado');
+    }
   }
 }

@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ForgotPasswordService } from './service/forgot-password.service';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @NgModule({
   declarations: [ForgotPasswordComponent],
@@ -17,6 +18,6 @@ import { ForgotPasswordService } from './service/forgot-password.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ForgotPasswordService]
+  providers: [ForgotPasswordService, SnackBarService]
 })
 export class ForgotPasswordModule { }
