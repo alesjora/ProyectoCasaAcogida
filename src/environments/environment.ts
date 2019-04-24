@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  urlAPI: 'http://localhost/api/public/api/v1/'
+  urlAPI: 'http://localhost/api/public/api/v1/',
+  urlMarcos: 'http://localhost/xamppPHP/0.Angular/ProyectoFinGrado/ApiRest/public/api/v1/'
 };
 
 /*
