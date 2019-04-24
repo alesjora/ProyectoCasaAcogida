@@ -13,4 +13,8 @@ export class ChangePasswordService {
   sendToken(token): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'validateToken', token);
   }
+
+  sendPassword(json): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'changePassword', json);
+  }
 }

@@ -9,13 +9,13 @@ import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 })
 export class LoginComponent implements OnInit {
   hide = true;
-  
+
   loginForm = this.fb.group({
     email: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
 
-  constructor(private fb: FormBuilder, private snackBarService: SnackBarService ) { }
+  constructor(private fb: FormBuilder, private snackBarService: SnackBarService) { }
 
   get email() {
     return this.loginForm.get('email');
@@ -26,9 +26,19 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (sessionStorage.getItem('caducado')) {
-      this.snackBarService.showSnackbar('El enlace ha expirado, solicite uno nuevo.', 2000, 'bottom', 'error');
-      sessionStorage.removeItem('caducado');
+    this.checkPreviousAction();
+  }
+
+  checkPreviousAction() {
+    const action = sessionStorage.getItem('action');
+    sessionStorage.removeItem('action');
+    switch (action) {
+      case 'TOKEN_EXPIRED':
+        this.snackBarService.showSnackbar('El enlace ha expirado, solicite uno nuevo.', 2000, 'bottom', 'error');
+        break;
+      case 'PASSWORD_CHANGED':
+        this.snackBarService.showSnackbar('Contraseña cambiada con éxito.', 2000, 'bottom', 'success');
+        break;
     }
   }
 }

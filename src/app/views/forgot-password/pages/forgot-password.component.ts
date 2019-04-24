@@ -31,7 +31,6 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   sendEmailSuccess(success) {
-    console.log(success);
     if (success) {
       this.snackBarService.showSnackbar('Correo enviado satisfactoriamente.' , 1000, 'bottom', 'success');
     } else {
