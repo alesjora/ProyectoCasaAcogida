@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ForgotPasswordService {
+export class ChangePasswordService {
 
   constructor(private httpClient: HttpClient) { }
 
-  sendEmail(email): Observable<any> {
-    return this.httpClient.post(environment.urlAPI + 'forgotPassword', email);
+  sendToken(token): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'validateToken', token);
   }
 }

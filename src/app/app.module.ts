@@ -5,12 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginModule } from './views/login/login.module';
-import { PasswordMatcherDirective } from './shared/password-matcher.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PasswordMatcherDirective
   ],
   imports: [
     BrowserModule,

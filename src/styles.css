@@ -3,3 +3,11 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.success{
+    background: #43A047;
+    color: #fff;
+}
+.error{
+    background: #D32F2F;
+    color: #fff;
+}
