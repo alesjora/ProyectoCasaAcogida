@@ -5,6 +5,8 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { LoginService } from './service/login.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -12,9 +14,10 @@ import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule
   ],
   exports: [LoginComponent],
-  providers: [SnackBarService]
+  providers: [SnackBarService, LoginService]
 })
 export class LoginModule { }
