@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkPreviousAction();
+    setTimeout(this.checkPreviousAction.bind(this), 1);
   }
 
   checkPreviousAction() {
