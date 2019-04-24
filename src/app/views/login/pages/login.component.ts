@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit {
 
   loginSuccess(response) {
     if (!response) {
-      console.log('a');
       this.snackBarService.showSnackbar('Email o contraseña incorrectos', 1500, 'bottom', 'error');
     } else {
       console.log(response);
