@@ -60,11 +60,17 @@ export class ChangePasswordComponent implements OnInit {
     this.snackBarService.showSnackbar.bind(this, 'Error al cambiar la contraseña, inténtelo de nuevo', 1000, 'bottom', 'error'));
   }
 
-  sendPasswordSuccess(success) {
-    if (!success) {
-      this.snackBarService.showSnackbar('Error al cambiar la contraseña, inténtelo de nuevo', 1000, 'bottom', 'error');
-      return;
+  sendPasswordSuccess(response) {
+    switch (response.status) {
+      case 'PASSWORD_CHANGED':
+        this.goToLogin('PASSWORD_CHANGED');
+        break;
+      case 'PASSWORD_ERROR':
+        this.snackBarService.showSnackbar('Error al cambiar la contraseña, inténtelo de nuevo', 1000, 'bottom', 'error');
+        break;
+      default:
+        this.goToLogin('TOKEN_EXPIRED');
+        break;
     }
-    this.goToLogin('PASSWORD_CHANGED');
   }
 }

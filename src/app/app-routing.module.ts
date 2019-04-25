@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'change_password',
     loadChildren: './views/change-password/change-password.module#ChangePasswordModule'
   },
+  {
+    path: '**',
+    redirectTo: ''
+  }
 ];
 
 @NgModule({
