@@ -44,9 +44,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if (this.loginForm.status === 'INVALID') {
-      return;
-    }
     const email = this.email.value;
     const password = this.password.value;
     const json = {
