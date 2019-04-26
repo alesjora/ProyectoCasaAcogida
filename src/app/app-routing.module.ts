@@ -16,6 +16,10 @@ const routes: Routes = [
     loadChildren: './views/change-password/change-password.module#ChangePasswordModule'
   },
   {
+    path: 'dashboard',
+    loadChildren: './views/dashboard/dashboard.module#DashboardModule'
+  },
+  {
     path: '**',
     redirectTo: ''
   }
@@ -25,4 +29,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
