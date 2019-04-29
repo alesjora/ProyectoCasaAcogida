@@ -1,15 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ForgotPasswordComponent } from './pages/forgot-password.component';
+import { RegistrationFormComponent } from './pages/registration-form.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ForgotPasswordComponent
-  },
-  {
-    path: '**',
-    redirectTo: '/'
+    component: RegistrationFormComponent
   }
 ];
 
@@ -17,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ForgotPasswordRoutingModule { }
+export class RegistrationFormRoutingModule { }

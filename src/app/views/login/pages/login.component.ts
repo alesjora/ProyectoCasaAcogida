@@ -44,9 +44,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if (this.loginForm.status === 'INVALID') {
-      return;
-    }
     const email = this.email.value;
     const password = this.password.value;
     const json = {
@@ -59,7 +56,6 @@ export class LoginComponent implements OnInit {
 
   loginSuccess(response) {
     if (!response) {
-      console.log('a');
       this.snackBarService.showSnackbar('Email o contraseña incorrectos', 1500, 'bottom', 'error');
     } else {
       console.log(response);

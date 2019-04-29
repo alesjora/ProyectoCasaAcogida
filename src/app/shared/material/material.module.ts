@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatButtonModule, MatCheckboxModule, MatGridListModule, MatInputModule, MatIconModule, MatSnackBarModule } from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatGridListModule, MatInputModule, MatIconModule, MatSnackBarModule, MatToolbarModule } from '@angular/material';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 
@@ -9,6 +9,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
   imports: [
     CommonModule,
   ],
-  exports: [MatButtonModule, MatCheckboxModule, MatGridListModule, MatInputModule, MatIconModule, MatFormFieldModule, MatDialogModule, MatSnackBarModule]
+  exports: [MatButtonModule, MatCheckboxModule, MatGridListModule, MatInputModule, MatIconModule, MatFormFieldModule, MatDialogModule, MatSnackBarModule, MatToolbarModule]
 })
 export class MaterialModule { }

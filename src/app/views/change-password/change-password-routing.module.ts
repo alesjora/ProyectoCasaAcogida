@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: ':token',
     component: ChangePasswordComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/'
   }
 ];
 
