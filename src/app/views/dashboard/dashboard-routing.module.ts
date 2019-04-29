@@ -6,7 +6,16 @@ const routes: Routes = [
   {
   path: '',
   component: DashboardComponent,
-  children: []
+  children: [
+    {
+      path: 'registration-form',
+      loadChildren: './views/registration-form/registration-form.module#RegistrationFormModule'
+    },
+    {
+      path: '**',
+      redirectTo: ''
+    }
+  ]
   }
 ];
 

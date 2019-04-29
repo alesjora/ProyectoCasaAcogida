@@ -9,32 +9,11 @@ import { IgxNavigationDrawerComponent } from 'igniteui-angular';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
   public navItems = [
-    { name: "account_circle", text: "Avatar" },
-    { name: "error", text: "Badge" },
-    { name: "group_work", text: "Button Group" },
-    { name: "home", text: "Card" },
-    { name: "view_carousel", text: "Carousel" },
-    { name: "date_range", text: "Date picker" },
-    { name: "all_out", text: "Dialog" },
-    { name: "web", text: "Forms" },
-    { name: "android", text: "Icon" },
-    { name: "list", text: "List" },
-    { name: "arrow_back", text: "Navbar" },
-    { name: "menu", text: "Navdrawer" },
-    { name: "poll", text: "Progress Indicators" },
-    { name: "linear_scale", text: "Slider" },
-    { name: "swap_vert", text: "Scroll" },
-    { name: "feedback", text: "Snackbar" },
-    { name: "tab", text: "Tabbar" },
-    { name: "android", text: "Toast" }
+    { name: 'home', text: 'Inicio', url: 'dashboard' },
+    { name: 'create', text: 'Nueva ficha de registro', url: 'registration-form' },
   ];
-  public selected = "Avatar";
+  public selected = 'Avatar';
 
   @ViewChild (IgxNavigationDrawerComponent)
   public drawer: IgxNavigationDrawerComponent;
@@ -44,7 +23,13 @@ export class DashboardComponent implements OnInit {
     open: true,
     pin: true
   };
+  constructor() {}
 
+  ngOnInit() {
+    // if (window.innerWidth < 1024) {
+    //   this.drawerState.miniTemplate = false;
+    // }
+  }
   /** Select item and close drawer if not pinned */
   public navigate(item) {
     this.selected = item.text;
@@ -52,5 +37,4 @@ export class DashboardComponent implements OnInit {
       this.drawer.close();
     }
   }
-
 }

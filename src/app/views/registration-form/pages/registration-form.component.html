@@ -1,0 +1,10 @@
+<div class="registrationForm-page">
+  <div class="registrationForm-container">
+    <form class="registrationForm-form" [formGroup]="registrationForm">
+      <mat-form-field>
+        <input matInput type="text" placeholder="Nombre" formControlName="name">
+        <mat-error *ngIf="name?.invalid">El nombre es obligatorio</mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
