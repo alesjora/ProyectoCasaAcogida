@@ -1,32 +1,36 @@
-<div class="main igx-typography" igxLayout>
-    <igx-nav-drawer id="navigation" [isOpen]="drawerState.open" [(pin)]="drawerState.pin">
-      <ng-template igxDrawer>
-        <nav>
-          <span igxDrawerItem [isHeader]="true">Components</span>
-  
-          <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" igxRipple (click)="navigate(item)">
-            <igx-icon fontSet="material">{{ item.name }}</igx-icon>
-            <span>{{ item.text }}</span>
-          </span>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span igxButton="icon" igxToggleAction="navigation" [closeOnOutsideClick]="false">
+      <igx-icon fontSet="material">menu</igx-icon>
+    </span>
+    <span>Custom Toolbar</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div class="main igx-typography posre" igxLayout>
+  <igx-nav-drawer id="navigation" [isOpen]="drawerState.open" [(pin)]="drawerState.pin">
+    <ng-template igxDrawer>
+      <nav>
+        <span igxDrawerItem [isHeader]="true">Components</span>
+
+        <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" igxRipple
+          (click)="navigate(item)">
+          <igx-icon fontSet="material">{{ item.name }}</igx-icon>
+          <span>{{ item.text }}</span>
+        </span>
       </nav>
-      </ng-template>
-  
-      <ng-template igxDrawerMini *ngIf="drawerState.miniTemplate">
-          <nav>
-            <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" igxRipple (click)="navigate(item)">
-              <igx-icon fontSet="material">{{ item.name }}</igx-icon>
-            </span>
-        </nav>
-        </ng-template>
-    </igx-nav-drawer>
-  
-    <main igxFlex [class.mini-padding]="!drawerState.pin && drawerState.miniTemplate">
-      <div class="myHeader">
-          <span igxButton="icon" igxToggleAction="navigation" [closeOnOutsideClick]="false">
-              <igx-icon fontSet="material">menu</igx-icon>
-            </span>
-      </div>
-      <router-outlet></router-outlet>
-    </main>
-  </div>
-  
+    </ng-template>
+
+    <ng-template igxDrawerMini *ngIf="drawerState.miniTemplate">
+      <nav>
+        <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" igxRipple
+          (click)="navigate(item)">
+          <igx-icon fontSet="material">{{ item.name }}</igx-icon>
+        </span>
+      </nav>
+    </ng-template>
+  </igx-nav-drawer>
+
+  <main igxFlex [class.mini-padding]="!drawerState.pin && drawerState.miniTemplate">
+    <router-outlet></router-outlet>
+  </main>
+</div>

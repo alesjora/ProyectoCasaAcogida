@@ -151,6 +151,24 @@ $green-palette: igx-palette($primary: #09f,$secondary: #72da67, $surface: #333);
     color: #fff;
     @include igx-dark-theme($green-palette);
 }
+main{
+    padding: 0;
+}
+.posre{
+    position: absolute;
+    top: 56px;
+}
+.posre aside{
+    position: relative;
+}
+
+@media (min-width: 600px) {
+    .posre{
+        position: absolute;
+        top: 64px;
+    }
+  }
+
 
 
     

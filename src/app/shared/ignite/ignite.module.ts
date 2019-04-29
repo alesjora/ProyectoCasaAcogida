@@ -8,7 +8,8 @@ import {
   IgxRadioModule,
   IgxRippleModule,
   IgxSwitchModule,
-  IgxToggleModule
+  IgxToggleModule,
+  IgxNavbarModule
 } from "igniteui-angular";
 
 @NgModule({
@@ -23,6 +24,7 @@ import {
     IgxRadioModule,
     IgxRippleModule,
     IgxSwitchModule,
-    IgxToggleModule]
+    IgxToggleModule,
+    IgxNavbarModule]
 })
 export class IgniteModule { }
