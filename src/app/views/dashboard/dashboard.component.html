@@ -1,9 +1,9 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <span igxButton="icon" igxToggleAction="navigation" [closeOnOutsideClick]="false">
-      <igx-icon fontSet="material">menu</igx-icon>
+      <igx-icon fontSet="material" color="white">menu</igx-icon>
     </span>
-    <span>Panel de gestión</span>
+    <span>{{ selected }}</span>
   </mat-toolbar-row>
 </mat-toolbar>
 <div class="main igx-typography posre" igxLayout>
@@ -11,20 +11,18 @@
     <ng-template igxDrawer>
       <nav>
         <span igxDrawerItem [isHeader]="true">Secciones</span>
-        <a *ngFor="let item of navItems" routerLink="{{ item.url}}">
-          <span  igxDrawerItem [active]="item.text === selected" igxRipple
-            (click)="navigate(item)">
+          <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" igxRipple
+            (click)="navigate(item)" routerLink="{{ item.url }}">
             <igx-icon fontSet="material">{{ item.name }}</igx-icon>
             <span>{{ item.text }}</span>
           </span>
-        </a>
       </nav>
     </ng-template>
 
     <ng-template igxDrawerMini *ngIf="drawerState.miniTemplate">
       <nav>
         <span *ngFor="let item of navItems" igxDrawerItem [active]="item.text === selected" igxRipple
-          (click)="navigate(item)">
+          (click)="navigate(item)" routerLink="{{ item.url }}">
           <igx-icon fontSet="material">{{ item.name }}</igx-icon>
         </span>
       </nav>

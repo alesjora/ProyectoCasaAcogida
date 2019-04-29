@@ -12,7 +12,7 @@ import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 export class ForgotPasswordComponent implements OnInit {
 
   forgotForm = this.fb.group({
-    email: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
   });
 
   constructor(private fb: FormBuilder, private forgotPasswordService: ForgotPasswordService, private snackBarService: SnackBarService ) { }

@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
     { name: 'home', text: 'Inicio', url: 'dashboard' },
     { name: 'create', text: 'Nueva ficha de registro', url: 'registration-form' },
   ];
-  public selected = 'Avatar';
+  public selected = 'Inicio';
 
   @ViewChild (IgxNavigationDrawerComponent)
   public drawer: IgxNavigationDrawerComponent;
