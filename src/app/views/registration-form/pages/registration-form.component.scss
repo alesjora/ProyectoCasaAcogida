@@ -1,20 +1,23 @@
 .registrationForm-page{
-    height: 100vh;
     width: 100%;
+    margin-top: 8px;
 }
 
-.registrationForm-spacer{
-    height: 20vh;
+.myH2{
+  text-align: center;
+  font-size: 2em !important;
 }
 
 .registrationForm-container{
     margin: auto;
     width: 250px;
-    padding: 2vh;
     background-color: #fff;
     @media (min-width: 800px) {
-      width: 50%;
+      width: 75%;
     }
+}
+button[type=submit]{
+  margin-top: 10px;
 }
 
 .registrationForm-form{
@@ -23,30 +26,33 @@
 }
 .formularioContainer{
   display: flex;
-  .formLeft{
+  .formLeft, .formRight{
+    display:flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
     .footerFormLeft{
       text-align: center;
     }
+  }
+  img{
+    width: 150px;
+    height: auto;
+    margin-bottom:10px;
   }
   @media (min-width: 800px) {
     flex-flow: row;
     .formRight{
       width: 50%;
-      padding: 20px;
     }
     .formLeft{
       width: 50%;
-      padding: 20px;
-      display:flex;
-      flex-flow: column;
-      align-items: center;
-      justify-content: center;
     }
-  }
-
-  img{
-    width: 250px;
-    height: auto;
-    margin-bottom:10px;
+    img{
+      width: 200px;
+    }
+    .myH2{
+      font-size: 7em !important;
+    }
   }
 }
