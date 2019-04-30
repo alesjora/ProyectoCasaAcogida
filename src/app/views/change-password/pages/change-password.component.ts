@@ -4,6 +4,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ChangePasswordService } from '../service/change-password.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { CheckTokenService } from 'src/app/shared/services/check-token.service';
 
 @Component({
   selector: 'app-change-password',
@@ -24,12 +25,13 @@ export class ChangePasswordComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private changePasswordService: ChangePasswordService,
+    private checkTokenService: CheckTokenService,
     private router: Router,
     private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.token = this.activatedRoute.snapshot.params.token;
-    this.changePasswordService.sendToken({ token: this.token }).subscribe((response) => {
+    this.checkTokenService.sendToken({ token: this.token }).subscribe((response) => {
       if (!response) {
         this.goToLogin('TOKEN_EXPIRED');
       } else {

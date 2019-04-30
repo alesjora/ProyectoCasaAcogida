@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" *ngIf="show">
   <mat-toolbar-row>
     <span igxButton="icon" igxToggleAction="navigation" [closeOnOutsideClick]="false">
       <igx-icon fontSet="material" color="white">menu</igx-icon>
@@ -6,7 +6,7 @@
     <span>{{ selected }}</span>
   </mat-toolbar-row>
 </mat-toolbar>
-<div class="main igx-typography posre" igxLayout>
+<div class="main igx-typography posre" igxLayout *ngIf="show">
   <igx-nav-drawer id="navigation" [isOpen]="drawerState.open" [(pin)]="drawerState.pin">
     <ng-template igxDrawer>
       <nav>

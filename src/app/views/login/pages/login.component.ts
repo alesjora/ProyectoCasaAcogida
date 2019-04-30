@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { LoginService } from '../service/login.service';
+import { StateService } from 'src/app/shared/services/state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,7 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required]],
   });
 
-  constructor(private fb: FormBuilder, private snackBarService: SnackBarService, private loginService: LoginService) { }
+  constructor(private fb: FormBuilder, private snackBarService: SnackBarService, private loginService: LoginService, private router: Router) { }
 
   get email() {
     return this.loginForm.get('email');
@@ -58,7 +60,12 @@ export class LoginComponent implements OnInit {
     if (!response) {
       this.snackBarService.showSnackbar('Email o contraseña incorrectos', 1500, 'bottom', 'error');
     } else {
-      console.log(response);
+      sessionStorage.setItem('token', response);
+      this.goToDashboard();
     }
+  }
+
+  goToDashboard(){
+    this.router.navigate(['dashboard']);
   }
 }
