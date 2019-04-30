@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { StoreService } from 'src/app/shared/services/store.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -13,7 +14,8 @@ export class RegistrationFormComponent implements OnInit {
   public urlImagen: string | ArrayBuffer = '../../../../assets/photos/StandarProfile.png';
   private dayFormatter = new Intl.DateTimeFormat('es', { weekday: 'long' });
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
-  constructor(private fb: FormBuilder) {
+
+  constructor(private fb: FormBuilder, private storeService: StoreService) {
     this.date = new Date(Date.now());
   }
 

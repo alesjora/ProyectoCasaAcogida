@@ -3,6 +3,7 @@ import { IgxNavigationDrawerComponent } from 'igniteui-angular';
 import { Router } from '@angular/router';
 import { CheckTokenService } from 'src/app/shared/services/check-token.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { StoreService } from 'src/app/shared/services/store.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -28,7 +29,7 @@ export class DashboardComponent implements OnInit {
     open: true,
     pin: true
   };
-  constructor(private router: Router, private checkToken: CheckTokenService) {}
+  constructor(private router: Router, private checkToken: CheckTokenService, private storeService: StoreService) {}
 
   ngOnInit() {
     const token = sessionStorage.getItem('token');
@@ -40,8 +41,7 @@ export class DashboardComponent implements OnInit {
         this.logout();
       }
       this.show = true;
-      const helper = new JwtHelperService();
-      console.log(helper.decodeToken(token));
+      this.saveInfoInStore(token);
     });
 
   }
@@ -56,8 +56,17 @@ export class DashboardComponent implements OnInit {
   public goToLogin(){
     this.router.navigate(['/']);
   }
-  public logout(){
+  public logout() {
     sessionStorage.removeItem('token');
     this.goToLogin();
+  }
+  private saveInfoInStore(token: string) {
+    const helper = new JwtHelperService();
+    const token_decoded = helper.decodeToken(token);
+    this.storeService.setUser({
+      user_id: token_decoded.user_id,
+      user_name: token_decoded.user_name,
+      profile: token_decoded.profile
+    });
   }
 }

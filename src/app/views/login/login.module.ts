@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { LoginService } from './service/login.service';
 import { HttpClientModule } from '@angular/common/http';
-import { StateService } from 'src/app/shared/services/state.service';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -19,6 +18,6 @@ import { StateService } from 'src/app/shared/services/state.service';
     HttpClientModule
   ],
   exports: [LoginComponent],
-  providers: [SnackBarService, LoginService, StateService]
+  providers: [SnackBarService, LoginService]
 })
 export class LoginModule { }
