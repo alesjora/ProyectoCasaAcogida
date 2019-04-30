@@ -17,6 +17,8 @@ export class RegistrationFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private storeService: StoreService) {
     this.date = new Date(Date.now());
+    this.storeService.sendCurrentRoute('Nueva ficha de registro');
+    //this.storeService.currentRoute = 'Nueva ficha de registro';
   }
 
   ngOnInit() {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from 'src/app/models/user';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,9 @@ import { User } from 'src/app/models/user';
 export class StoreService {
 
   private user: User;
-  constructor() {}
+  private currentRoute = new Subject<string>();
+
+  constructor() { }
 
   public setUser(user: User) {
     this.user = user;
@@ -23,5 +26,11 @@ export class StoreService {
   }
   public getUserId() {
     return this.user.user_id;
+  }
+  public sendCurrentRoute(route: string) {
+    this.currentRoute.next(route);
+  }
+  public getCurrentRoute(): Observable<any> {
+    return this.currentRoute.asObservable();
   }
 }

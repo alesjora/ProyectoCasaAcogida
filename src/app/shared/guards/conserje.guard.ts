@@ -12,10 +12,10 @@ export class ConserjeGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if (this.storeService.getUserProfile() !== 'conserje') {
-        this.router.navigate(['dashboard']);
-        return false;
-      }
+    if (this.storeService.getUserProfile() !== 'conserje') {
+      this.router.navigate(['dashboard']);
+      return false;
+    }
     return true;
   }
 }
