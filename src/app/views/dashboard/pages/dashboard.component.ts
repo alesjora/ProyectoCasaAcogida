@@ -20,12 +20,13 @@ export class DashboardComponent implements OnInit {
   subscription: Subscription;
 
   public menuConserje = [
-    { name: 'home', text: 'Inicio', url: 'dashboardConserje' },
-    { name: 'create', text: 'Nueva ficha de registro', url: 'registration-form' },
+    { name: 'home', text: 'Inicio', url: 'inicio' },
+    { name: 'create', text: 'Nueva ficha personal', url: 'nueva-ficha-personal' },
+    { name: 'search', text: 'Buscar ficha personal', url: 'buscar-ficha-personal' },
     { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];
   public menuTecnico = [
-    { name: 'home', text: 'Inicio', url: 'dashboardTecnico' },
+    { name: 'home', text: 'Inicio', url: 'inicio' },
     { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];
 
@@ -59,6 +60,7 @@ export class DashboardComponent implements OnInit {
       this.show = true;
       this.saveInfoInStore(token);
       this.chooseMenu();
+      this.router.navigate(['dashboard/inicio']);
     });
 
   }

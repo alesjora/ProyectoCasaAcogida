@@ -1,0 +1,10 @@
+<div *ngIf="storeService.getUserProfile() == 'conserje'; else tecnico">
+  <p>conserje works!</p>
+</div>
+
+<ng-template #tecnico>
+    <p>tecnico works!</p>
+</ng-template>
+
+
+

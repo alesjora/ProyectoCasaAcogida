@@ -9,8 +9,16 @@ const routes: Routes = [
   component: DashboardComponent,
   children: [
     {
-      path: 'registration-form',
+      path: 'inicio',
+      loadChildren: './../inicio/inicio.module#InicioModule'
+    },
+    {
+      path: 'nueva-ficha-personal',
       loadChildren: './../registration-form/registration-form.module#RegistrationFormModule'
+    },
+    {
+      path: 'buscar-ficha-personal',
+      loadChildren: './../search-personal-file/search-personal-file.module#SearchPersonalFileModule'
     },
     {
       path: 'logout',

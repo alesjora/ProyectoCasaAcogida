@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { IgniteModule } from 'src/app/shared/ignite/ignite.module';
 import { DashboardComponent } from './pages/dashboard.component';
