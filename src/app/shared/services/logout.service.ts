@@ -11,6 +11,10 @@ export class LogoutService {
   public goToLogin() {
     this.router.navigate(['/']);
   }
+  public goToLoginWithMessage(action) {
+    this.router.navigate(['/']);
+    sessionStorage.setItem('action', action);
+  }
   public logout() {
     sessionStorage.removeItem('token');
     this.goToLogin();

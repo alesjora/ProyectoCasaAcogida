@@ -46,6 +46,9 @@ export class LoginComponent implements OnInit {
       case 'PASSWORD_CHANGED':
         this.snackBarService.showSnackbar('Contraseña cambiada con éxito.', 2000, 'bottom', 'success');
         break;
+      case 'SESSION_EXPIRED':
+        this.snackBarService.showSnackbar('La sesión ha expirado. Por favor, inicie de nuevo sesión', 2000, 'bottom', 'error');
+        break;
     }
   }
 

@@ -5,6 +5,7 @@ import { ChangePasswordService } from '../service/change-password.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { CheckTokenService } from 'src/app/shared/services/check-token.service';
+import { LogoutService } from 'src/app/shared/services/logout.service';
 
 @Component({
   selector: 'app-change-password',
@@ -27,13 +28,14 @@ export class ChangePasswordComponent implements OnInit {
     private changePasswordService: ChangePasswordService,
     private checkTokenService: CheckTokenService,
     private router: Router,
-    private snackBarService: SnackBarService) { }
+    private snackBarService: SnackBarService,
+    private logoutService: LogoutService) { }
 
   ngOnInit() {
     this.token = this.activatedRoute.snapshot.params.token;
     this.checkTokenService.sendToken({ token: this.token }).subscribe((response) => {
       if (!response) {
-        this.goToLogin('TOKEN_EXPIRED');
+        this.logoutService.goToLoginWithMessage('TOKEN_EXPIRED');
       } else {
         this.show = true;
       }
@@ -48,11 +50,6 @@ export class ChangePasswordComponent implements OnInit {
     return this.changePasswordForm.get('confirmPassword');
   }
 
-  goToLogin(accion) {
-    this.router.navigate(['/']);
-    sessionStorage.setItem('action', accion);
-  }
-
   sendPassword() {
     const json = {
       token : this.token,
@@ -65,13 +62,13 @@ export class ChangePasswordComponent implements OnInit {
   sendPasswordSuccess(response) {
     switch (response.status) {
       case 'PASSWORD_CHANGED':
-        this.goToLogin('PASSWORD_CHANGED');
+        this.logoutService.goToLoginWithMessage('PASSWORD_CHANGED');
         break;
       case 'PASSWORD_ERROR':
         this.snackBarService.showSnackbar('Error al cambiar la contraseña, inténtelo de nuevo', 1000, 'bottom', 'error');
         break;
       default:
-        this.goToLogin('TOKEN_EXPIRED');
+        this.logoutService.goToLoginWithMessage('TOKEN_EXPIRED');
         break;
     }
   }
