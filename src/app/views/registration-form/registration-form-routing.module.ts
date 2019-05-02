@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: RegistrationFormComponent,
-    canActivate: [ConserjeGuard]
+    //canActivate: [ConserjeGuard]
   }
 ];
 

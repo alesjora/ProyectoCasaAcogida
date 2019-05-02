@@ -1,7 +1,7 @@
 <div class="registrationForm-page">
   <h2 class="myH2">Ficha de registro</h2>
   <div class="registrationForm-container">
-    <form class="registrationForm-form formularioContainer" [formGroup]="registrationForm">
+    <form class="registrationForm-form formularioContainer" [formGroup]="registrationForm" (ngSubmit)="registrationForm.valid ? sendData(): null">
       <div class='formLeft'>
         <img [src]="urlImagen" alt="">
         <div class="footerFormLeft">
@@ -24,7 +24,7 @@
             <mat-error *ngIf="dni?.invalid">El dni es obligatorio</mat-error>
           </mat-form-field>
           <div class="datepicker">
-            <igx-date-picker formControlName="initialDate" [value]="date" [formatter]="formatter" label="Fecha de entrada">
+            <igx-date-picker formControlName="initialDate" [value]="date" [(ngModel)]="date" [formatter]="formatter" label="Fecha de entrada">
             </igx-date-picker>
           </div>
         </div>

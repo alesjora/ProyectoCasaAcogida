@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './dashboard.component';
+import { DashboardComponent } from './pages/dashboard.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 const routes: Routes = [
   {
@@ -10,6 +11,10 @@ const routes: Routes = [
     {
       path: 'registration-form',
       loadChildren: './../registration-form/registration-form.module#RegistrationFormModule'
+    },
+    {
+      path: 'logout',
+      component: LogoutComponent
     },
     {
       path: '**',

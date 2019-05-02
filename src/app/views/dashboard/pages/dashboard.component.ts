@@ -5,6 +5,7 @@ import { CheckTokenService } from 'src/app/shared/services/check-token.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { StoreService } from 'src/app/shared/services/store.service';
 import { Subscription } from 'rxjs';
+import { LogoutService } from 'src/app/shared/services/logout.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -19,14 +20,16 @@ export class DashboardComponent implements OnInit {
   subscription: Subscription;
 
   public menuConserje = [
-    { name: 'home', text: 'Inicio', url: 'dashboard' },
+    { name: 'home', text: 'Inicio', url: 'dashboardConserje' },
     { name: 'create', text: 'Nueva ficha de registro', url: 'registration-form' },
+    { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];
   public menuTecnico = [
-    { name: 'home', text: 'Inicio', url: 'dashboard' }
+    { name: 'home', text: 'Inicio', url: 'dashboardTecnico' },
+    { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];
 
-  public navItems = this.menuConserje;
+  public navItems;
 
   @ViewChild(IgxNavigationDrawerComponent)
   public drawer: IgxNavigationDrawerComponent;
@@ -36,7 +39,7 @@ export class DashboardComponent implements OnInit {
     open: true,
     pin: true
   };
-  constructor(private router: Router, private checkToken: CheckTokenService, public storeService: StoreService, private ref: ChangeDetectorRef) {
+  constructor(private router: Router, private checkToken: CheckTokenService, public storeService: StoreService, private logoutService: LogoutService, private ref: ChangeDetectorRef) {
     this.subscription = this.storeService.getCurrentRoute().subscribe(route => {
       this.selected = route;
       this.ref.detectChanges();
@@ -46,12 +49,12 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     const token = sessionStorage.getItem('token');
     if (!token) {
-      this.goToLogin();
+      this.logoutService.goToLogin();
       return;
     }
     this.checkToken.sendToken({ 'token': token }).subscribe(result => {
       if (!result) {
-        this.logout();
+        this.logoutService.logout();
       }
       this.show = true;
       this.saveInfoInStore(token);
@@ -70,20 +73,14 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  public goToLogin() {
-    this.router.navigate(['/']);
-  }
-  public logout() {
-    sessionStorage.removeItem('token');
-    this.goToLogin();
-  }
   private saveInfoInStore(token: string) {
     const helper = new JwtHelperService();
     const token_decoded = helper.decodeToken(token);
     this.storeService.setUser({
       user_id: token_decoded.user_id,
       user_name: token_decoded.user_name,
-      profile: token_decoded.profile
+      profile: token_decoded.profile,
+      token
     });
   }
   private chooseMenu() {

@@ -18,6 +18,7 @@ import { IgxDatePickerModule, IgxIconModule, IgxInputGroupModule } from 'igniteu
     IgxIconModule,
 		IgxInputGroupModule
   ],
-  exports: [RegistrationFormComponent]
+  exports: [RegistrationFormComponent],
+  providers: []
 })
 export class RegistrationFormModule { }

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   hide = true;
-
+  show: boolean = false;
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -28,6 +28,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(sessionStorage.getItem('token')) {
+      this.router.navigate(['dashboard']);
+      return;
+    }
+    this.show = true;
     setTimeout(this.checkPreviousAction.bind(this), 1);
   }
 
@@ -45,13 +50,11 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    const email = this.email.value;
-    const password = this.password.value;
-    const json = {
-      email : email,
-      password : password
+    const data = {
+      email : this.email.value,
+      password : this.password.value
     };
-    this.loginService.login(json).subscribe(this.loginSuccess.bind(this),
+    this.loginService.login(data).subscribe(this.loginSuccess.bind(this),
     this.snackBarService.showSnackbar.bind(this, 'Error al conectar con el servidor', 1000, 'bottom', 'error'));
   }
 
