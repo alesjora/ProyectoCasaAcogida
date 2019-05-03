@@ -19,17 +19,23 @@ export class SearchPersonalFileByDateComponent implements OnInit {
 
 
   public ngOnInit() {
+    this.updateList();
+  }
+  public updateList() {
     const data = [];
-    this.searchByDateService.getPersonalFileByDate({ 'fechaEntrada' : this.getFecha()}).subscribe(response => {
+    this.searchByDateService.getPersonalFileByDate({ 'fechaEntrada': this.getFecha() }).subscribe(response => {
       switch (response.status) {
         case 'SESSION_EXPIRED':
           this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
           break;
         case 'OPERATION_SUCCESS':
-          console.log(response.data);
-          response.data.forEach(element => {
-            data.push(new Person(element.key, element.name, element.surname, element.avatar, element.documentation));
-          });
+          if (response.data.length == 0) {
+            //HACER ALGO
+          } else {
+            response.data.forEach(element => {
+              data.push(new Person(element.key, element.name, element.surname, element.avatar, element.documentation));
+            });
+          }
           this.data = data;
           break;
       }
@@ -40,7 +46,7 @@ export class SearchPersonalFileByDateComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     return `${this.dayFormatter.format(date)}, ${date.getDate()} ${this.monthFormatter.format(date)}, ${date.getFullYear()}`;
   }
-  private getFecha(){
+  private getFecha() {
     return this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + this.date.getDate();
   }
 

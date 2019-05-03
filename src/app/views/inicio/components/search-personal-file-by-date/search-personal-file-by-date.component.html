@@ -10,7 +10,7 @@
             </igx-suffix>
         </igx-input-group>
         <div>
-            <igx-date-picker [value]="date" [formatter]="formatter" label="Día a buscar" [(ngModel)]="date">
+            <igx-date-picker [value]="date" [formatter]="formatter" label="Día a buscar" [(ngModel)]="date" (ngModelChange)="updateList()">
             </igx-date-picker>
         </div>
     </div>
