@@ -41,12 +41,12 @@ export class DashboardComponent implements OnInit {
     open: true,
     pin: true
   };
-  constructor(private router: Router, 
-    private checkToken: CheckTokenService, 
-    public storeService: StoreService, 
-    private logoutService: LogoutService, 
-    private ref: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router,
+              private checkToken: CheckTokenService,
+              public storeService: StoreService,
+              private logoutService: LogoutService,
+              private ref: ChangeDetectorRef,
+              private activatedRoute: ActivatedRoute) {
     this.subscription = this.storeService.getCurrentRoute().subscribe(route => {
       this.selected = route;
       this.ref.detectChanges();
@@ -71,7 +71,11 @@ export class DashboardComponent implements OnInit {
       }
     });
 
+    if (this.resolucionMovil()) {
+      this.drawerState.miniTemplate = false;
+    }
   }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
@@ -80,16 +84,17 @@ export class DashboardComponent implements OnInit {
     this.storeService.sendCurrentRoute(item.text);
     if (!this.drawer.pin) {
       this.drawer.close();
+      document.getElementById('navigation').style.display = 'none';
     }
   }
 
   private saveInfoInStore(token: string) {
     const helper = new JwtHelperService();
-    const token_decoded = helper.decodeToken(token);
+    const tokenDecoded = helper.decodeToken(token);
     this.storeService.setUser({
-      user_id: token_decoded.user_id,
-      user_name: token_decoded.user_name,
-      profile: token_decoded.profile,
+      user_id: tokenDecoded.user_id,
+      user_name: tokenDecoded.user_name,
+      profile: tokenDecoded.profile,
       token
     });
   }
@@ -102,5 +107,19 @@ export class DashboardComponent implements OnInit {
         this.navItems = this.menuTecnico;
         break;
     }
+  }
+  ocultaMenu() {
+    if (!this.resolucionMovil()) {
+      return;
+    }
+    if ( document.getElementById('navigation').style.display !== 'none') {
+      document.getElementById('navigation').style.display = 'none';
+    } else {
+      document.getElementById('navigation').style.display = 'block';
+    }
+  }
+  resolucionMovil(){
+    const resolucionMovil = window.matchMedia('(max-width: 700px)');
+    return resolucionMovil.matches;
   }
 }
