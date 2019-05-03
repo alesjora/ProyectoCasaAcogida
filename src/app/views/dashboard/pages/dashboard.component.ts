@@ -42,11 +42,11 @@ export class DashboardComponent implements OnInit {
     pin: true
   };
   constructor(private router: Router,
-    private checkToken: CheckTokenService,
-    public storeService: StoreService,
-    private logoutService: LogoutService,
-    private ref: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute) {
+              private checkToken: CheckTokenService,
+              public storeService: StoreService,
+              private logoutService: LogoutService,
+              private ref: ChangeDetectorRef,
+              private activatedRoute: ActivatedRoute) {
     this.subscription = this.storeService.getCurrentRoute().subscribe(route => {
       this.selected = route;
       this.ref.detectChanges();
@@ -71,9 +71,8 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    let resolucionMovil = window.matchMedia("(max-width: 700px)");
-    if(resolucionMovil.matches){
-        this.drawerState.miniTemplate = false;
+    if (this.resolucionMovil()) {
+      this.drawerState.miniTemplate = false;
     }
   }
 
@@ -85,16 +84,17 @@ export class DashboardComponent implements OnInit {
     this.storeService.sendCurrentRoute(item.text);
     if (!this.drawer.pin) {
       this.drawer.close();
+      document.getElementById('navigation').style.display = 'none';
     }
   }
 
   private saveInfoInStore(token: string) {
     const helper = new JwtHelperService();
-    const token_decoded = helper.decodeToken(token);
+    const tokenDecoded = helper.decodeToken(token);
     this.storeService.setUser({
-      user_id: token_decoded.user_id,
-      user_name: token_decoded.user_name,
-      profile: token_decoded.profile,
+      user_id: tokenDecoded.user_id,
+      user_name: tokenDecoded.user_name,
+      profile: tokenDecoded.profile,
       token
     });
   }
@@ -108,18 +108,18 @@ export class DashboardComponent implements OnInit {
         break;
     }
   }
-  ocultaMenu(){
-    let resolucionMovil = window.matchMedia("(max-width: 700px)");
-    if (!resolucionMovil.matches){
+  ocultaMenu() {
+    if (!this.resolucionMovil()) {
       return;
     }
-    // let elem = document.getElementById('navigation');
-    // elem.className = 'navigationNone';
-    // console.log(elem.classList);
     if ( document.getElementById('navigation').style.display !== 'none') {
       document.getElementById('navigation').style.display = 'none';
     } else {
       document.getElementById('navigation').style.display = 'block';
     }
+  }
+  resolucionMovil(){
+    const resolucionMovil = window.matchMedia('(max-width: 700px)');
+    return resolucionMovil.matches;
   }
 }
