@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { IgxNavigationDrawerComponent } from 'igniteui-angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CheckTokenService } from 'src/app/shared/services/check-token.service';
@@ -13,7 +13,8 @@ import { LogoutService } from 'src/app/shared/services/logout.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit{
+
 
   show: boolean = false;
   selected: string = 'Inicio';
@@ -52,7 +53,6 @@ export class DashboardComponent implements OnInit {
       this.ref.detectChanges();
     });
   }
-
   ngOnInit() {
     const token = sessionStorage.getItem('token');
     if (!token) {
@@ -117,6 +117,10 @@ export class DashboardComponent implements OnInit {
     } else {
       document.getElementById('navigation').style.display = 'block';
     }
+    document.getElementsByClassName('igx-nav-drawer__overlay')[0].addEventListener('click', this.ocultaMenuClick);
+  }
+  ocultaMenuClick() {
+    document.getElementById('navigation').style.display = 'none';
   }
   resolucionMovil(){
     const resolucionMovil = window.matchMedia('(max-width: 700px)');
