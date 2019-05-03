@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { StoreService } from 'src/app/shared/services/store.service';
 import { IgxFilterOptions } from 'igniteui-angular';
 import { femaleFNames, lastName, maleFNames, middleNames } from './names';
+import { SearchPersonalFileService } from '../service/search-personal-file.service';
+import { IfStmt } from '@angular/compiler';
+import { LogoutService } from 'src/app/shared/services/logout.service';
 
 @Component({
   selector: 'app-search-personal-file',
@@ -10,49 +13,55 @@ import { femaleFNames, lastName, maleFNames, middleNames } from './names';
 })
 export class SearchPersonalFileComponent implements OnInit {
 
-  constructor(private storeService: StoreService) { }
+  show: boolean = false;
+  constructor(private storeService: StoreService,
+    private searchPersonalFileService: SearchPersonalFileService,
+    private logoutService: LogoutService) {
+    this.storeService.sendCurrentRoute('Buscar ficha personal');
+  }
 
   public search: string;
   public data: object[] = [];
   get fo() {
     const _fo = new IgxFilterOptions();
-    _fo.key = 'name';
+    _fo.key = 'nameSearch';
     _fo.inputValue = this.search;
     return _fo;
   }
   public ngOnInit() {
     const data = [];
-    for (let i = 0; i < 100; i++) {
-      const item = this.generatePerson(i);
-      data.push(item);
-    }
-    this.data = data;
-  }
-  private generatePerson(index): object {
-    const item = new Person();
-    item.key = index;
-    const gender = index % 2 === 0 ? 'M' : 'F';
-    item.name = this.generateName(gender);
-    item.avatar = 'https://www.infragistics.com/angular-demos/assets/images/' +
-      (gender === 'M' ? 'men' : 'women') +
-      '/' + Math.floor((Math.random() * 100)) + '.jpg';
-    item.favorite = Math.floor((Math.random() * 3)) % 3 === 0;
-    return item;
-  }
-  private generateName(gender): string {
-    let name = '';
-    const fNames = gender === 'M' ? maleFNames : femaleFNames;
-    name += fNames[Math.floor(Math.random() * fNames.length)] + ' ';
-    name += middleNames[Math.floor(Math.random() * middleNames.length)] + ' ';
-    name += lastName[Math.floor(Math.random() * lastName.length)];
-    return name;
+    this.searchPersonalFileService.getPersonalFile().subscribe(response => {
+      switch (response.status) {
+        case 'SESSION_EXPIRED':
+          this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+          break;
+        case 'OPERATION_SUCCESS':
+          this.show = true;
+          response.data.forEach(element => {
+            data.push(new Person(element.key, element.name, element.surname, element.avatar, element.documentation));
+          });
+          this.data = data;
+          break;
+      }
+    });
   }
 }
 
 export class Person {
+  constructor(key, name, surname, avatar, documentation) {
+    this.key = key;
+    this.name = name;
+    this.surname = surname;
+    this.avatar = avatar;
+    this.documentation = documentation;
+    this.nameSearch = name + ' ' + surname + ' ' + documentation;
+
+  }
   public key: number;
   public name: string;
-  public favorite: boolean;
+  public surname: string;
   public avatar: string;
+  public documentation: string;
+  public nameSearch: string;
 }
 

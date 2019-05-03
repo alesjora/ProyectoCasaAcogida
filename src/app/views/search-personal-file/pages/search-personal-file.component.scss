@@ -29,7 +29,21 @@
 
   &__info {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     margin-left: 24px;
+  }
+}
+.documentation{
+  display: none;
+  @media (min-width: 712px) { 
+    display: block;
+  }
+}
+.documentation_responsive{
+  margin-left: 24px;
+  
+  font-weight: bold;
+  @media (min-width: 712px) { 
+    display: none;
   }
 }

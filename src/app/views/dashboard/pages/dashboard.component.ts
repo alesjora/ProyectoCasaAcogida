@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { IgxNavigationDrawerComponent } from 'igniteui-angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CheckTokenService } from 'src/app/shared/services/check-token.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { StoreService } from 'src/app/shared/services/store.service';
@@ -27,6 +27,7 @@ export class DashboardComponent implements OnInit {
   ];
   public menuTecnico = [
     { name: 'home', text: 'Inicio', url: 'inicio' },
+    { name: 'search', text: 'Buscar ficha personal', url: 'buscar-ficha-personal' },
     { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];
 
@@ -40,7 +41,12 @@ export class DashboardComponent implements OnInit {
     open: true,
     pin: true
   };
-  constructor(private router: Router, private checkToken: CheckTokenService, public storeService: StoreService, private logoutService: LogoutService, private ref: ChangeDetectorRef) {
+  constructor(private router: Router, 
+    private checkToken: CheckTokenService, 
+    public storeService: StoreService, 
+    private logoutService: LogoutService, 
+    private ref: ChangeDetectorRef,
+    private activatedRoute: ActivatedRoute) {
     this.subscription = this.storeService.getCurrentRoute().subscribe(route => {
       this.selected = route;
       this.ref.detectChanges();
@@ -53,14 +59,16 @@ export class DashboardComponent implements OnInit {
       this.logoutService.goToLogin();
       return;
     }
-    this.checkToken.sendToken({ 'token': token }).subscribe(result => {
+    this.checkToken.sendToken({ token }).subscribe(result => {
       if (!result) {
         this.logoutService.logout();
       }
       this.show = true;
       this.saveInfoInStore(token);
       this.chooseMenu();
-      this.router.navigate(['dashboard/inicio']);
+      if (this.router.url === '/dashboard') {
+        this.router.navigate(['dashboard/inicio']);
+      }
     });
 
   }

@@ -12,7 +12,7 @@ export class LogoutService {
     this.router.navigate(['/']);
   }
   public goToLoginWithMessage(action) {
-    this.router.navigate(['/']);
+    this.logout();
     sessionStorage.setItem('action', action);
   }
   public logout() {

@@ -1,5 +1,5 @@
 <div class="registrationForm-page">
-  <h2 class="myH2">Ficha de registro</h2>
+  <h2 class="myH2">Ficha personal</h2>
   <div class="registrationForm-container">
     <form class="registrationForm-form formularioContainer" [formGroup]="registrationForm" (ngSubmit)="registrationForm.valid ? sendData(): null">
       <div class='formLeft'>
@@ -20,8 +20,8 @@
         </mat-form-field>
         <div class="dni_datepicker">
           <mat-form-field class="dni">
-            <input matInput type="text" placeholder="DNI/NIE" formControlName="dni">
-            <mat-error *ngIf="dni?.invalid">El dni es obligatorio</mat-error>
+            <input matInput type="text" placeholder="Documento de identidad" formControlName="dni">
+            <mat-error *ngIf="dni?.invalid">El documento de identidad es obligatorio</mat-error>
           </mat-form-field>
           <div class="datepicker">
             <igx-date-picker formControlName="initialDate" [value]="date" [(ngModel)]="date" [formatter]="formatter" label="Fecha de entrada">

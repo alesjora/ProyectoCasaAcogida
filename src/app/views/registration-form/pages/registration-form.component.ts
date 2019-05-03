@@ -26,7 +26,7 @@ export class RegistrationFormComponent implements OnInit {
     private logoutService: LogoutService) {
     this.storeService.checkPermission();
     this.date = new Date(Date.now());
-    this.storeService.sendCurrentRoute('Nueva ficha de registro');
+    this.storeService.sendCurrentRoute('Nueva ficha personal');
   }
 
   ngOnInit() {
@@ -90,8 +90,7 @@ export class RegistrationFormComponent implements OnInit {
       image: imagen
     };
 
-    this.registrationFormService.sendData(data).subscribe(this.sendDataSuccess.bind(this),
-    this.snackBarService.showSnackbar.bind(this, 'Error al crear la ficha.', 1000, 'bottom', 'error'));
+    this.registrationFormService.sendData(data).subscribe(this.sendDataSuccess.bind(this));
   }
 
   sendDataSuccess(response) {
@@ -99,8 +98,11 @@ export class RegistrationFormComponent implements OnInit {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
-      case 'OPERATION_SUCESS':
+      case 'OPERATION_SUCCESS':
         this.snackBarService.showSnackbar('Ficha creada correctamente.', 1000, 'bottom', 'success');
+        break;
+      case 'DOCUMENTATION_EXISTS':
+        this.snackBarService.showSnackbar('El documento de identidad ya existe.', 1000, 'bottom', 'error');
         break;
       default:
         this.snackBarService.showSnackbar('Error al crear la ficha.', 1000, 'bottom', 'error');
