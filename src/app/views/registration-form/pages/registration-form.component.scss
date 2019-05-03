@@ -1,59 +1,94 @@
-.registrationForm-page{
-    width: 100%;
-    margin-top: 8px;
+.registrationForm-page {
+  width: 100%;
+  margin-top: 8px;
 }
 
-.myH2{
+.myH2 {
   text-align: center;
   font-size: 2em !important;
 }
 
-.registrationForm-container{
-    margin: auto;
-    width: 250px;
-    background-color: #fff;
-    @media (min-width: 800px) {
-      width: 75%;
-    }
+.registrationForm-container {
+  margin: auto;
+  width: 250px;
+  background-color: #fff;
+
+  @media (min-width: 800px) {
+    width: 75%;
+  }
 }
-button[type=submit]{
+
+button[type=submit] {
   margin-top: 10px;
 }
 
-.registrationForm-form{
-    display: flex;
-    flex-direction: column;
-}
-.formularioContainer{
+.registrationForm-form {
   display: flex;
-  .formLeft, .formRight{
-    display:flex;
-      flex-flow: column;
-      align-items: center;
-      justify-content: center;
-    .footerFormLeft{
+  flex-direction: column;
+}
+
+.formRight mat-form-field,
+.formRight button,
+.formRight {
+  width: 100%;
+}
+
+.datepicker,
+.dni_datepicker {
+  width: 100%;
+}
+
+.formularioContainer {
+  display: flex;
+
+  .formLeft,
+  .formRight {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    .footerFormLeft {
       text-align: center;
     }
   }
-  img{
+
+  img {
     width: 150px;
     height: auto;
     max-height: 300px;
     margin-bottom: 10px;
   }
+
   @media (min-width: 800px) {
     flex-flow: row;
-    .formRight{
+
+    .formRight {
       width: 50%;
     }
-    .formLeft{
+
+    .formLeft {
       width: 50%;
     }
-    img{
+
+    img {
       width: 200px;
     }
-    .myH2{
+
+    .myH2 {
       font-size: 7em !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .dni_datepicker {
+      display: flex;
+    }
+
+    .dni {
+      padding-top: 4.5px;
+      margin-right: 8px;
+      width: 40% !important;
     }
   }
 }

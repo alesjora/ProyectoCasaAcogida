@@ -174,3 +174,22 @@ nav a {
     top: 64px;
   }
 }
+.navigationNone{
+  animation: fade-in-None .3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+.navigationBlock{
+  display: block;
+  transition: 1s;
+}
+
+@keyframes fade-in-None {
+  0% {
+    opacity: 1;
+    transform: translateY(0deg)
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-500deg)
+  }
+}

@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ChangePasswordService } from './service/change-password.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { CheckTokenService } from 'src/app/shared/services/check-token.service';
 
 @NgModule({
   declarations: [ChangePasswordComponent],
@@ -20,6 +21,6 @@ import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
     RouterModule,
     HttpClientModule
   ],
-  providers: [ChangePasswordService, SnackBarService]
+  providers: [ChangePasswordService, SnackBarService, CheckTokenService]
 })
 export class ChangePasswordModule { }

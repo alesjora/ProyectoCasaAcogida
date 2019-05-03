@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SnackBarService } from './snack-bar.service';
+import { LogoutService } from './logout.service';
 
-describe('SnackBarService', () => {
+describe('LogoutService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SnackBarService = TestBed.get(SnackBarService);
+    const service: LogoutService = TestBed.get(LogoutService);
     expect(service).toBeTruthy();
   });
 });

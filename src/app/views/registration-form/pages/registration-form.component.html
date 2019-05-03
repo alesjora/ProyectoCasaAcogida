@@ -1,11 +1,11 @@
 <div class="registrationForm-page">
-  <h2 class="myH2">Ficha de registro</h2>
+  <h2 class="myH2">Ficha personal</h2>
   <div class="registrationForm-container">
-    <form class="registrationForm-form formularioContainer" [formGroup]="registrationForm">
+    <form class="registrationForm-form formularioContainer" [formGroup]="registrationForm" (ngSubmit)="registrationForm.valid ? sendData(): null">
       <div class='formLeft'>
         <img [src]="urlImagen" alt="">
         <div class="footerFormLeft">
-          <button type="button" mat-raised-button (click)="fileInput.click()" >Subir imagen</button>
+          <button type="button" mat-raised-button (click)="fileInput.click()" color="accent">Seleccionar imagen</button>
           <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" accept="image/*">
         </div>
       </div>
@@ -18,14 +18,15 @@
           <input matInput type="text" placeholder="Apellidos" formControlName="surnames">
           <mat-error *ngIf="surnames?.invalid">Los apellidos son obligatorios</mat-error>
         </mat-form-field>
-        <mat-form-field>
-          <input matInput type="text" placeholder="DNI/NIE" formControlName="dni">
-          <mat-error *ngIf="dni?.invalid">El dni es obligatorio</mat-error>
-        </mat-form-field>
-        <div>
-          <igx-date-picker formControlName="initialDate" [value]="date" [formatter]="formatter"
-            label="Fecha de entrada">
-          </igx-date-picker>
+        <div class="dni_datepicker">
+          <mat-form-field class="dni">
+            <input matInput type="text" placeholder="Documento de identidad" formControlName="dni">
+            <mat-error *ngIf="dni?.invalid">El documento de identidad es obligatorio</mat-error>
+          </mat-form-field>
+          <div class="datepicker">
+            <igx-date-picker formControlName="initialDate" [value]="date" [(ngModel)]="date" [formatter]="formatter" label="Fecha de entrada">
+            </igx-date-picker>
+          </div>
         </div>
         <button type="submit" mat-raised-button color="primary">Crear ficha</button>
       </div>

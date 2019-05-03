@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChangePasswordService {
+export class SearchByDateService {
 
   constructor(private httpClient: HttpClient) { }
-
-  sendPassword(json): Observable<any> {
-    return this.httpClient.post(environment.urlAPI + 'changePassword', json);
+  getPersonalFileByDate(date): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerFichasPersonalesPorFecha', date);
   }
 }

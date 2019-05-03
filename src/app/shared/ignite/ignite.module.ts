@@ -9,7 +9,13 @@ import {
   IgxRippleModule,
   IgxSwitchModule,
   IgxToggleModule,
-  IgxNavbarModule
+  IgxNavbarModule,
+  IgxAvatarModule,
+	IgxFilterModule,
+	IgxListModule,
+	IgxForOfModule,
+  IgxInputGroupModule,
+  IgxDatePickerModule
 } from "igniteui-angular";
 
 @NgModule({
@@ -25,6 +31,12 @@ import {
     IgxRippleModule,
     IgxSwitchModule,
     IgxToggleModule,
-    IgxNavbarModule]
+    IgxNavbarModule,
+    IgxAvatarModule,
+    IgxFilterModule,
+    IgxListModule,
+    IgxForOfModule,
+    IgxInputGroupModule,
+    IgxDatePickerModule]
 })
 export class IgniteModule { }

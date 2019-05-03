@@ -5,7 +5,7 @@ import { RegistrationFormRoutingModule } from './registration-form-routing.modul
 import { RegistrationFormComponent } from './pages/registration-form.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IgxDatePickerModule, IgxIconModule, IgxInputGroupModule } from 'igniteui-angular';
+import { IgniteModule } from 'src/app/shared/ignite/ignite.module';
 
 @NgModule({
   declarations: [RegistrationFormComponent],
@@ -14,10 +14,9 @@ import { IgxDatePickerModule, IgxIconModule, IgxInputGroupModule } from 'igniteu
     RegistrationFormRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    IgxDatePickerModule,
-    IgxIconModule,
-		IgxInputGroupModule
+    IgniteModule
   ],
-  exports: [RegistrationFormComponent]
+  exports: [RegistrationFormComponent],
+  providers: []
 })
 export class RegistrationFormModule { }
