@@ -41,10 +41,10 @@ export class DashboardComponent implements OnInit {
     open: true,
     pin: true
   };
-  constructor(private router: Router, 
-    private checkToken: CheckTokenService, 
-    public storeService: StoreService, 
-    private logoutService: LogoutService, 
+  constructor(private router: Router,
+    private checkToken: CheckTokenService,
+    public storeService: StoreService,
+    private logoutService: LogoutService,
     private ref: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute) {
     this.subscription = this.storeService.getCurrentRoute().subscribe(route => {
@@ -71,7 +71,12 @@ export class DashboardComponent implements OnInit {
       }
     });
 
+    let resolucionMovil = window.matchMedia("(max-width: 700px)");
+    if(resolucionMovil.matches){
+        this.drawerState.miniTemplate = false;
+    }
   }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
@@ -101,6 +106,20 @@ export class DashboardComponent implements OnInit {
       case 'tecnico':
         this.navItems = this.menuTecnico;
         break;
+    }
+  }
+  ocultaMenu(){
+    let resolucionMovil = window.matchMedia("(max-width: 700px)");
+    if (!resolucionMovil.matches){
+      return;
+    }
+    // let elem = document.getElementById('navigation');
+    // elem.className = 'navigationNone';
+    // console.log(elem.classList);
+    if ( document.getElementById('navigation').style.display !== 'none') {
+      document.getElementById('navigation').style.display = 'none';
+    } else {
+      document.getElementById('navigation').style.display = 'block';
     }
   }
 }
