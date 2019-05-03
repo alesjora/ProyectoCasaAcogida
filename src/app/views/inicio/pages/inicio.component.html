@@ -1,5 +1,16 @@
-<div *ngIf="storeService.getUserProfile() == 'conserje'; else tecnico">
-  <p>conserje works!</p>
+<div class="container" *ngIf="storeService.getUserProfile() == 'conserje'; else tecnico">
+  <div>
+    <app-search-personal-file-by-date></app-search-personal-file-by-date>
+  </div>
+  <div>
+    
+  </div>
+  <div>
+
+  </div>
+  <div>
+    
+  </div>
 </div>
 
 <ng-template #tecnico>

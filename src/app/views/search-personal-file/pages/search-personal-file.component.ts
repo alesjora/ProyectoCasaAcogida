@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StoreService } from 'src/app/shared/services/store.service';
 import { IgxFilterOptions } from 'igniteui-angular';
-import { femaleFNames, lastName, maleFNames, middleNames } from './names';
 import { SearchPersonalFileService } from '../service/search-personal-file.service';
-import { IfStmt } from '@angular/compiler';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 
 @Component({
@@ -47,7 +45,7 @@ export class SearchPersonalFileComponent implements OnInit {
   }
 }
 
-export class Person {
+class Person {
   constructor(key, name, surname, avatar, documentation) {
     this.key = key;
     this.name = name;

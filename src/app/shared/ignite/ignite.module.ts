@@ -14,7 +14,8 @@ import {
 	IgxFilterModule,
 	IgxListModule,
 	IgxForOfModule,
-	IgxInputGroupModule
+  IgxInputGroupModule,
+  IgxDatePickerModule
 } from "igniteui-angular";
 
 @NgModule({
@@ -35,6 +36,7 @@ import {
     IgxFilterModule,
     IgxListModule,
     IgxForOfModule,
-    IgxInputGroupModule]
+    IgxInputGroupModule,
+    IgxDatePickerModule]
 })
 export class IgniteModule { }
