@@ -1,14 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { SearchByDateService } from '../service/search-by-date.service';
+import { Component, OnInit } from '@angular/core';
 import { IgxFilterOptions } from 'igniteui-angular';
 import { LogoutService } from 'src/app/shared/services/logout.service';
+import { SearchByDateService } from '../service/search-by-date.service';
 
 @Component({
-  selector: 'app-search-personal-file-by-date',
-  templateUrl: './search-personal-file-by-date.component.html',
-  styleUrls: ['./search-personal-file-by-date.component.scss']
+  selector: 'app-search-by-departure-date',
+  templateUrl: './search-by-departure-date.component.html',
+  styleUrls: ['./search-by-departure-date.component.scss']
 })
-export class SearchPersonalFileByDateComponent implements OnInit {
+export class SearchByDepartureDateComponent implements OnInit {
+
   public date: Date;
   private dayFormatter = new Intl.DateTimeFormat('es', { weekday: 'long' });
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
@@ -23,7 +24,7 @@ export class SearchPersonalFileByDateComponent implements OnInit {
   }
   public updateList() {
     const data = [];
-    this.searchByDateService.getPersonalFileByCreateDate({ 'fechaEntrada': this.getFecha() }).subscribe(response => {
+    this.searchByDateService.getPersonalFileByDepartureDate({ 'fechaSalida': this.getFecha()}).subscribe(response => {
       switch (response.status) {
         case 'SESSION_EXPIRED':
           this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');

@@ -9,7 +9,14 @@ import { HttpClient } from '@angular/common/http';
 export class SearchByDateService {
 
   constructor(private httpClient: HttpClient) { }
-  getPersonalFileByDate(date): Observable<any> {
-    return this.httpClient.post(environment.urlAPI + 'obtenerFichasPersonalesPorFecha', date);
+  getPersonalFileByCreateDate(date): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerFichasPersonalesPorFechaDeCreacion', date);
   }
+  getPersonalFileByEntryDate(date): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerFichasPersonalesPorFechaDeEntrada', date);
+  }
+  getPersonalFileByDepartureDate(date): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerFichasPersonalesPorFechaDeSalida', date);
+  }
+
 }

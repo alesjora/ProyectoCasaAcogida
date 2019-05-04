@@ -21,13 +21,17 @@ const routes: Routes = [
       loadChildren: './../search-personal-file/search-personal-file.module#SearchPersonalFileModule'
     },
     {
+      path: 'ficha-personal/:id',
+      loadChildren: './../show-personal-file/show-personal-file.module#ShowPersonalFileModule'
+    },
+    {
       path: 'logout',
       component: LogoutComponent
     },
-    {
-      path: '**',
-      redirectTo: ''
-    }
+    // {
+    //   path: '**',
+    //   redirectTo: ''
+    // }
   ]
   }
 ];

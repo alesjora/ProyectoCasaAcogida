@@ -15,7 +15,7 @@
             <igx-list-item [isHeader]="true">Fichas personales: {{(data | igxFilter: fo)?.length}} </igx-list-item>
             <div [style.height]="'100vh'" [style.overflow]="'auto'" [style.position]="'relative'">
                 <igx-list-item [style.width]="'calc(100% - 18px)'" igxRipple="pink" igxRippleTarget=".igx-list__item"
-                    *igxFor="let item of data | igxFilter: fo; scrollOrientation : 'vertical';  itemSize: '50px'">
+                    *igxFor="let item of data | igxFilter: fo; scrollOrientation : 'vertical';  itemSize: '50px'" routerLink="/dashboard/ficha-personal/{{item.key}}">
                     <div class="item-container">
                         <div class="contact">
                             <igx-avatar [src]="item.avatar" roundShape="true"></igx-avatar>
