@@ -112,6 +112,8 @@ export class DashboardComponent implements OnInit {
     if (!this.resolucionMovil()) {
       return;
     }
+    // console.log(document.getElementsByTagName('aside')[0])
+    // console.log(window.innerWidth + "px");
     if ( document.getElementById('navigation').style.display !== 'none') {
       document.getElementById('navigation').style.display = 'none';
     } else {
