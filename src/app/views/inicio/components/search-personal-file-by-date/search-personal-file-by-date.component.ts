@@ -23,7 +23,7 @@ export class SearchPersonalFileByDateComponent implements OnInit {
   }
   public updateList() {
     const data = [];
-    this.searchByDateService.getPersonalFileByCreateDate({ 'fechaEntrada': this.getFecha() }).subscribe(response => {
+    this.searchByDateService.getPersonalFileByCreateDate({ 'fechaCreacion': this.getFecha() }).subscribe(response => {
       switch (response.status) {
         case 'SESSION_EXPIRED':
           this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
