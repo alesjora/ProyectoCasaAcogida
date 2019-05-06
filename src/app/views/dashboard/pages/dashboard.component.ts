@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked, OnDestroy } from '@angular/core';
 import { IgxNavigationDrawerComponent } from 'igniteui-angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CheckTokenService } from 'src/app/shared/services/check-token.service';
@@ -13,8 +13,7 @@ import { LogoutService } from 'src/app/shared/services/logout.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit{
-
+export class DashboardComponent implements OnInit, OnDestroy {
 
   show: boolean = false;
   selected: string = 'Inicio';
@@ -23,12 +22,12 @@ export class DashboardComponent implements OnInit{
   public menuConserje = [
     { name: 'home', text: 'Inicio', url: 'inicio' },
     { name: 'create', text: 'Nueva ficha personal', url: 'nueva-ficha-personal' },
-    { name: 'search', text: 'Buscar ficha personal', url: 'buscar-ficha-personal' },
+    { name: 'person', text: 'Fichas personales', url: 'fichas-personales' },
     { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];
   public menuTecnico = [
     { name: 'home', text: 'Inicio', url: 'inicio' },
-    { name: 'search', text: 'Buscar ficha personal', url: 'buscar-ficha-personal' },
+    { name: 'person', text: 'Fichas personales', url: 'fichas-personales' },
     { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];
 
@@ -112,6 +111,8 @@ export class DashboardComponent implements OnInit{
     if (!this.resolucionMovil()) {
       return;
     }
+    // console.log(document.getElementsByTagName('aside')[0])
+    // console.log(window.innerWidth + "px");
     if ( document.getElementById('navigation').style.display !== 'none') {
       document.getElementById('navigation').style.display = 'none';
     } else {

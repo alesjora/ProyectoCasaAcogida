@@ -17,8 +17,12 @@ const routes: Routes = [
       loadChildren: './../registration-form/registration-form.module#RegistrationFormModule'
     },
     {
-      path: 'buscar-ficha-personal',
+      path: 'fichas-personales',
       loadChildren: './../search-personal-file/search-personal-file.module#SearchPersonalFileModule'
+    },
+    {
+      path: 'ficha-personal/:id',
+      loadChildren: './../show-personal-file/show-personal-file.module#ShowPersonalFileModule'
     },
     {
       path: 'logout',

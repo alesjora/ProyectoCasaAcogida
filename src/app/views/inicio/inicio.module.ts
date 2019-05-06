@@ -5,14 +5,15 @@ import { InicioRoutingModule } from './inicio-routing.module';
 import { InicioComponent } from './pages/inicio.component';
 import { IgniteModule } from 'src/app/shared/ignite/ignite.module';
 import { FormsModule } from '@angular/forms';
-import { SearchPersonalFileByDateComponent } from './components/search-personal-file-by-date/search-personal-file-by-date.component';
+import { MaterialModule } from 'src/app/shared/material/material.module';
 
 @NgModule({
-  declarations: [InicioComponent, SearchPersonalFileByDateComponent],
+  declarations: [InicioComponent],
   imports: [
     CommonModule,
     InicioRoutingModule,
     IgniteModule,
+    MaterialModule,
     FormsModule
   ]
 })
