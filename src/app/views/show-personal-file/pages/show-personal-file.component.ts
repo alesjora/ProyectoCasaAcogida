@@ -17,12 +17,14 @@ export class ShowPersonalFileComponent implements OnInit {
   email: string;
   phone: string;
 
-  nHabitacion: number = 2;
-  nCama: number = 3;
+  nHabitacion = 2;
+  nCama = 3;
 
 
 
-  constructor(private activatedRoute: ActivatedRoute, private showPersonalFileService: ShowPersonalFileService, private logoutService: LogoutService) { }
+  constructor(private activatedRoute: ActivatedRoute,
+              private showPersonalFileService: ShowPersonalFileService,
+              private logoutService: LogoutService) { }
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params.id;
