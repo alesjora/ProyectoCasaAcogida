@@ -1,19 +1,5 @@
 <div class="container" *ngIf="storeService.getUserProfile() == 'conserje'; else tecnico">
-  <div>
-    <p class="titulo">Buscar por fecha de creación.</p>
-    <app-search-personal-file-by-date></app-search-personal-file-by-date>
-  </div>
-  <div>
-    <p class="titulo">Buscar por fecha de entrada.</p>
-    <app-search-by-entry-date></app-search-by-entry-date>
-  </div>
-  <div>
-    <p class="titulo">Buscar por fecha de salida.</p>
-    <app-search-by-departure-date></app-search-by-departure-date>
-  </div>
-  <div>
-
-  </div>
+  <p>conserje works!</p>
 </div>
 
 <ng-template #tecnico>
