@@ -2,15 +2,27 @@
     box-sizing: content-box;
     width: 100%;
     div{
+        *box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.26), 0 1px 1px 0 rgba(0, 0, 0, 0.12), 0 2px 1px -1px rgba(0, 0, 0, 0.08);
+        *background: rgb(235, 232, 232);
         height: 500px;
-        margin: 8px 8px 0 0;
+        margin: 8px;
+        @media (min-width: 1024px) {
+            flex-basis: 47%;
+        }
+    }
+    @media (min-width: 1024px) {
+        display: flex;
+        flex-wrap: wrap;
     }
 }
-app-search-personal-file-by-date{
+.titulo{
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.8em;
+    margin-top: 0;
+}
+app-search-personal-file-by-date, app-search-by-entry-date, app-search-by-departure-date{
+    height: 90%;
     height: 90%;
     padding: 4px;
-    @media (min-width: 700px) {
-        width: 40%;
-        height: 200px;
-    }
 }
