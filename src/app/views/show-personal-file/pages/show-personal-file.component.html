@@ -1,3 +1,25 @@
-<p>
-  show-personal-file works!
-</p>
+<h2>Ficha Personal.</h2>
+<div class='topContainer'>
+  <div class='photoContainer'>
+    <img [src]="srcImagen" alt="">
+  </div>
+  <div class='basicDescriptionContainer'>
+  <ul>
+    <li>Nombre: <span>{{nombre}}</span></li>
+    <li>Apellidos <span>{{apellidos}}</span></li>
+    <li>Documentacion <span>{{documentation}}</span></li>
+    <li>Telefono: <span>{{phone}}</span></li>
+    <li>Correo <span>{{email}}</span></li>
+  </ul>
+  </div>
+</div>
+<div class='roomsInfoContainer'>
+  <ul>
+    <li><i class="material-icons">meeting_room</i> {{nHabitacion}}</li>
+    <li><i class="material-icons">airline_seat_individual_suite</i> {{nCama}}</li>
+  </ul>
+</div>
+<div class='tableSortingContainer'>
+  <app-table-sorting></app-table-sorting>
+</div>
+
