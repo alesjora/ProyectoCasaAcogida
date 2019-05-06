@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { IgxFilterOptions } from 'igniteui-angular';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SearchByDateService } from '../service/search-by-date.service';
+import { Subscription } from 'rxjs';
+import { PersonTable } from 'src/app/models/person-table';
+
 
 @Component({
   selector: 'app-search-by-departure-date',
@@ -11,6 +14,7 @@ import { SearchByDateService } from '../service/search-by-date.service';
 export class SearchByDepartureDateComponent implements OnInit {
 
   public date: Date;
+  private suscription: Subscription;
   private dayFormatter = new Intl.DateTimeFormat('es', { weekday: 'long' });
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
 
@@ -24,15 +28,18 @@ export class SearchByDepartureDateComponent implements OnInit {
   }
   public updateList() {
     const data = [];
-    this.searchByDateService.getPersonalFileByDepartureDate({ 'fechaSalida': this.getFecha()}).subscribe(response => {
+    if (this.suscription) {
+      this.suscription.unsubscribe();
+    }
+    this.suscription = this.searchByDateService.getPersonalFileByDepartureDate({ 'fechaSalida': this.getFecha() }).subscribe(response => {
       switch (response.status) {
         case 'SESSION_EXPIRED':
           this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
           break;
         case 'OPERATION_SUCCESS':
-            response.data.forEach(element => {
-              data.push(new Person(element.key, element.name, element.surname, element.avatar, element.documentation));
-            });
+          response.data.forEach(element => {
+            data.push(new PersonTable(element.key, element.name, element.surname, element.avatar, element.documentation));
+          });
           this.data = data;
           break;
       }
@@ -55,22 +62,4 @@ export class SearchByDepartureDateComponent implements OnInit {
     _fo.inputValue = this.search;
     return _fo;
   }
-}
-
-class Person {
-  constructor(key, name, surname, avatar, documentation) {
-    this.key = key;
-    this.name = name;
-    this.surname = surname;
-    this.avatar = avatar;
-    this.documentation = documentation;
-    this.nameSearch = name + ' ' + surname + ' ' + documentation;
-
-  }
-  public key: number;
-  public name: string;
-  public surname: string;
-  public avatar: string;
-  public documentation: string;
-  public nameSearch: string;
 }

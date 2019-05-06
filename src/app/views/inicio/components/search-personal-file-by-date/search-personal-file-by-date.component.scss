@@ -69,13 +69,13 @@
 }
 .documentation{
   display: none;
+  font-weight: bold;
   @media (min-width: 712px) { 
     display: block;
   }
 }
 .documentation_responsive{
   margin-left: 24px;
-  
   font-weight: bold;
   @media (min-width: 712px) { 
     display: none;

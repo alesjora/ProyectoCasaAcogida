@@ -3,6 +3,7 @@ import { StoreService } from 'src/app/shared/services/store.service';
 import { IgxFilterOptions } from 'igniteui-angular';
 import { SearchPersonalFileService } from '../service/search-personal-file.service';
 import { LogoutService } from 'src/app/shared/services/logout.service';
+import { PersonTable } from 'src/app/models/person-table';
 
 @Component({
   selector: 'app-search-personal-file',
@@ -36,30 +37,12 @@ export class SearchPersonalFileComponent implements OnInit {
         case 'OPERATION_SUCCESS':
           this.show = true;
           response.data.forEach(element => {
-            data.push(new Person(element.key, element.name, element.surname, element.avatar, element.documentation));
+            data.push(new PersonTable(element.key, element.name, element.surname, element.avatar, element.documentation));
           });
           this.data = data;
           break;
       }
     });
   }
-}
-
-class Person {
-  constructor(key, name, surname, avatar, documentation) {
-    this.key = key;
-    this.name = name;
-    this.surname = surname;
-    this.avatar = avatar;
-    this.documentation = documentation;
-    this.nameSearch = name + ' ' + surname + ' ' + documentation;
-
-  }
-  public key: number;
-  public name: string;
-  public surname: string;
-  public avatar: string;
-  public documentation: string;
-  public nameSearch: string;
 }
 

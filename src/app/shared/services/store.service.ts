@@ -28,7 +28,7 @@ export class StoreService {
   public getUserId() {
     return this.user.user_id;
   }
-  public getToken(){
+  public getToken() {
     return this.user.token;
   }
   public sendCurrentRoute(route: string) {

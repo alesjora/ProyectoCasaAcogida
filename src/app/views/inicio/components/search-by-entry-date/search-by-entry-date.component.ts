@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IgxFilterOptions } from 'igniteui-angular';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SearchByDateService } from '../service/search-by-date.service';
+import { PersonTable } from 'src/app/models/person-table';
 
 @Component({
   selector: 'app-search-by-entry-date',
@@ -31,7 +32,7 @@ export class SearchByEntryDateComponent implements OnInit {
           break;
         case 'OPERATION_SUCCESS':
             response.data.forEach(element => {
-              data.push(new Person(element.key, element.name, element.surname, element.avatar, element.documentation));
+              data.push(new PersonTable(element.key, element.name, element.surname, element.avatar, element.documentation));
             });
           this.data = data;
           break;
@@ -55,22 +56,4 @@ export class SearchByEntryDateComponent implements OnInit {
     _fo.inputValue = this.search;
     return _fo;
   }
-}
-
-class Person {
-  constructor(key, name, surname, avatar, documentation) {
-    this.key = key;
-    this.name = name;
-    this.surname = surname;
-    this.avatar = avatar;
-    this.documentation = documentation;
-    this.nameSearch = name + ' ' + surname + ' ' + documentation;
-
-  }
-  public key: number;
-  public name: string;
-  public surname: string;
-  public avatar: string;
-  public documentation: string;
-  public nameSearch: string;
 }
