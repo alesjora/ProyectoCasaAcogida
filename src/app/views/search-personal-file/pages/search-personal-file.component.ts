@@ -27,6 +27,9 @@ export class SearchPersonalFileComponent implements OnInit {
     _fo.inputValue = this.search;
     return _fo;
   }
+  mostrar() {
+    console.log(this.search);
+  }
   public ngOnInit() {
     const data = [];
     this.searchPersonalFileService.getPersonalFile().subscribe(response => {

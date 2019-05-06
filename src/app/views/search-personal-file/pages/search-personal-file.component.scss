@@ -6,6 +6,21 @@
 .search {
     margin-bottom: 16px;
 }
+.header{
+  text-align: right;
+  igx-input-group{
+    @media (min-width: 712px) { 
+      flex-basis: 60%;
+    }
+  }
+  button{
+    margin-bottom: 16px;
+  }
+  @media (min-width: 712px) { 
+    display: flex;
+    justify-content: space-between;
+  }
+}
 
 .list-sample {
     display: block;

@@ -22,12 +22,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public menuConserje = [
     { name: 'home', text: 'Inicio', url: 'inicio' },
     { name: 'create', text: 'Nueva ficha personal', url: 'nueva-ficha-personal' },
-    { name: 'search', text: 'Buscar ficha personal', url: 'buscar-ficha-personal' },
+    { name: 'person', text: 'Fichas personales', url: 'fichas-personales' },
     { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];
   public menuTecnico = [
     { name: 'home', text: 'Inicio', url: 'inicio' },
-    { name: 'search', text: 'Buscar ficha personal', url: 'buscar-ficha-personal' },
+    { name: 'person', text: 'Fichas personales', url: 'fichas-personales' },
     { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];
 

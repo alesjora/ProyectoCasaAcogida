@@ -6,6 +6,7 @@ import { SearchPersonalFileComponent } from './pages/search-personal-file.compon
 import { IgniteModule } from 'src/app/shared/ignite/ignite.module';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from 'src/app/shared/material/material.module';
 
 @NgModule({
   declarations: [SearchPersonalFileComponent],
@@ -13,6 +14,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     SearchPersonalFileRoutingModule,
     IgniteModule,
+    MaterialModule,
     FormsModule,
     RouterModule
   ]
