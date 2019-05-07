@@ -35,13 +35,13 @@ export class ShowPersonalFileComponent implements OnInit {
           break;
         case 'OPERATION_SUCCESS':
           console.log(response.data);
-          this.srcImagen = response.data[0].image;
-          if (response.data[0].image === '') {
+          this.srcImagen = response.data.mainData[0].image;
+          if (response.data.mainData[0].image === '') {
             this.srcImagen = environment.urlImage + 'StandarProfile.png';
           }
-          this.nombre = response.data[0].nombre;
-          this.apellidos = response.data[0].apellidos;
-          this.documentation = response.data[0].dni;
+          this.nombre = response.data.mainData[0].nombre;
+          this.apellidos = response.data.mainData[0].apellidos;
+          this.documentation = response.data.mainData[0].dni;
           this.email = 'marcos@gmail.com';
           this.phone = '654987321';
           break;

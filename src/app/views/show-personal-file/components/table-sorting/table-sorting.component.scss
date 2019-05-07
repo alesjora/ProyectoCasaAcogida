@@ -4,6 +4,16 @@ table {
 .overflowTable{
   height: 150px;
   overflow: auto;
+  scrollbar-color: #dddddd white;
+  scrollbar-width: thin;
+}
+.overflowTable::-webkit-scrollbar{
+  width: 7px;
+}
+
+.overflowTable::-webkit-scrollbar-thumb{
+  background: #dddddd;
+  border-radius: 7px;
 }
 
 th.mat-sort-header-sorted {
