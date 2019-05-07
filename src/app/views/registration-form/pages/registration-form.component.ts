@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { StoreService } from 'src/app/shared/services/store.service';
 import { RegistrationFormService } from '../service/registration-form.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
@@ -12,21 +12,18 @@ import { LogoutService } from 'src/app/shared/services/logout.service';
   styleUrls: ['./registration-form.component.scss']
 })
 export class RegistrationFormComponent implements OnInit {
-  public date: Date;
+
   public registrationForm;
   public urlImagen: string | ArrayBuffer = '../../../../assets/photos/StandarProfile.png';
   private changedImage = false;
-  private dayFormatter = new Intl.DateTimeFormat('es', { weekday: 'long' });
-  private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
   public documents: Document[] = [];
 
   constructor(private fb: FormBuilder,
-    private storeService: StoreService,
-    private registrationFormService: RegistrationFormService,
-    private snackBarService: SnackBarService,
-    private logoutService: LogoutService) {
+              private storeService: StoreService,
+              private registrationFormService: RegistrationFormService,
+              private snackBarService: SnackBarService,
+              private logoutService: LogoutService) {
     this.storeService.checkPermission();
-    this.date = new Date(Date.now());
     this.storeService.sendCurrentRoute('Nueva ficha personal');
   }
 
@@ -38,9 +35,13 @@ export class RegistrationFormComponent implements OnInit {
     this.registrationForm = this.fb.group({
       name: ['', [Validators.required]],
       surnames: ['', [Validators.required]],
-      document: ['',],
-      initialDate: [this.date, [Validators.required]],
-      photo: ['',]
+      document: this.fb.array([
+        this.fb.control(''),
+      ]),
+      documentType: this.fb.array([
+        this.fb.control(''),
+      ]),
+      photo: ['']
     });
   }
 
@@ -51,15 +52,17 @@ export class RegistrationFormComponent implements OnInit {
   get surnames() {
     return this.registrationForm.get('surnames');
   }
-  get dni() {
-    return this.registrationForm.get('dni');
+  get document() {
+    return this.registrationForm.get('document') as FormArray;
   }
-  get initialDate() {
-    return this.initialDate.get('initialDate');
+  get documentType() {
+    return this.registrationForm.get('documentType') as FormArray;
   }
-  public formatter = (date: Date) => {
-    // tslint:disable-next-line:max-line-length
-    return `${this.dayFormatter.format(date)}, ${date.getDate()} ${this.monthFormatter.format(date)}, ${date.getFullYear()}`;
+  addDocument() {
+    console.log(this.document);
+    this.document.push(this.fb.control(''));
+    this.documentType.push(this.fb.control(''));
+
   }
   onFileSelected(e) {
     // Creamos el objeto de la clase FileReader
@@ -73,26 +76,24 @@ export class RegistrationFormComponent implements OnInit {
 
     // Le decimos que cuando este listo ejecute el código interno
     const these = this;
-    reader.onload = function () {
+    reader.onload = () => {
       these.urlImagen = reader.result;
-    }
+    };
     if (!this.changedImage) {
       this.changedImage = true;
     }
   }
 
   public sendData() {
-    const fecha = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + this.date.getDate();
     const imagen: string | ArrayBuffer = (this.changedImage) ? this.urlImagen : '';
+    console.log(this.registrationForm.value);
     const data = {
       nombre: this.name.value,
       apellidos: this.surnames.value,
-      dni: this.dni.value,
-      fechaEntrada: fecha,
       image: imagen
     };
 
-    this.registrationFormService.sendData(data).subscribe(this.sendDataSuccess.bind(this));
+    //this.registrationFormService.sendData(data).subscribe(this.sendDataSuccess.bind(this));
   }
 
   sendDataSuccess(response) {
@@ -117,7 +118,7 @@ export class RegistrationFormComponent implements OnInit {
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
       case 'OPERATION_SUCCESS':
-        //const these = this;
+        // const these = this;
         response.data.forEach(element => {
           this.documents.push({value: element.id, viewValue: element.documento});
         });

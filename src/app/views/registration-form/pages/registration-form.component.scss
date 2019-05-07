@@ -21,6 +21,14 @@
 button[type=submit] {
   margin-top: 10px;
 }
+.addDocumentation {
+  font-family: Arial;
+  background-color: #eee;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
 .registrationForm-form {
   display: flex;
@@ -30,11 +38,6 @@ button[type=submit] {
 .formRight mat-form-field,
 .formRight button,
 .formRight {
-  width: 100%;
-}
-
-.datepicker,
-.dni_datepicker {
   width: 100%;
 }
 
@@ -50,6 +53,24 @@ button[type=submit] {
 
     .footerFormLeft {
       text-align: center;
+    }
+    .containerDocumentation{
+      display: flex;
+      flex-flow: column;
+      .containerInputsDocumentation{
+        display: flex;
+        .type_documentation{
+          display: flex;
+          flex-flow: column;
+          width: 30%;
+        }
+        .documentation{
+          margin-left: 10px;
+          display: flex;
+          flex-flow: column;
+          width: 70%;
+        }
+      }
     }
   }
 
@@ -80,15 +101,4 @@ button[type=submit] {
     }
   }
 
-  @media (min-width: 1024px) {
-    .dni_datepicker {
-      display: flex;
-    }
-
-    .documentacion {
-      padding-top: 4.5px;
-      margin-right: 8px;
-      width: 40% !important;
-    }
-  }
 }
