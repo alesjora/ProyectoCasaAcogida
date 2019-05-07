@@ -1,7 +1,8 @@
 <div class="registrationForm-page">
   <h2 class="myH2">Ficha personal</h2>
   <div class="registrationForm-container">
-    <form class="registrationForm-form formularioContainer" [formGroup]="registrationForm" (ngSubmit)="registrationForm.valid ? sendData(): null">
+    <form class="registrationForm-form formularioContainer" [formGroup]="registrationForm"
+      (ngSubmit)="registrationForm.valid ? sendData(): null">
       <div class='formLeft'>
         <img [src]="urlImagen" alt="">
         <div class="footerFormLeft">
@@ -19,14 +20,18 @@
           <mat-error *ngIf="surnames?.invalid">Los apellidos son obligatorios</mat-error>
         </mat-form-field>
         <div class="dni_datepicker">
-          <mat-form-field class="dni">
-            <input matInput type="text" placeholder="Documento de identidad" formControlName="dni">
+          <mat-form-field>
+            <mat-label>Tipo de documentación</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let document of documents" [value]="document.value">
+                {{document.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="documentacion">
+            <input matInput type="text" placeholder="Documento de identidad" formControlName="document">
             <mat-error *ngIf="dni?.invalid">El documento de identidad es obligatorio</mat-error>
           </mat-form-field>
-          <div class="datepicker">
-            <igx-date-picker formControlName="initialDate" [value]="date" [(ngModel)]="date" [formatter]="formatter" label="Fecha de entrada">
-            </igx-date-picker>
-          </div>
         </div>
         <button type="submit" mat-raised-button color="primary">Crear ficha</button>
       </div>

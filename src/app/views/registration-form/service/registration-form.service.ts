@@ -13,4 +13,7 @@ export class RegistrationFormService {
   sendData(data): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'agregarFichaPersonal', data);
   }
+  getTypeDocuments(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerTiposDocumentos');
+  }
 }

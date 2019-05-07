@@ -1,0 +1,28 @@
+<div class="listCards">
+  <div class="card" *ngFor="let item of list">
+    <h5>Habitación 1</h5>
+    <div class="table-container mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
+        <!-- Entry_date Column -->
+        <ng-container matColumnDef="n_cama">
+          <th mat-header-cell *matHeaderCellDef> Nº de cama </th>
+          <td mat-cell *matCellDef="let element"> {{element.n_cama}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="ocupante">
+          <th mat-header-cell *matHeaderCellDef> Ocupante</th>
+          <td mat-cell *matCellDef="let element">
+            <ng-container>
+                <igx-avatar [src]="element.image" roundShape="true"></igx-avatar>
+                <span>{{element.ocupante}}</span>
+            </ng-container>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/dashboard/ficha-personal/{{row.id}}">
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

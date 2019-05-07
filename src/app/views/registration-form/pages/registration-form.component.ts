@@ -18,6 +18,7 @@ export class RegistrationFormComponent implements OnInit {
   private changedImage = false;
   private dayFormatter = new Intl.DateTimeFormat('es', { weekday: 'long' });
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
+  public documents: Document[] = [];
 
   constructor(private fb: FormBuilder,
     private storeService: StoreService,
@@ -31,12 +32,13 @@ export class RegistrationFormComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.registrationFormService.getTypeDocuments().subscribe(this.getTypeDocumentsSuccess.bind(this));
   }
   createForm() {
     this.registrationForm = this.fb.group({
       name: ['', [Validators.required]],
       surnames: ['', [Validators.required]],
-      dni: ['',],
+      document: ['',],
       initialDate: [this.date, [Validators.required]],
       photo: ['',]
     });
@@ -109,4 +111,24 @@ export class RegistrationFormComponent implements OnInit {
         break;
     }
   }
+  getTypeDocumentsSuccess(response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        //const these = this;
+        response.data.forEach(element => {
+          this.documents.push({value: element.id, viewValue: element.documento});
+        });
+        break;
+      default:
+        this.snackBarService.showSnackbar('El al obtener los tipos de documentos', 1000, 'bottom', 'error');
+        break;
+    }
+  }
+}
+interface Document {
+  value: number;
+  viewValue: string;
 }
