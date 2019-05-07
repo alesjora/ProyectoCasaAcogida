@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { IgxNavigationDrawerComponent } from 'igniteui-angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CheckTokenService } from 'src/app/shared/services/check-token.service';
@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.drawerState.miniTemplate = false;
     }
   }
-
+  
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
@@ -83,7 +83,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.storeService.sendCurrentRoute(item.text);
     if (!this.drawer.pin) {
       this.drawer.close();
-      document.getElementById('navigation').style.display = 'none';
     }
   }
 
@@ -107,22 +106,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
     }
   }
-  ocultaMenu() {
-    if (!this.resolucionMovil()) {
-      return;
-    }
-    // console.log(document.getElementsByTagName('aside')[0])
-    // console.log(window.innerWidth + "px");
-    if ( document.getElementById('navigation').style.display !== 'none') {
-      document.getElementById('navigation').style.display = 'none';
-    } else {
-      document.getElementById('navigation').style.display = 'block';
-    }
-    document.getElementsByClassName('igx-nav-drawer__overlay')[0].addEventListener('click', this.ocultaMenuClick);
-  }
-  ocultaMenuClick() {
-    document.getElementById('navigation').style.display = 'none';
-  }
+  // ocultaMenu() {
+  //   if (!this.resolucionMovil()) {
+  //     return;
+  //   }
+  //   // console.log(document.getElementsByTagName('aside')[0])
+  //   // console.log(window.innerWidth + "px");
+  //   if ( document.getElementById('navigation').style.display !== 'none') {
+  //     document.getElementById('navigation').style.display = 'none';
+  //   } else {
+  //     document.getElementById('navigation').style.display = 'block';
+  //   }
+  //   document.getElementsByClassName('igx-nav-drawer__overlay')[0].addEventListener('click', this.ocultaMenuClick);
+  // }
+  // ocultaMenuClick() {
+  //   document.getElementById('navigation').style.display = 'none';
+  // }
   resolucionMovil(){
     const resolucionMovil = window.matchMedia('(max-width: 900px)');
     return resolucionMovil.matches;
