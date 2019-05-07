@@ -12,7 +12,7 @@ import { IgniteModule } from 'src/app/shared/ignite/ignite.module';
     CommonModule,
     ShowOcupationRoutingModule,
     MaterialModule,
-    IgniteModule
+    IgniteModule,
   ]
 })
 export class ShowOcupationModule { }

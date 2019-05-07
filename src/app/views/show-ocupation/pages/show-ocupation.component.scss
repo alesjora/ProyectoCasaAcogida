@@ -6,9 +6,18 @@
     }
 }
 
+.available{
+  *margin-left: 48px;
+  padding: 8px;
+  background: green !important;
+}
+.container_data{
+  outline: none;
+}
+
 .table-container {
-    *height: 75vh;
     overflow: auto;
+    height: 249px;
 }
 .igx-avatar {
     margin-right: 8px;
@@ -46,6 +55,7 @@
         display: grid;
         grid-gap: 16px;
         grid-template-columns: 1fr 1fr;
+        grid-template-rows: 200px;
     }
     @media (min-width: 1550px) {
         grid-template-columns: 1fr 1fr 1fr;
