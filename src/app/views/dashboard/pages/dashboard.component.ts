@@ -14,7 +14,7 @@ import { LogoutService } from 'src/app/shared/services/logout.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  
+
   show: boolean = false;
   selected: string = 'Inicio';
   subscription: Subscription;
@@ -52,7 +52,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.ref.detectChanges();
     });
   }
-
   ngOnInit() {
     const token = sessionStorage.getItem('token');
     if (!token) {
@@ -119,6 +118,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       document.getElementById('navigation').style.display = 'block';
     }
+    document.getElementsByClassName('igx-nav-drawer__overlay')[0].addEventListener('click', this.ocultaMenuClick);
+  }
+  ocultaMenuClick() {
+    document.getElementById('navigation').style.display = 'none';
   }
   resolucionMovil(){
     const resolucionMovil = window.matchMedia('(max-width: 900px)');

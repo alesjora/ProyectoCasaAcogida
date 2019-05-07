@@ -1,0 +1,89 @@
+h2{
+  font-size: 2em !important;
+  text-align: center;
+}
+.topContainer{
+  display: flex;
+  flex-flow: column;
+  @media (min-width: 800px) {
+    height: 40vh;
+    flex-flow: row;
+  }
+}
+.photoContainer{
+  height: 100%;
+  width: 100%;
+  @media (min-width: 800px) {
+    width: 50%;
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img{
+    height: 100%;
+    width: auto;
+    max-width: 400px;
+  }
+}
+.basicDescriptionContainer{
+  height: 100%;
+  width: 100%;
+  @media (min-width: 800px) {
+    width: 50%;
+  }
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  overflow: hidden;
+  ul{
+    margin:0;
+    @media (min-width: 800px) {
+      padding: 0;
+    }
+    li{
+      list-style: none;
+      display: flex;
+      flex-flow: column;
+      color: grey;
+      font-size: 1em;
+      justify-content: flex-end;
+      span{
+        margin-top: -3px;
+        margin-left: 10px;
+        font-size:1.5em;
+        color: black;
+      }
+    }
+  }
+}
+.roomsInfoContainer{
+  width: 100%;
+  margin: 30px auto;
+  @media (min-width: 800px) {
+    width: 60%;
+  }
+  ul{
+    display: flex;
+    justify-content: center;
+    @media (min-width: 800px) {
+      padding: 0;
+    }
+    li{
+      list-style: none;
+      font-size: 2em;
+      margin-right: 20px;
+      i{
+        font-size: 1.5em;
+        transform: translateY(15px);
+      }
+    }
+  }
+}
+
+.tableSortingContainer{
+  width: 100%;
+  margin: 30px auto;
+  @media (min-width: 800px) {
+    width: 60%;
+  }
+}
