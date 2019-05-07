@@ -124,7 +124,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     document.getElementById('navigation').style.display = 'none';
   }
   resolucionMovil(){
-    const resolucionMovil = window.matchMedia('(max-width: 700px)');
+    const resolucionMovil = window.matchMedia('(max-width: 900px)');
     return resolucionMovil.matches;
   }
 }
