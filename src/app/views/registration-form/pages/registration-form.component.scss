@@ -57,6 +57,7 @@ button[type=submit] {
     .containerDocumentation{
       display: flex;
       flex-flow: column;
+      width: 100%;
       .containerInputsDocumentation{
         display: flex;
         .type_documentation{
@@ -97,7 +98,7 @@ button[type=submit] {
     }
 
     .myH2 {
-      font-size: 7em !important;
+      font-size: 2em !important;
     }
   }
 
