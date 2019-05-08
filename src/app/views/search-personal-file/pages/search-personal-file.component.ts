@@ -16,7 +16,7 @@ export class SearchPersonalFileComponent implements OnInit {
   constructor(private storeService: StoreService,
     private searchPersonalFileService: SearchPersonalFileService,
     private logoutService: LogoutService) {
-    this.storeService.sendCurrentRoute('Buscar ficha personal');
+    this.storeService.sendCurrentRoute('Fichas personales');
   }
 
   public search: string;

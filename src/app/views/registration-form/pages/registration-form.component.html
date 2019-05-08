@@ -1,7 +1,8 @@
 <div class="registrationForm-page">
   <h2 class="myH2">Ficha personal</h2>
   <div class="registrationForm-container">
-    <form class="registrationForm-form formularioContainer" [formGroup]="registrationForm" (ngSubmit)="registrationForm.valid ? sendData(): null">
+    <form class="registrationForm-form formularioContainer" [formGroup]="registrationForm"
+      (ngSubmit)="registrationForm.valid ? sendData(): null">
       <div class='formLeft'>
         <img [src]="urlImagen" alt="">
         <div class="footerFormLeft">
@@ -18,16 +19,32 @@
           <input matInput type="text" placeholder="Apellidos" formControlName="surnames">
           <mat-error *ngIf="surnames?.invalid">Los apellidos son obligatorios</mat-error>
         </mat-form-field>
-        <div class="dni_datepicker">
-          <mat-form-field class="dni">
-            <input matInput type="text" placeholder="Documento de identidad" formControlName="dni">
-            <mat-error *ngIf="dni?.invalid">El documento de identidad es obligatorio</mat-error>
-          </mat-form-field>
-          <div class="datepicker">
-            <igx-date-picker formControlName="initialDate" [value]="date" [(ngModel)]="date" [formatter]="formatter" label="Fecha de entrada">
-            </igx-date-picker>
+        <div class= 'containerDocumentation'>
+          <h2 class="myH2">Documentacion</h2>
+          <button type='button' class='addDocumentation' (click)="addDocument()">Añadir documento</button>
+          <div class= 'containerInputsDocumentation'>
+            <div class= 'type_documentation'>
+            <div *ngFor="let loquesea of documentType.controls; let j=index" formArrayName="documentType">
+              <mat-form-field>
+                <mat-label>Tipo de documentación</mat-label>
+                <mat-select [formControlName]="j">
+                  <mat-option *ngFor="let element of documents" [value]="element.viewValue" >
+                    {{element.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+            <div class="documentation">
+              <div *ngFor="let adress of document.controls; let i=index" formArrayName="document">
+                <mat-form-field >
+                  <input matInput type="text" placeholder="Documento de identidad" [formControlName]="i">
+                </mat-form-field>
+              </div>
+            </div>
           </div>
         </div>
+
         <button type="submit" mat-raised-button color="primary">Crear ficha</button>
       </div>
     </form>

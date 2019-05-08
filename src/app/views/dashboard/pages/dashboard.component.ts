@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public menuConserje = [
     { name: 'home', text: 'Inicio', url: 'inicio' },
-    { name: 'create', text: 'Nueva ficha personal', url: 'nueva-ficha-personal' },
+    { name: 'airline_seat_individual_suite', text: 'Ocupación', url: 'ocupacion' },
     { name: 'person', text: 'Fichas personales', url: 'fichas-personales' },
     { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];

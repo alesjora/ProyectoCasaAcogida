@@ -151,11 +151,13 @@ $green-palette: igx-palette($primary: #09f, $secondary: #72da67, $surface: #333)
 }
 
 main {
-  padding: 0;
+  padding: 16px;
   overflow: auto;
+  box-sizing: border-box;
   @media (max-width: 900px) {
     position: absolute;
     width: 100%;
+    height: 100%;
   }
 }
 

@@ -20,8 +20,6 @@ export class ShowPersonalFileComponent implements OnInit {
   nHabitacion = 2;
   nCama = 3;
 
-
-
   constructor(private activatedRoute: ActivatedRoute,
               private showPersonalFileService: ShowPersonalFileService,
               private logoutService: LogoutService) { }

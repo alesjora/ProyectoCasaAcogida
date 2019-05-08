@@ -17,6 +17,10 @@ const routes: Routes = [
       loadChildren: './../registration-form/registration-form.module#RegistrationFormModule'
     },
     {
+      path: 'ocupacion',
+      loadChildren: './../show-ocupation/show-ocupation.module#ShowOcupationModule'
+    },
+    {
       path: 'fichas-personales',
       loadChildren: './../search-personal-file/search-personal-file.module#SearchPersonalFileModule'
     },
@@ -28,10 +32,10 @@ const routes: Routes = [
       path: 'logout',
       component: LogoutComponent
     },
-    {
-      path: '**',
-      redirectTo: ''
-    }
+    // {
+    //   path: '**',
+    //   redirectTo: ''
+    // }
   ]
   }
 ];
