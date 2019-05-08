@@ -8,3 +8,13 @@ mat-form-field{
 button[type=submit]{
     width: 100%;
 }
+.container{
+    width: 100%;
+    @media (min-width: 600px) {
+        width: 60%;
+        margin: 0 auto;
+    }
+    @media (min-width: 1200px) {
+        width: 40%;
+    }
+}

@@ -1,4 +1,4 @@
-<div>
+<div class="container">
   <h5>Nuevo registro de entrada</h5>
   <form [formGroup]="newEntryForm" (ngSubmit)="newEntryForm.valid ? sendData(): null">
     <igx-input-group class="autocomplete">
@@ -19,7 +19,7 @@
       <igx-date-picker formControlName="entryDate" [value]="date" [(ngModel)]="date" [formatter]="formatter"
         label="Fecha de entrada"></igx-date-picker>
       <br>
-      <igx-time-picker format="HH:mm" [value]="date">
+      <igx-time-picker format="HH:mm" [value]="time" formControlName="entryTime" [(ngModel)]="time">
         <ng-template igxTimePickerTemplate let-openDialog="openDialog" let-value="value" let-displayTime="displayTime">
           <igx-input-group (click)="openDialog()">
             <igx-prefix>
@@ -35,7 +35,7 @@
     <div class="room_bed">
       <mat-form-field>
         <mat-label>Selecciona una habitación</mat-label>
-        <mat-select formControlName="room">
+        <mat-select formControlName="room" [disabled]="rooms.length === 0">
           <mat-option *ngFor="let room of rooms" [value]="room.id">
             Habitación {{room.number}}
           </mat-option>
@@ -43,8 +43,8 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Selecciona una cama</mat-label>
-        <mat-select formControlName="bed">
-          <mat-option *ngFor="let bed of beds" [value]="bed.id">
+        <mat-select formControlName="bed" [disabled]="room.value === ''">
+          <mat-option *ngFor="let bed of selectBedsOfRoom()" [value]="bed.id">
             Cama {{bed.number}}
           </mat-option>
         </mat-select>
