@@ -21,7 +21,6 @@
         </mat-form-field>
         <div class= 'containerDocumentation'>
           <h2 class="myH2">Documentacion</h2>
-          <button type='button' class='addDocumentation' (click)="addDocument()">Añadir documento</button>
           <div class= 'containerInputsDocumentation'>
             <div class= 'type_documentation'>
             <div *ngFor="let loquesea of documentType.controls; let j=index" formArrayName="documentType">
@@ -43,6 +42,7 @@
               </div>
             </div>
           </div>
+          <button type='button' mat-raised-button color="accent" class='addDocumentation' (click)="addDocument()">Añadir documento</button>
         </div>
 
         <button type="submit" mat-raised-button color="primary">Crear ficha</button>
