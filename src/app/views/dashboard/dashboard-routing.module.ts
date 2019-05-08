@@ -21,6 +21,10 @@ const routes: Routes = [
       loadChildren: './../show-ocupation/show-ocupation.module#ShowOcupationModule'
     },
     {
+      path: 'nuevo-ingreso',
+      loadChildren: './../new-entry/new-entry.module#NewEntryModule'
+    },
+    {
       path: 'fichas-personales',
       loadChildren: './../search-personal-file/search-personal-file.module#SearchPersonalFileModule'
     },
