@@ -11,12 +11,12 @@ import {
   IgxToggleModule,
   IgxNavbarModule,
   IgxAvatarModule,
-	IgxFilterModule,
-	IgxListModule,
-	IgxForOfModule,
+IgxFilterModule,
+IgxListModule,
+IgxForOfModule,
   IgxInputGroupModule,
   IgxDatePickerModule
-} from "igniteui-angular";
+} from 'igniteui-angular';
 
 @NgModule({
   declarations: [],

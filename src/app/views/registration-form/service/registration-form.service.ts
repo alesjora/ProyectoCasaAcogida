@@ -16,4 +16,10 @@ export class RegistrationFormService {
   getTypeDocuments(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerTiposDocumentos');
   }
+  getNacionalidad(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerPaises');
+  }
+  getSexo(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerSexos');
+  }
 }

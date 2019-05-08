@@ -21,14 +21,7 @@
 button[type=submit] {
   margin-top: 10px;
 }
-.addDocumentation {
-  font-family: Arial;
-  background-color: #eee;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
+
 
 .registrationForm-form {
   display: flex;
@@ -36,14 +29,26 @@ button[type=submit] {
 }
 
 .formRight mat-form-field,
+.containerInput,
 .formRight button,
+.containerRadios,
 .formRight {
   width: 100%;
 }
-
+.containerInput,
+.containerRadios{
+  padding-bottom: 20px;
+}
 .formularioContainer {
   display: flex;
-
+  flex-flow: column;
+  .formHeader{
+    display: flex;
+    flex-flow: column;
+    @media (min-width: 800px) {
+      flex-flow: row;
+    }
+  }
   .formLeft,
   .formRight {
     display: flex;
@@ -54,12 +59,32 @@ button[type=submit] {
     .footerFormLeft {
       text-align: center;
     }
+  }
+  .formBody{
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    @media (min-width: 800px){
+      flex-flow: row;
+    }
     .containerDocumentation{
       display: flex;
       flex-flow: column;
       width: 100%;
+      @media (min-width: 800px) {
+        width: 50%;
+      }
+      .containerAddDocumentation{
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        button{
+          width: 30%;
+        }
+      }
       .containerInputsDocumentation{
         display: flex;
+        width: 100%;
         .type_documentation{
           display: flex;
           flex-flow: column;
@@ -71,9 +96,27 @@ button[type=submit] {
           flex-flow: column;
           width: 70%;
         }
+        .containerInputs{
+          width: 100%;
+        }
       }
+
+      }
+      .containerTextArea{
+        width: 100%;
+        @media (min-width: 800px) {
+          width: 50%;
+          padding-left: 16px;
+        }
+
+        box-sizing: content-box;
+        textarea{
+          width: 100%;
+          height: 75px;
+        }
     }
   }
+
 
   img {
     width: 150px;
@@ -81,9 +124,21 @@ button[type=submit] {
     max-height: 300px;
     margin-bottom: 10px;
   }
-
+  .containerSubmit{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    button{
+      width: 40%;
+    }
+  }
+  .containerRadios{
+    display: flex;
+    justify-content: space-around;
+  }
   @media (min-width: 800px) {
-    flex-flow: row;
+
 
     .formRight {
       width: 50%;
@@ -101,5 +156,11 @@ button[type=submit] {
       font-size: 2em !important;
     }
   }
-
+  // .mat-form-field-infix{
+  //   border: 0;
+  //   border-top:0;
+  // }
+  // .igx-input-group__bundle{
+  //   padding: 0;
+  // }
 }
