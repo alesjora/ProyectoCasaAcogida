@@ -17,8 +17,12 @@
             <mat-error *ngIf="name?.invalid">El nombre es obligatorio</mat-error>
           </mat-form-field>
           <mat-form-field>
-            <input matInput type="text" placeholder="Apellidos" formControlName="surnames">
-            <mat-error *ngIf="surnames?.invalid">Los apellidos son obligatorios</mat-error>
+            <input matInput type="text" placeholder="Apellido 1" formControlName="surname1">
+            <mat-error *ngIf="surname1?.invalid">Los apellidos son obligatorios</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="text" placeholder="Apellido 2" formControlName="surname2">
+            <mat-error *ngIf="surname2?.invalid">Los apellidos son obligatorios</mat-error>
           </mat-form-field>
           <div class='containerRadios'>
               <igx-radio *ngFor="let sexo of sexos" name="sexo"  [value]="sexo.value" [(ngModel)]="selectedSexo" formControlName="sexo">

@@ -4,6 +4,7 @@ import { StoreService } from 'src/app/shared/services/store.service';
 import { RegistrationFormService } from '../service/registration-form.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { LogoutService } from 'src/app/shared/services/logout.service';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -43,7 +44,8 @@ export class RegistrationFormComponent implements OnInit {
   createForm() {
     this.registrationForm = this.fb.group({
       name: ['', [Validators.required]],
-      surnames: ['', [Validators.required]],
+      surname1: ['', [Validators.required]],
+      surname2: ['',[Validators.required]],
       bornDate: [''],
       lugarNacimiento: [''],
       sexo: [''],
@@ -98,20 +100,31 @@ export class RegistrationFormComponent implements OnInit {
 
   public sendData() {
     const imagen: string | ArrayBuffer = (this.changedImage) ? this.urlImagen : '';
-    console.log(this.registrationForm.value);
+    const bornDate = this.registrationForm.value.bornDate.getFullYear() + '/' +
+                  (this.registrationForm.value.bornDate.getMonth() + 1) + '/' +
+                  this.registrationForm.value.bornDate.getDate();
     const data = {
       nombre: this.name.value,
-      apellidos: this.surnames.value,
+      apellido1 : this.registrationForm.value.surname1,
+      apellido2 : this.registrationForm.value.surname2,
+      fechaNacimiento : bornDate,
+      lugarNacimiento: this.registrationForm.value.lugarNacimiento,
+      sexo: this.registrationForm.value.sexo,
+      nacionalidad: this.registrationForm.value.nacionalidad,
+      document: this.registrationForm.value.document,
+      documentType: this.registrationForm.value.documentType,
+      observaciones: this.registrationForm.value.observaciones,
       image: imagen
     };
 
-    // this.registrationFormService.sendData(data).subscribe(this.sendDataSuccess.bind(this));
+    this.registrationFormService.sendData(data).subscribe(this.sendDataSuccess.bind(this));
   }
   public formatter = (date: Date) => {
     return `${date.getDate()} ${this.monthFormatter.format(date)}, ${date.getFullYear()}`;
   }
 
   sendDataSuccess(response) {
+    console.log(response);
     switch (response.status) {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
@@ -133,7 +146,6 @@ export class RegistrationFormComponent implements OnInit {
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
       case 'OPERATION_SUCCESS':
-        // const these = this;
         response.data.forEach(element => {
           this.documents.push({value: element.id, viewValue: element.documento});
         });
@@ -149,7 +161,6 @@ export class RegistrationFormComponent implements OnInit {
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
       case 'OPERATION_SUCCESS':
-        // const these = this;
         response.data.forEach(element => {
           this.paises.push({value: element.id, viewValue: element.nacionalidad});
         });
@@ -165,7 +176,6 @@ export class RegistrationFormComponent implements OnInit {
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
       case 'OPERATION_SUCCESS':
-        // const these = this;
         response.data.forEach(element => {
           this.sexos.push({value: element.id, viewValue: element.sexo});
         });
@@ -177,7 +187,6 @@ export class RegistrationFormComponent implements OnInit {
         break;
     }
   }
-
 }
 interface Document {
   value: number;
