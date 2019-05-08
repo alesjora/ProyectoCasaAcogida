@@ -15,8 +15,11 @@ IgxFilterModule,
 IgxListModule,
 IgxForOfModule,
   IgxInputGroupModule,
-  IgxDatePickerModule
-} from 'igniteui-angular';
+  IgxDatePickerModule,
+  IgxAutocompleteModule,
+  IgxDropDownModule,
+  IgxTimePickerModule
+} from "igniteui-angular";
 
 @NgModule({
   declarations: [],
@@ -37,6 +40,9 @@ IgxForOfModule,
     IgxListModule,
     IgxForOfModule,
     IgxInputGroupModule,
-    IgxDatePickerModule]
+    IgxDatePickerModule,
+    IgxAutocompleteModule,
+    IgxDropDownModule,
+    IgxTimePickerModule]
 })
 export class IgniteModule { }
