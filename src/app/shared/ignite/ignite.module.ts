@@ -15,7 +15,10 @@ import {
 	IgxListModule,
 	IgxForOfModule,
   IgxInputGroupModule,
-  IgxDatePickerModule
+  IgxDatePickerModule,
+  IgxAutocompleteModule,
+  IgxDropDownModule,
+  IgxTimePickerModule
 } from "igniteui-angular";
 
 @NgModule({
@@ -37,6 +40,9 @@ import {
     IgxListModule,
     IgxForOfModule,
     IgxInputGroupModule,
-    IgxDatePickerModule]
+    IgxDatePickerModule,
+    IgxAutocompleteModule,
+    IgxDropDownModule,
+    IgxTimePickerModule]
 })
 export class IgniteModule { }
