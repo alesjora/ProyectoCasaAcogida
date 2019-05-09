@@ -26,11 +26,11 @@ export class NewEntryComponent implements OnInit {
 
 
   constructor(public fb: FormBuilder,
-              public newEntryService: NewEntryService,
-              public logoutService: LogoutService,
-              public snackBarService: SnackBarService,
-              public storeService: StoreService,
-              public router: Router) {
+    public newEntryService: NewEntryService,
+    public logoutService: LogoutService,
+    public snackBarService: SnackBarService,
+    public storeService: StoreService,
+    public router: Router) {
     this.date = new Date(Date.now());
     this.time = this.date;
   }
@@ -133,9 +133,25 @@ export class NewEntryComponent implements OnInit {
       entryDate: this.getDate(this.entryDate.value),
       entryHour: this.getTime(this.entryTime.value),
       idRoom: this.room.value,
-      idBed: this.bed.value
+      idBed: this.bed.value,
+      idConserje: this.storeService.getUserId()
     };
-    console.log(data);
+    this.newEntryService.sendData(data).subscribe(this.sendDataSuccess.bind(this),
+    this.snackBarService.showSnackbar.bind(this, 'Error al añadir el registro.', 3000, 'bottom', 'error'));
+  }
+
+  sendDataSuccess(response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        this.snackBarService.showSnackbar('Registro añadido correctamente.', 2000, 'bottom', 'success');
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al añadir el registro.', 3000, 'bottom', 'error');
+        break;
+    }
   }
 
   public getDate(date: Date) {
