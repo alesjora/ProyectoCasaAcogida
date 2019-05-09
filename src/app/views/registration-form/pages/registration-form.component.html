@@ -18,11 +18,10 @@
           </mat-form-field>
           <mat-form-field>
             <input matInput type="text" placeholder="Apellido 1" formControlName="surname1">
-            <mat-error *ngIf="surname1?.invalid">Los apellidos son obligatorios</mat-error>
+            <mat-error *ngIf="surname1?.invalid">Al menos un apellido es necesario</mat-error>
           </mat-form-field>
           <mat-form-field>
             <input matInput type="text" placeholder="Apellido 2" formControlName="surname2">
-            <mat-error *ngIf="surname2?.invalid">Los apellidos son obligatorios</mat-error>
           </mat-form-field>
           <div class='containerRadios'>
               <igx-radio *ngFor="let sexo of sexos" name="sexo"  [value]="sexo.value" [(ngModel)]="selectedSexo" formControlName="sexo">
@@ -30,17 +29,8 @@
               </igx-radio>
             </div>
           <div class='containerInput' >
-              <igx-date-picker [value]="date" formControlName="bornDate" [formatter]="formatter">
-                  <ng-template igxDatePickerTemplate let-openDialog="openDialog" let-value="value" let-displayData="displayData">
-                      <igx-input-group (click)="openDialog()">
-                          <label igxLabel>Fecha Nacimiento</label>
-                          <input igxInput [value]="displayData" />
-                          <igx-suffix>
-                              <igx-icon>today</igx-icon>
-                          </igx-suffix>
-                      </igx-input-group>
-                  </ng-template>
-              </igx-date-picker>
+              <igx-date-picker formControlName="bornDate" [value]="date" [(ngModel)]="date" [formatter]="formatter"
+              label="Fecha Nacimiento"></igx-date-picker>
           </div>
           <mat-form-field class="containerInputs">
               <mat-label>Lugar Nacimiento</mat-label>

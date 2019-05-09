@@ -13,13 +13,14 @@ import { element } from '@angular/core/src/render3';
   styleUrls: ['./registration-form.component.scss']
 })
 export class RegistrationFormComponent implements OnInit {
-  public date: Date = new Date(Date.now());
+  public date: Date;
 
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
 
   public registrationForm;
   public urlImagen: string | ArrayBuffer = '../../../../assets/photos/StandarProfile.png';
   private changedImage = false;
+
   public documents: Document[] = [];
   public paises = [];
   public sexos = [];
@@ -45,10 +46,10 @@ export class RegistrationFormComponent implements OnInit {
     this.registrationForm = this.fb.group({
       name: ['', [Validators.required]],
       surname1: ['', [Validators.required]],
-      surname2: ['',[Validators.required]],
+      surname2: [''],
       bornDate: [''],
       lugarNacimiento: [''],
-      sexo: [''],
+      sexo: ['', [Validators.required]],
       nacionalidad: [''],
       document: this.fb.array([
         this.fb.control(''),
@@ -65,8 +66,14 @@ export class RegistrationFormComponent implements OnInit {
   get name() {
     return this.registrationForm.get('name');
   }
-  get surnames() {
-    return this.registrationForm.get('surnames');
+  get surname1() {
+    return this.registrationForm.get('surname1');
+  }
+  get surname2() {
+    return this.registrationForm.get('surname2');
+  }
+  get bornDate() {
+    return this.registrationForm.get('bornDate');
   }
   get document() {
     return this.registrationForm.get('document') as FormArray;
@@ -78,16 +85,15 @@ export class RegistrationFormComponent implements OnInit {
     this.document.push(this.fb.control(''));
     this.documentType.push(this.fb.control(''));
   }
+
   onFileSelected(e) {
     // Creamos el objeto de la clase FileReader
     const reader = new FileReader();
-
     // Leemos el archivo subido y se lo pasamos a nuestro fileReader
     if (e.target.files.length === 0) {
       return;
     }
     reader.readAsDataURL(e.target.files[0]);
-
     // Le decimos que cuando este listo ejecute el código interno
     const these = this;
     reader.onload = () => {
@@ -119,6 +125,7 @@ export class RegistrationFormComponent implements OnInit {
 
     this.registrationFormService.sendData(data).subscribe(this.sendDataSuccess.bind(this));
   }
+
   public formatter = (date: Date) => {
     return `${date.getDate()} ${this.monthFormatter.format(date)}, ${date.getFullYear()}`;
   }
