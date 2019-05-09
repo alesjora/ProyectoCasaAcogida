@@ -112,9 +112,9 @@ export class RegistrationFormComponent implements OnInit {
                   (this.registrationForm.value.bornDate.getMonth() + 1) + '/' +
                   this.registrationForm.value.bornDate.getDate();
     const data = {
-      nombre: this.name.value,
-      apellido1 : this.registrationForm.value.surname1,
-      apellido2 : this.registrationForm.value.surname2,
+      nombre: this.name.value.trim(),
+      apellido1 : this.registrationForm.value.surname1.trim(),
+      apellido2 : this.registrationForm.value.surname2.trim(),
       fechaNacimiento : bornDate,
       lugarNacimiento: this.registrationForm.value.lugarNacimiento,
       sexo: this.registrationForm.value.sexo,
