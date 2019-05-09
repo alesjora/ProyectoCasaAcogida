@@ -16,9 +16,26 @@
 }
 
 .table-container {
-    overflow: auto;
-    height: 249px;
+  overflow: auto;
+  height: 249px;
+  scrollbar-color: #dddddd white;
+  scrollbar-width: thin;
+  tr{
+    width: 100%;
+    .primeraColumna{
+      width: 20%;
+    }
+  }
 }
+
+.table-container::-webkit-scrollbar{
+  width: 7px;
+}
+.table-container::-webkit-scrollbar-thumb{
+  background: #dddddd;
+  border-radius: 7px;
+}
+
 .igx-avatar {
     margin-right: 8px;
 }
@@ -31,12 +48,12 @@
     border-collapse: collapse;
     margin: 0px;
   }
-  
+
   .mat-row,
   .mat-header-row {
     display: table-row;
   }
-  
+
   .mat-cell,
   .mat-header-cell {
     @media (max-width: 500px) {
@@ -55,7 +72,7 @@
         display: grid;
         grid-gap: 16px;
         grid-template-columns: 1fr 1fr;
-        
+
     }
     @media (min-width: 1550px) {
         grid-template-columns: 1fr 1fr 1fr;
