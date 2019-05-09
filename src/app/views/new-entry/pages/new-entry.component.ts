@@ -11,45 +11,7 @@ import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
   styleUrls: ['./new-entry.component.scss']
 })
 export class NewEntryComponent implements OnInit {
-  public personalFiles = [
-    {
-      id: '1',
-      name: 'José Rafael Álvarez Espino',
-      image: 'http://localhost/api/public/image/StandarProfile.png',
-    }
-    ,
-    {
-      id: '2',
-      name: 'José Aguilera Ruiz',
-      image: 'http://localhost/api/public/image/StandarProfile.png',
-    }
-    ,
-    {
-      id: '3',
-      name: 'José Antonio Sánchez Guzmán',
-      image: 'http://localhost/api/public/image/StandarProfile.png',
-    }
-    ,
-    {
-      id: '4',
-      name: 'José Francisco Prieto Cruz',
-      image: 'http://localhost/api/public/image/StandarProfile.png',
-    }
-    ,
-    {
-      id: '5',
-      name: 'José Julián Garzón Easdo',
-      image: 'http://localhost/api/public/image/StandarProfile.png',
-    }
-    ,
-
-    {
-      id: '6',
-      name: 'Marcos Gallardo Pérez',
-      image: 'http://localhost/api/public/image/StandarProfile.png',
-    }
-  ];
-
+  public personalFiles = [];
   public rooms = [];
   public personalFileSelected;
   public personalFileId;
@@ -61,14 +23,17 @@ export class NewEntryComponent implements OnInit {
   public selectedRoom;
 
 
-  constructor(public fb: FormBuilder, public newEntryService: NewEntryService, public logoutService:LogoutService, public snackBarService: SnackBarService) {
+  constructor(public fb: FormBuilder,
+              public newEntryService: NewEntryService,
+              public logoutService: LogoutService,
+              public snackBarService: SnackBarService) {
     this.date = new Date(Date.now());
     this.time = this.date;
   }
 
   createForm() {
     this.newEntryForm = this.fb.group({
-      personalFile: ['', [Validators.required, CustomValidators.namePersonSelectedValidator(this.personalFiles, 'personalFile')]],
+      personalFile: [''],
       entryDate: [''],
       entryTime: [''],
       room: ['', [Validators.required]],
@@ -76,9 +41,14 @@ export class NewEntryComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.newEntryService.getRoomsAndBedsAvailable().subscribe(this.getRoomsAndBedsAvailableSuccess.bind(this),
-    )
     this.createForm();
+
+    this.newEntryService.getRoomsAndBedsAvailable().subscribe(this.getRoomsAndBedsAvailableSuccess.bind(this),
+      this.snackBarService.showSnackbar.bind(this, 'Error al conectar con el servidor', 3000, 'bottom', 'error'));
+
+    this.newEntryService.getPersonsAvailables().subscribe(this.getPersonsAvailablesSuccess.bind(this),
+      this.snackBarService.showSnackbar.bind(this, 'Error al conectar con el servidor', 3000, 'bottom', 'error'));
+
   }
 
   getRoomsAndBedsAvailableSuccess(response) {
@@ -88,10 +58,25 @@ export class NewEntryComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         this.rooms = response.data;
-        console.log(response.data);
+        console.log(this.rooms);
         break;
       default:
         this.snackBarService.showSnackbar('No hay camas disponibles.', 3000, 'bottom', 'error');
+        break;
+    }
+  }
+
+  getPersonsAvailablesSuccess(response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        this.personalFiles = response.data;
+        this.newEntryForm.get('personalFile').setValidators([Validators.required, CustomValidators.namePersonSelectedValidator(this.personalFiles, 'personalFile')]);
+        break;
+      default:
+        this.snackBarService.showSnackbar('No hay personas disponibles.', 3000, 'bottom', 'error');
         break;
     }
   }
@@ -114,12 +99,12 @@ export class NewEntryComponent implements OnInit {
 
   selectPerson(person) {
     this.personalFileId = person.id;
-    return person.name;
+    return person.name + ' ' + person.surname1 + ' ' + person.surname2;
   }
 
   selectBedsOfRoom() {
     const room = this.rooms.find(value => {
-        return value.id === this.room.value;
+      return value.id === this.room.value;
     });
     if (room == null) {
       return;

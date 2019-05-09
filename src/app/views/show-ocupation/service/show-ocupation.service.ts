@@ -6,14 +6,11 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class NewEntryService {
+export class ShowOcupationService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getRoomsAndBedsAvailable(): Observable<any> {
-    return this.httpClient.get(environment.urlAPI + 'obtenerCamasLibres');
-  }
-  getPersonsAvailables(): Observable<any> {
-    return this.httpClient.get(environment.urlAPI + 'obtenerPersonasFueraDeCasa');
+  getOccupation(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerOcupacion');
   }
 }

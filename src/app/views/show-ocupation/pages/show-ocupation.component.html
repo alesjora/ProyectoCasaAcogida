@@ -1,5 +1,5 @@
 <div class="listCards">
-  <div class="card" *ngFor="let item of prueba.data">
+  <div class="card" *ngFor="let item of occupation">
     <h5>Habitación {{ item.room }}</h5>
     <div class="table-container mat-elevation-z8">
       <table mat-table [dataSource]="item.beds">
@@ -19,7 +19,7 @@
             <ng-template #showData>
               <div class="container_data" routerLink="/dashboard/ficha-personal/{{element.occupant.id}}">
                   <igx-avatar [src]="element.occupant.image" roundShape="true"></igx-avatar>
-                  <span>{{element.occupant.name}} {{element.occupant.surnames}}</span>
+                  <span>{{element.occupant.name}} {{element.occupant.surname1}} {{element.occupant.surname2}}</span>
               </div>
             </ng-template>
           </td>
