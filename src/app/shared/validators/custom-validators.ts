@@ -14,7 +14,8 @@ export class CustomValidators {
             const valueInput = control.value;
             // const password2 = group.controls[password2Key].value;
             const found = persons.find(value => {
-                return value.name === valueInput;
+                let nombre = value.name + ' ' + value.surname1 + ' ' + value.surname2;
+                return value.name + ' ' + value.surname1 + ' ' + value.surname2 === valueInput;
             });
             // return password !== password2 ? { matchPassword: true } : null;
             return found ? null : { namePersonSelectedValidator: true };

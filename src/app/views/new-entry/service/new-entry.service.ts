@@ -13,4 +13,7 @@ export class NewEntryService {
   getRoomsAndBedsAvailable(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerCamasLibres');
   }
+  getPersonsAvailables(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerPersonasFueraDeCasa');
+  }
 }
