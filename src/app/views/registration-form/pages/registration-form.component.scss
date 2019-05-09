@@ -79,7 +79,10 @@ button[type=submit] {
         display: flex;
         justify-content: flex-end;
         button{
-          width: 30%;
+          width: 80%;
+          @media (min-width: 800px) {
+            width: 50%;
+          }
         }
       }
       .containerInputsDocumentation{
