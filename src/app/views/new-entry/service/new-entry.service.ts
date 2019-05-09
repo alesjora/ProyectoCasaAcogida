@@ -16,4 +16,7 @@ export class NewEntryService {
   getPersonsAvailables(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerPersonasFueraDeCasa');
   }
+  sendData(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'agregarNuevaEntrada', data);
+  }
 }
