@@ -44,7 +44,7 @@
       display: table-cell;
       padding: 0px 5px;
       line-break: unset;
-      width: 100%;
+      *width: 100%;
       white-space: nowrap;
       overflow: hidden;
       vertical-align: middle;
@@ -55,7 +55,7 @@
         display: grid;
         grid-gap: 16px;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 200px;
+        
     }
     @media (min-width: 1550px) {
         grid-template-columns: 1fr 1fr 1fr;

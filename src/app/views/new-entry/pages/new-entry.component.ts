@@ -58,6 +58,7 @@ export class NewEntryComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         this.rooms = response.data;
+        console.log(this.rooms);
         break;
       default:
         this.snackBarService.showSnackbar('No hay camas disponibles.', 3000, 'bottom', 'error');
