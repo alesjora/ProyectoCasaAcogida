@@ -3,6 +3,10 @@ p a {
   color: orange;
 }
 
+p a:hover {
+  cursor: pointer;
+}
+
 mat-form-field {
   width: 100%;
 }

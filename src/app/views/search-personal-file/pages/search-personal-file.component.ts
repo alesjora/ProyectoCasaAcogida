@@ -27,9 +27,7 @@ export class SearchPersonalFileComponent implements OnInit {
     _fo.inputValue = this.search;
     return _fo;
   }
-  mostrar() {
-    console.log(this.search);
-  }
+  
   public ngOnInit() {
     const data = [];
     this.searchPersonalFileService.getPersonalFile().subscribe(response => {
@@ -40,7 +38,7 @@ export class SearchPersonalFileComponent implements OnInit {
         case 'OPERATION_SUCCESS':
           this.show = true;
           response.data.forEach(element => {
-            data.push(new PersonTable(element.key, element.name, element.surname, element.avatar, element.documentation));
+            data.push(new PersonTable(element.key, element.name, element.surname1, element.surname2, element.avatar));
           });
           this.data = data;
           break;

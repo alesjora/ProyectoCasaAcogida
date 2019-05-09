@@ -1,7 +1,7 @@
 <div *ngIf="show">
   <div class="header">
     <igx-input-group class="search" type="search">
-      <input #searchBar igxInput placeholder="Buscar ficha personal" [(ngModel)]="search" (keyup)="mostrar()" />
+      <input #searchBar igxInput placeholder="Buscar ficha personal" [(ngModel)]="search"/>
       <igx-prefix>
         <igx-icon>search</igx-icon>
       </igx-prefix>
@@ -26,13 +26,13 @@
               <div class="complete_contact_info">
                 <div class="contact__info">
                   <span>{{item.name}}</span>
-                  <span>&nbsp;{{item.surname}}</span>
+                  <span>&nbsp;{{item.surname1}} {{item.surname2}}</span>
                 </div>
-                <span class="documentation_responsive">{{item.documentation}}</span>
+                <!-- <span class="documentation_responsive">{{item.documentation}}</span> -->
               </div>
             </div>
-            <span *ngIf="item.documentation !== ''" class="documentation">Documento de identificación:
-              {{item.documentation}}</span>
+            <!-- <span *ngIf="item.documentation !== ''" class="documentation">Documento de identificación:
+              {{item.documentation}}</span> -->
           </div>
         </igx-list-item>
       </div>

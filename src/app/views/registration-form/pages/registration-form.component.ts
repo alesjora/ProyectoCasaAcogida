@@ -5,6 +5,7 @@ import { RegistrationFormService } from '../service/registration-form.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { element } from '@angular/core/src/render3';
+import { Router } from '@angular/router';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -31,7 +32,8 @@ export class RegistrationFormComponent implements OnInit {
               private storeService: StoreService,
               private registrationFormService: RegistrationFormService,
               private snackBarService: SnackBarService,
-              private logoutService: LogoutService) {
+              private logoutService: LogoutService,
+              private router: Router) {
     this.storeService.checkPermission();
     this.storeService.sendCurrentRoute('Nueva ficha personal');
   }
@@ -138,6 +140,10 @@ export class RegistrationFormComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         this.snackBarService.showSnackbar('Ficha creada correctamente.', 1000, 'bottom', 'success');
+        if (this.storeService.getComeFromNewEntry()) {
+          this.storeService.setComeFromNewEntry(false);
+          this.router.navigate(['/dashboard/nuevo-ingreso']);
+        }
         break;
       case 'DOCUMENTATION_EXISTS':
         this.snackBarService.showSnackbar('El documento de identidad ya existe.', 1000, 'bottom', 'error');

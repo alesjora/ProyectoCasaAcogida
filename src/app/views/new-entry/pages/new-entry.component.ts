@@ -4,6 +4,8 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { NewEntryService } from '../service/new-entry.service';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { StoreService } from 'src/app/shared/services/store.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-entry',
@@ -26,16 +28,18 @@ export class NewEntryComponent implements OnInit {
   constructor(public fb: FormBuilder,
               public newEntryService: NewEntryService,
               public logoutService: LogoutService,
-              public snackBarService: SnackBarService) {
+              public snackBarService: SnackBarService,
+              public storeService: StoreService,
+              public router: Router) {
     this.date = new Date(Date.now());
     this.time = this.date;
   }
 
   createForm() {
     this.newEntryForm = this.fb.group({
-      personalFile: [''],
-      entryDate: [''],
-      entryTime: [''],
+      personalFile: ['', [Validators.required]],
+      entryDate: ['', [Validators.required]],
+      entryTime: ['', [Validators.required]],
       room: ['', [Validators.required]],
       bed: ['', [Validators.required]]
     });
@@ -51,6 +55,12 @@ export class NewEntryComponent implements OnInit {
 
   }
 
+  goToRegistrationForm() {
+    this.storeService.setComeFromNewEntry(true);
+    this.router.navigate(['/dashboard/nueva-ficha-personal']);
+    //routerLink="/dashboard/nueva-ficha-personal" 
+  }
+
   getRoomsAndBedsAvailableSuccess(response) {
     switch (response.status) {
       case 'SESSION_EXPIRED':
@@ -58,7 +68,7 @@ export class NewEntryComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         this.rooms = response.data;
-        console.log(this.rooms);
+        //console.log(this.rooms);
         break;
       default:
         this.snackBarService.showSnackbar('No hay camas disponibles.', 3000, 'bottom', 'error');
@@ -73,7 +83,7 @@ export class NewEntryComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         this.personalFiles = response.data;
-        this.newEntryForm.get('personalFile').setValidators([Validators.required, CustomValidators.namePersonSelectedValidator(this.personalFiles, 'personalFile')]);
+        this.newEntryForm.get('personalFile').setValidators([CustomValidators.namePersonSelectedValidator(this.personalFiles, 'personalFile')]);
         break;
       default:
         this.snackBarService.showSnackbar('No hay personas disponibles.', 3000, 'bottom', 'error');
@@ -134,6 +144,10 @@ export class NewEntryComponent implements OnInit {
   public getTime(date: Date) {
     return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
   }
+
+  // public validateTime(){
+  //   if()
+  // }
 }
 @Pipe({ name: 'startsWith' })
 export class AutocompletePipeStartsWith implements PipeTransform {

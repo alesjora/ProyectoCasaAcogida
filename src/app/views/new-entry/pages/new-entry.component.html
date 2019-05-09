@@ -13,7 +13,7 @@
         <span>&nbsp; {{ personalFile.name }} {{ personalFile.surname1 }} {{ personalFile.surname2 }}</span>
       </igx-drop-down-item>
     </igx-drop-down>
-    <p>¿No existe la persona? Pulse <a routerLink="/dashboard/nueva-ficha-personal">aquí</a> para crear una nueva ficha personal</p>
+    <p>¿No existe la persona? Pulse <a (click)="goToRegistrationForm()">aquí</a> para crear una nueva ficha personal</p>
     <br>
     <div class="date_time">
       <igx-date-picker formControlName="entryDate" [value]="date" [(ngModel)]="date" [formatter]="formatter"
@@ -26,7 +26,7 @@
               <igx-icon>access_time</igx-icon>
             </igx-prefix>
             <label igxLabel>Hora de entrada</label>
-            <input igxInput [value]="displayTime" />
+            <input igxInput [value]="displayTime"/>
           </igx-input-group>
         </ng-template>
       </igx-time-picker>

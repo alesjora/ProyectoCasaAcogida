@@ -10,6 +10,7 @@ export class StoreService {
 
   private user: User;
   private currentRoute = new Subject<string>();
+  private comeFromNewEntry: boolean = false;
 
   constructor(private router: Router) { }
 
@@ -41,5 +42,11 @@ export class StoreService {
     if (this.getUserProfile() !== 'conserje') {
       this.router.navigate(['dashboard']);
     }
+  }
+  public getComeFromNewEntry(){
+    return this.comeFromNewEntry;
+  }
+  public setComeFromNewEntry(comeFromNewEntry) {
+    this.comeFromNewEntry = comeFromNewEntry;
   }
 }
