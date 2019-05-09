@@ -12,7 +12,8 @@ import { environment } from 'src/environments/environment';
 export class ShowPersonalFileComponent implements OnInit {
   srcImagen: string;
   nombre: string;
-  apellidos: string;
+  apellido1: string;
+  apellido2: string;
   documentation: string;
   email: string;
   phone: string;
@@ -38,7 +39,8 @@ export class ShowPersonalFileComponent implements OnInit {
             this.srcImagen = environment.urlImage + 'StandarProfile.png';
           }
           this.nombre = response.data.mainData[0].nombre;
-          this.apellidos = response.data.mainData[0].apellidos;
+          this.apellido1 = response.data.mainData[0].apellido1;
+          this.apellido2 = response.data.mainData[0].apellido2;
           this.documentation = response.data.mainData[0].dni;
           this.email = 'marcos@gmail.com';
           this.phone = '654987321';
