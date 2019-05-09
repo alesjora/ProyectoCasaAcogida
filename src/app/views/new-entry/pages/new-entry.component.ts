@@ -1,6 +1,9 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { NewEntryService } from '../service/new-entry.service';
+import { LogoutService } from 'src/app/shared/services/logout.service';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-new-entry',
@@ -47,40 +50,60 @@ export class NewEntryComponent implements OnInit {
     }
   ];
 
-  public rooms = [{id: '1', number: '1'}, {id: '2', number: '2'}, {id: '3', number: '3'}];
-  public beds = [{id: '1', number: '1'}, {id: '2', number: '2'}, {id: '3', number: '3'}];
-
-
-
-
+  public rooms = [];
   public personalFileSelected;
   public personalFileId;
   public newEntryForm;
   public date: Date;
+  public time: Date;
   private dayFormatter = new Intl.DateTimeFormat('es', { weekday: 'long' });
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
   public selectedRoom;
 
 
-  constructor(public fb: FormBuilder) {
+  constructor(public fb: FormBuilder, public newEntryService: NewEntryService, public logoutService:LogoutService, public snackBarService: SnackBarService) {
     this.date = new Date(Date.now());
+    this.time = this.date;
   }
 
   createForm() {
     this.newEntryForm = this.fb.group({
       personalFile: ['', [Validators.required, CustomValidators.namePersonSelectedValidator(this.personalFiles, 'personalFile')]],
       entryDate: [''],
-      entryHour: [''],
+      entryTime: [''],
       room: ['', [Validators.required]],
       bed: ['', [Validators.required]]
     });
   }
   ngOnInit() {
+    this.newEntryService.getRoomsAndBedsAvailable().subscribe(this.getRoomsAndBedsAvailableSuccess.bind(this),
+    )
     this.createForm();
   }
 
-  get personalFile(){
+  getRoomsAndBedsAvailableSuccess(response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        this.rooms = response.data;
+        console.log(response.data);
+        break;
+      default:
+        this.snackBarService.showSnackbar('No hay camas disponibles.', 3000, 'bottom', 'error');
+        break;
+    }
+  }
+
+  get personalFile() {
     return this.newEntryForm.get('personalFile');
+  }
+  get entryDate() {
+    return this.newEntryForm.get('entryDate');
+  }
+  get entryTime() {
+    return this.newEntryForm.get('entryTime');
   }
   get room() {
     return this.newEntryForm.get('room');
@@ -94,13 +117,37 @@ export class NewEntryComponent implements OnInit {
     return person.name;
   }
 
+  selectBedsOfRoom() {
+    const room = this.rooms.find(value => {
+        return value.id === this.room.value;
+    });
+    if (room == null) {
+      return;
+    }
+    return room.beds;
+  }
+
   public formatter = (date: Date) => {
     // tslint:disable-next-line:max-line-length
     return `${this.dayFormatter.format(date)}, ${date.getDate()} ${this.monthFormatter.format(date)}, ${date.getFullYear()}`;
   }
 
   public sendData() {
-    console.log(this.personalFileId);
+    const data = {
+      idPersonalFile: this.personalFileId,
+      entryDate: this.getDate(this.entryDate.value),
+      entryHour: this.getTime(this.entryTime.value),
+      idRoom: this.room.value,
+      idBed: this.bed.value
+    };
+    console.log(data);
+  }
+
+  public getDate(date: Date) {
+    return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+  }
+  public getTime(date: Date) {
+    return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
   }
 }
 @Pipe({ name: 'startsWith' })
