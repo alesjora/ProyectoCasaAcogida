@@ -17,7 +17,7 @@
                   <mat-chip class="available" selected>Cama libre</mat-chip>
               </ng-container>
             <ng-template #showData>
-              <div class="container_data" routerLink="/dashboard/ficha-personal/{{element.occupant.id}}">
+              <div class="container_data name_avatar" routerLink="/dashboard/ficha-personal/{{element.occupant.id}}">
                   <igx-avatar [src]="element.occupant.image" roundShape="true"></igx-avatar>
                   <span>{{element.occupant.name}} {{element.occupant.surname1}} {{element.occupant.surname2}}</span>
               </div>

@@ -19,7 +19,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Nombre y apellidos</th>
-          <td mat-cell *matCellDef="let element">
+          <td class="name_avatar" mat-cell *matCellDef="let element">
             <igx-avatar [src]="element.image" roundShape="true"></igx-avatar>
             {{element.name}}
           </td>

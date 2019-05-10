@@ -13,7 +13,7 @@ export class InicioComponent implements OnInit {
   public data: object[] = [];
   displayedColumns = ['name', 'entry_date', 'departure_date', 'room', 'bed'];
   dataSource = ELEMENT_DATA;
-  constructor(private storeService: StoreService,
+  constructor(public storeService: StoreService,
     private logoutService: LogoutService) { }
 
   ngOnInit() {
