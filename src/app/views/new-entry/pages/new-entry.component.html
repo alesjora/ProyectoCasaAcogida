@@ -1,10 +1,10 @@
 <div class="container">
   <h5>Nuevo registro de entrada</h5>
-  <form [formGroup]="newEntryForm" (ngSubmit)="newEntryForm.valid ? sendData(): null">
-    <igx-input-group class="autocomplete" [disabled]="personalFiles.length === 0">
+  <form [formGroup]="newEntryForm" #formDirective="ngForm" (ngSubmit)="newEntryForm.valid ? sendData(): null">
+    <igx-input-group class="autocomplete" [disabled]="personalFiles.length === 0 || personalFiles === null">
       <label igxLabel for="personalFile">Nombre de la persona</label>
       <input igxInput name="personalFile" type="text" [igxAutocomplete]="personalFilesPanel"
-        [(ngModel)]="personalFileSelected" formControlName="personalFile" />
+        [(ngModel)]="personalFileSelected" formControlName="personalFile"/>
     </igx-input-group>
     <igx-drop-down #personalFilesPanel maxHeight="300px">
       <igx-drop-down-item *ngFor="let personalFile of personalFiles | startsWith:personalFileSelected"
@@ -35,7 +35,7 @@
     <div class="room_bed">
       <mat-form-field>
         <mat-label>Selecciona una habitación</mat-label>
-        <mat-select formControlName="room" [disabled]="rooms.length === 0">
+        <mat-select formControlName="room" [disabled]="rooms.length === 0" required>
           <mat-option *ngFor="let room of rooms" [value]="room.id">
             Habitación {{room.number}}
           </mat-option>
@@ -43,14 +43,14 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Selecciona una cama</mat-label>
-        <mat-select formControlName="bed" [disabled]="room.value === ''">
+        <mat-select formControlName="bed" [disabled]="room.value === ''" required>
           <mat-option *ngFor="let bed of selectBedsOfRoom()" [value]="bed.id">
             Cama {{bed.number}}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <button type="submit" mat-raised-button color="primary" [disabled]="newEntryForm.invalid">Crear registro de
+    <button type="submit" mat-raised-button color="primary" [disabled]="newEntryForm.invalid || personalFile.value === ''">Crear registro de
       entrada</button>
   </form>
 </div>

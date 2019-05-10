@@ -1,5 +1,5 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
+import { FormBuilder, Validators, NgForm } from '@angular/forms';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { NewEntryService } from '../service/new-entry.service';
 import { LogoutService } from 'src/app/shared/services/logout.service';
@@ -23,6 +23,8 @@ export class NewEntryComponent implements OnInit {
   private dayFormatter = new Intl.DateTimeFormat('es', { weekday: 'long' });
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
   public selectedRoom;
+  @ViewChild('formDirective') private formDirective: NgForm;
+
 
 
   constructor(public fb: FormBuilder,
@@ -40,13 +42,16 @@ export class NewEntryComponent implements OnInit {
       personalFile: ['', [Validators.required]],
       entryDate: ['', [Validators.required]],
       entryTime: ['', [Validators.required]],
-      room: ['', [Validators.required]],
-      bed: ['', [Validators.required]]
+      room: ['', [Validators.required, Validators.min(1)]],
+      bed: ['', [Validators.required, Validators.min(1)]]
     });
   }
   ngOnInit() {
     this.createForm();
+    this.getDataFromServer();
+  }
 
+  getDataFromServer() {
     this.newEntryService.getRoomsAndBedsAvailable().subscribe(this.getRoomsAndBedsAvailableSuccess.bind(this),
       this.snackBarService.showSnackbar.bind(this, 'Error al conectar con el servidor', 3000, 'bottom', 'error'));
 
@@ -58,7 +63,6 @@ export class NewEntryComponent implements OnInit {
   goToRegistrationForm() {
     this.storeService.setComeFromNewEntry(true);
     this.router.navigate(['/dashboard/nueva-ficha-personal']);
-    //routerLink="/dashboard/nueva-ficha-personal" 
   }
 
   getRoomsAndBedsAvailableSuccess(response) {
@@ -68,7 +72,6 @@ export class NewEntryComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         this.rooms = response.data;
-        //console.log(this.rooms);
         break;
       default:
         this.snackBarService.showSnackbar('No hay camas disponibles.', 3000, 'bottom', 'error');
@@ -83,9 +86,11 @@ export class NewEntryComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         this.personalFiles = response.data;
-        this.newEntryForm.get('personalFile').setValidators([CustomValidators.namePersonSelectedValidator(this.personalFiles, 'personalFile')]);
+        this.newEntryForm.get('personalFile').setValidators(
+          [CustomValidators.namePersonSelectedValidator(this.personalFiles, 'personalFile')]);
         break;
       default:
+        this.personalFiles = [];
         this.snackBarService.showSnackbar('No hay personas disponibles.', 3000, 'bottom', 'error');
         break;
     }
@@ -147,11 +152,20 @@ export class NewEntryComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         this.snackBarService.showSnackbar('Registro añadido correctamente.', 2000, 'bottom', 'success');
+        this.getDataFromServer();
+        this.cleanForm();
         break;
       default:
         this.snackBarService.showSnackbar('Error al añadir el registro.', 3000, 'bottom', 'error');
         break;
     }
+  }
+
+  public cleanForm() {
+    this.newEntryForm.reset();
+    this.formDirective.resetForm();
+    this.personalFile.value = '';
+    this.personalFile.setErrors(null);
   }
 
   public getDate(date: Date) {
@@ -168,7 +182,7 @@ export class NewEntryComponent implements OnInit {
 @Pipe({ name: 'startsWith' })
 export class AutocompletePipeStartsWith implements PipeTransform {
   public transform(collection: any[], term = '') {
-    if (term === '') {
+    if (term === '' || collection.length === 0 || collection === null) {
       return;
     }
     return collection.filter((item) => {
