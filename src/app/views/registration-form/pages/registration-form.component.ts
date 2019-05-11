@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { FormBuilder, Validators, FormArray, NgForm } from '@angular/forms';
 import { StoreService } from 'src/app/shared/services/store.service';
 import { RegistrationFormService } from '../service/registration-form.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./registration-form.component.scss']
 })
 export class RegistrationFormComponent implements OnInit {
-  public date: Date;
 
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
 
@@ -28,6 +27,9 @@ export class RegistrationFormComponent implements OnInit {
 
 
   public selectedSexo: string;
+
+  @ViewChild('formDirective') private formDirective: NgForm;
+
   constructor(private fb: FormBuilder,
               private storeService: StoreService,
               private registrationFormService: RegistrationFormService,
@@ -49,9 +51,9 @@ export class RegistrationFormComponent implements OnInit {
       name: ['', [Validators.required]],
       surname1: ['', [Validators.required]],
       surname2: [''],
+      sexo: ['', [Validators.required]],
       bornDate: [''],
       lugarNacimiento: [''],
-      sexo: ['', [Validators.required]],
       nacionalidad: [''],
       document: this.fb.array([
         this.fb.control(''),
@@ -108,13 +110,16 @@ export class RegistrationFormComponent implements OnInit {
 
   public sendData() {
     const imagen: string | ArrayBuffer = (this.changedImage) ? this.urlImagen : '';
-    const bornDate = this.registrationForm.value.bornDate.getFullYear() + '/' +
-                  (this.registrationForm.value.bornDate.getMonth() + 1) + '/' +
-                  this.registrationForm.value.bornDate.getDate();
+    let bornDate = '';
+    if ( this.bornDate.value !== '' ) {
+        bornDate = this.bornDate.value.getFullYear() + '/' +
+                  (this.bornDate.value.getMonth() + 1) + '/' +
+                  this.bornDate.value.getDate();
+    }
     const data = {
-      nombre: this.name.value.trim(),
-      apellido1 : this.registrationForm.value.surname1.trim(),
-      apellido2 : this.registrationForm.value.surname2.trim(),
+      nombre: (this.name.value) ? this.name.value.trim() : '',
+      apellido1 : (this.registrationForm.value.surname2) ? this.registrationForm.value.surname1.trim() : '',
+      apellido2 : (this.registrationForm.value.surname2) ? this.registrationForm.value.surname2.trim() : '',
       fechaNacimiento : bornDate,
       lugarNacimiento: this.registrationForm.value.lugarNacimiento,
       sexo: this.registrationForm.value.sexo,
@@ -126,6 +131,8 @@ export class RegistrationFormComponent implements OnInit {
     };
 
     this.registrationFormService.sendData(data).subscribe(this.sendDataSuccess.bind(this));
+    this.cleanForm();
+
   }
 
   public formatter = (date: Date) => {
@@ -200,7 +207,15 @@ export class RegistrationFormComponent implements OnInit {
         break;
     }
   }
+  cleanForm(){
+    this.registrationForm.controls.document =  this.fb.array([this.fb.control('')]);
+    this.registrationForm.controls.documentType =  this.fb.array([this.fb.control('')]);
+    this.registrationForm.reset();
+    this.formDirective.resetForm();
+    this.urlImagen = '../../../../assets/photos/StandarProfile.png';
+  }
 }
+
 interface Document {
   value: number;
   viewValue: string;

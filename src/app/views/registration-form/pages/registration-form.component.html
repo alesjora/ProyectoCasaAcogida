@@ -1,7 +1,7 @@
 <div class="registrationForm-page">
   <h2 class="myH2">Ficha personal</h2>
   <div class="registrationForm-container">
-    <form class="registrationForm-form formularioContainer" [formGroup]="registrationForm"
+    <form class="registrationForm-form formularioContainer" #formDirective="ngForm" [formGroup]="registrationForm"
       (ngSubmit)="registrationForm.valid ? sendData(): null">
       <div class='formHeader'>
         <div class='formLeft'>
@@ -29,7 +29,7 @@
               </igx-radio>
             </div>
           <div class='containerInput' >
-              <igx-date-picker formControlName="bornDate" [value]="date" [(ngModel)]="date" [formatter]="formatter"
+              <igx-date-picker formControlName="bornDate" [formatter]="formatter"
               label="Fecha Nacimiento"></igx-date-picker>
           </div>
           <mat-form-field class="containerInputs">
