@@ -11,6 +11,7 @@ export class StoreService {
   private user: User;
   private currentRoute = new Subject<string>();
   private comeFromNewEntry: boolean = false;
+  private userCreated: any = null;
 
   constructor(private router: Router) { }
 
@@ -38,9 +39,9 @@ export class StoreService {
   public getCurrentRoute(): Observable<any> {
     return this.currentRoute.asObservable();
   }
-  public checkPermission() {
-    if (this.getUserProfile() !== 'conserje') {
-      this.router.navigate(['dashboard']);
+  public checkPermission(profile) {
+    if (this.getUserProfile() !== profile) {
+      this.router.navigate(['/dashboard/inicio']);
     }
   }
   public getComeFromNewEntry(){
@@ -48,5 +49,11 @@ export class StoreService {
   }
   public setComeFromNewEntry(comeFromNewEntry) {
     this.comeFromNewEntry = comeFromNewEntry;
+  }
+  public getUserCreated() {
+    return this.userCreated;
+  }
+  public setUserCreated(userCreated) {
+    this.userCreated = userCreated;
   }
 }

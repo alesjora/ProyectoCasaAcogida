@@ -27,6 +27,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ];
   public menuTecnico = [
     { name: 'home', text: 'Inicio', url: 'inicio' },
+    { name: 'compare_arrows', text: 'Registros', url: 'registros' },
+    { name: 'airline_seat_individual_suite', text: 'Ocupación', url: 'ocupacion' },
     { name: 'person', text: 'Fichas personales', url: 'fichas-personales' },
     { name: 'exit_to_app', text: 'Cerrar sesión', url: 'logout' }
   ];

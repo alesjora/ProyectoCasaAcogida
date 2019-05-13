@@ -36,7 +36,6 @@ export class RegistrationFormComponent implements OnInit {
               private snackBarService: SnackBarService,
               private logoutService: LogoutService,
               private router: Router) {
-    this.storeService.checkPermission();
     this.storeService.sendCurrentRoute('Nueva ficha personal');
   }
 
@@ -148,6 +147,10 @@ export class RegistrationFormComponent implements OnInit {
       case 'OPERATION_SUCCESS':
         this.snackBarService.showSnackbar('Ficha creada correctamente.', 1000, 'bottom', 'success');
         if (this.storeService.getComeFromNewEntry()) {
+          this.storeService.setUserCreated({
+            id : response.data.id,
+            name: response.data.name
+          });
           this.storeService.setComeFromNewEntry(false);
           this.router.navigate(['/dashboard/nuevo-ingreso']);
         }

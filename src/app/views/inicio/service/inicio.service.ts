@@ -9,7 +9,6 @@ import { environment } from 'src/environments/environment';
 export class InicioService {
 
   constructor(private httpClient: HttpClient) { }
-  
   getPersonasEnCasa(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerPersonasEnCasa');
   }

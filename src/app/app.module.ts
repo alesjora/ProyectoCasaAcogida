@@ -10,7 +10,7 @@ import { ConexionInterceptorService } from './shared/interceptors/conexion-inter
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent  
   ],
   imports: [
     BrowserModule,

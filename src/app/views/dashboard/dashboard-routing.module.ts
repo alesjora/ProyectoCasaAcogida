@@ -25,6 +25,10 @@ const routes: Routes = [
       loadChildren: './../new-entry/new-entry.module#NewEntryModule'
     },
     {
+      path: 'registros',
+      loadChildren: './../entry-records/entry-records.module#EntryRecordsModule'
+    },
+    {
       path: 'fichas-personales',
       loadChildren: './../search-personal-file/search-personal-file.module#SearchPersonalFileModule'
     },

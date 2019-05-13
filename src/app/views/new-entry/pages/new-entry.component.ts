@@ -47,6 +47,12 @@ export class NewEntryComponent implements OnInit {
     });
   }
   ngOnInit() {
+    if(this.storeService.getUserCreated() !== null){
+      let data = this.storeService.getUserCreated();
+      this.personalFileSelected = data.name;
+      this.personalFileId = data.id;
+      this.storeService.setUserCreated(null);
+    }
     this.createForm();
     this.getDataFromServer();
   }
@@ -152,8 +158,9 @@ export class NewEntryComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         this.snackBarService.showSnackbar('Registro añadido correctamente.', 2000, 'bottom', 'success');
-        this.getDataFromServer();
-        this.cleanForm();
+        this.router.navigate(['/dashboard/inicio']);
+        //this.getDataFromServer();
+        //this.cleanForm();
         break;
       default:
         this.snackBarService.showSnackbar('Error al añadir el registro.', 3000, 'bottom', 'error');

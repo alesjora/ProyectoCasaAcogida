@@ -1,6 +1,6 @@
 <div class="listCards">
   <div class="card" *ngFor="let item of occupation">
-    <h5>Habitación {{ item.room }}</h5>
+    <h5>Habitación {{ item.room }} ({{ item.type }})</h5>
     <div class="table-container mat-elevation-z8">
       <table class="table" mat-table [dataSource]="item.beds">
         <!-- Number of Bed Column -->
