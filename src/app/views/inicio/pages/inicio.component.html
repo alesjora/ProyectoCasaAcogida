@@ -19,7 +19,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre y apellidos</th>
-          <td class="name_avatar" mat-cell *matCellDef="let element">
+          <td class="name_avatar" mat-cell *matCellDef="let element" routerLink="/dashboard/ficha-personal/{{element.id}}">
             <igx-avatar [src]="element.image" roundShape="true"></igx-avatar>
             {{element.name}} {{ element.surname1}} {{ element.surname2}}
           </td>
@@ -50,7 +50,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/dashboard/ficha-personal/{{row.id}}">
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
         </tr>
       </table>
     </div>

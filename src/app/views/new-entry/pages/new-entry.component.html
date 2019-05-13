@@ -10,7 +10,7 @@
       <igx-drop-down-item *ngFor="let personalFile of personalFiles | startsWith:personalFileSelected"
         [value]="selectPerson(personalFile)">
         <igx-avatar [src]="personalFile.image" roundShape="true"></igx-avatar>
-        <span>&nbsp; {{ personalFile.name }} {{ personalFile.surname1 }} {{ personalFile.surname2 }}</span>
+        <span>&nbsp; {{ personalFile.name }} {{ personalFile.surname1 }} {{ personalFile.surname2 === 'null' ? '' :  personalFile.surname2}}</span>
       </igx-drop-down-item>
     </igx-drop-down>
     <p>¿No existe la persona? Pulse <a (click)="goToRegistrationForm()">aquí</a> para crear una nueva ficha personal</p>

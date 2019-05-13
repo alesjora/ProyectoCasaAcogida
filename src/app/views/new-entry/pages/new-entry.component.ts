@@ -175,9 +175,6 @@ export class NewEntryComponent implements OnInit {
     return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
   }
 
-  // public validateTime(){
-  //   if()
-  // }
 }
 @Pipe({ name: 'startsWith' })
 export class AutocompletePipeStartsWith implements PipeTransform {

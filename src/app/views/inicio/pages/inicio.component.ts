@@ -15,6 +15,7 @@ export class InicioComponent implements OnInit {
   public data: object[] = [];
   displayedColumns = ['name', 'entry_date', 'departure_date', 'room', 'bed'];
   public dataSource;
+  public valueFilter: string = 'Todo';
   @ViewChild(MatSort) sort: MatSort;
   constructor(public storeService: StoreService,
     private logoutService: LogoutService,
@@ -40,15 +41,15 @@ export class InicioComponent implements OnInit {
   generarData(data) {
     let arrayData: Array<PersonElement> = [];
     data.forEach(element => {
-      let search = element.name + " " + element.surname1 + " " + element.surname2 + " " + element.entry_date + " " + element.departure_date + " " + element.room + " " + element.bed;
+      let search = element.name + " " + element.surname1 + " " + ((element.surname2 === null) ? '': element.surname2) + " " + element.entry_date + " " + ((element.departure_date === null) ? 'Sin fecha de salida': element.departure_date)  + " " + element.room + " " + element.bed;
       arrayData.push({
         image: element.image,
         id: element.id,
         name: element.name,
         surname1: element.surname1,
-        surname2: element.surname2,
+        surname2: (element.surname2 === null) ? '': element.surname2,
         entry_date: element.entry_date,
-        departure_date: element.departure_date,
+        departure_date: (element.departure_date === null) ? 'Sin fecha de salida': element.departure_date,
         room: element.room,
         bed: element.bed,
         search

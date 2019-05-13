@@ -12,12 +12,9 @@ export class CustomValidators {
     static namePersonSelectedValidator(persons: Array<any>, personalFileKey: string): ValidatorFn {
         return (control: AbstractControl): { [key: string]: boolean } | null => {
             const valueInput = control.value;
-            // const password2 = group.controls[password2Key].value;
             const found = persons.find(value => {
-                let nombre = value.name + ' ' + value.surname1 + ' ' + value.surname2;
                 return value.name + ' ' + value.surname1 + ' ' + value.surname2 === valueInput;
             });
-            // return password !== password2 ? { matchPassword: true } : null;
             return found ? null : { namePersonSelectedValidator: true };
         };
     }
