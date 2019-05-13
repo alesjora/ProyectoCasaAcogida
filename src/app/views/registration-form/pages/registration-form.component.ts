@@ -118,7 +118,7 @@ export class RegistrationFormComponent implements OnInit {
     }
     const data = {
       nombre: (this.name.value) ? this.name.value.trim() : '',
-      apellido1 : (this.registrationForm.value.surname2) ? this.registrationForm.value.surname1.trim() : '',
+      apellido1 : (this.registrationForm.value.surname1) ? this.registrationForm.value.surname1.trim() : '',
       apellido2 : (this.registrationForm.value.surname2) ? this.registrationForm.value.surname2.trim() : '',
       fechaNacimiento : bornDate,
       lugarNacimiento: this.registrationForm.value.lugarNacimiento,
