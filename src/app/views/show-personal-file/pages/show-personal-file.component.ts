@@ -14,6 +14,9 @@ export class ShowPersonalFileComponent implements OnInit {
   nombre: string;
   apellido1: string;
   apellido2: string;
+  nacionalidad: string;
+  paisNacimiento: string;
+  fechaNacimiento: string;
   documentation: string;
   email: string;
   phone: string;
@@ -41,9 +44,9 @@ export class ShowPersonalFileComponent implements OnInit {
           this.nombre = response.data.mainData[0].nombre;
           this.apellido1 = response.data.mainData[0].apellido1;
           this.apellido2 = response.data.mainData[0].apellido2;
-          this.documentation = response.data.mainData[0].dni;
-          this.email = 'marcos@gmail.com';
-          this.phone = '654987321';
+          this.nacionalidad = response.data.mainData[0].nacionalidad;
+          this.paisNacimiento = response.data.mainData[0].lugarNacimiento;
+          this.fechaNacimiento = response.data.mainData[0].fecha_nacimiento;
           break;
         default:
           this.logoutService.goToLogin();

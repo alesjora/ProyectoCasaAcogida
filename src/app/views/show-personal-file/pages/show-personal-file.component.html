@@ -6,10 +6,10 @@
   <div class='basicDescriptionContainer'>
   <ul>
     <li>Nombre: <span>{{nombre}}</span></li>
-    <li>Apellido1: <span>{{apellido1}}</span></li>
-    <li>Apellido2: <span>{{apellido2}}</span></li>
-    <li>Telefono: <span>{{phone}}</span></li>
-    <li>Correo <span>{{email}}</span></li>
+    <li>Apellidos: <span>{{apellido1}} {{apellido2}}</span></li>
+    <li *ngIf="nacionalidad">Nacionalidad: <span>{{nacionalidad}}</span></li>
+    <li *ngIf="paisNacimiento">País Nacimiento: <span>{{paisNacimiento}}</span></li>
+    <li *ngIf="fechaNacimiento">Fecha Nacimiento <span>{{fechaNacimiento}}</span></li>
   </ul>
   </div>
 </div>
