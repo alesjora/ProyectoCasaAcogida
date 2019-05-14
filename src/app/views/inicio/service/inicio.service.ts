@@ -12,4 +12,7 @@ export class InicioService {
   getPersonasEnCasa(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerPersonasEnCasa');
   }
+  getExpedientesPersonasEnCasa(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerExpedientesEvaluacionDePersonasEnCasa');
+  }
 }
