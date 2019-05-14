@@ -20,8 +20,11 @@ h2{
   justify-content: center;
   align-items: center;
   img{
-    height: 100%;
-    width: auto;
+    height: auto;
+    width: 100%;
+    @media (min-width: 800px) {
+      width: 40%;
+    }
     max-width: 400px;
   }
 }
@@ -108,4 +111,11 @@ table {
 
 th.mat-sort-header-sorted {
   color: black;
+}
+.hierarchicalGrid{
+  width: 100%;
+  max-height: 500px;
+}
+.igx-grid__tbody-content{
+  width: 100%;
 }

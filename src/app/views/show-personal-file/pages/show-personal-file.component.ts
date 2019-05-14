@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { environment } from 'src/environments/environment';
 import { MatTableDataSource, MatSort } from '@angular/material';
+import { IgxColumnComponent, IgxHierarchicalGridComponent, IgxRowIslandComponent } from 'igniteui-angular';
 
 @Component({
   selector: 'app-show-personal-file',
@@ -11,9 +12,16 @@ import { MatTableDataSource, MatSort } from '@angular/material';
   styleUrls: ['./show-personal-file.component.scss']
 })
 export class ShowPersonalFileComponent implements OnInit {
-  displayedColumns: string[] = ['nRegistro', 'fechaEntrada', 'fechaSalida', 'habitacion', 'cama'];
+
+  public fechasTabla;
+  public col: IgxColumnComponent;
+  public pWidth: string;
+  public nWidth: string;
+
+  @ViewChild("hierarchicalGrid")
+  private hierarchicalGrid: IgxHierarchicalGridComponent;
+
   fechasEntradaSalida = [];
-  dataSource = new MatTableDataSource(this.fechasEntradaSalida);
 
   datosUltimoRegistro = {ultimaFechaIngreso: new Date(0), index: -1, dentroDeLaCasa: false};
   srcImagen = '';
@@ -25,18 +33,256 @@ export class ShowPersonalFileComponent implements OnInit {
   fechaNacimiento: string;
   documentation: string;
 
-  @ViewChild(MatSort) sort: MatSort;
-
   nHabitacion = 2;
   nCama = 3;
 
   constructor(private activatedRoute: ActivatedRoute,
               private showPersonalFileService: ShowPersonalFileService,
-              private logoutService: LogoutService) { }
+              private logoutService: LogoutService) {
+                this.fechasTabla =[
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "1993/12/01",
+                  "Fecha Salida" : "1993/12/15",
+                  "Estancia": [
+                    {
+                      "Número Habitación": 3,
+                      "Número Cama":4,
+                      "Fecha asignación" : "12/12/1234",
+                      "Fecha abandono" : "12/12/1234",
+                    }
+                  ]
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "2010/01/02",
+                  "Fecha Salida" : "2010/02/17",
+
+                },
+                {
+                  "Número Registro": "1",
+                  "Fecha Entrada" : "2010/01/04",
+                  "Fecha Salida" : "2010/03/17",
+
+                }]
+               }
 
   ngOnInit() {
+
     const id = this.activatedRoute.snapshot.params.id;
     this.showPersonalFileService.getPersonalFile({ id }).subscribe(response => {
+      console.log(response);
       switch (response.status) {
         case 'SESSION_EXPIRED':
           this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
@@ -53,26 +299,25 @@ export class ShowPersonalFileComponent implements OnInit {
           this.paisNacimiento = response.data.mainData[0].lugarNacimiento ? response.data.mainData[0].lugarNacimiento : null;
           this.fechaNacimiento = response.data.mainData[0].fecha_nacimiento ? response.data.mainData[0].fechaNacimiento : null;
 
-          response.data.mainData.forEach((element, index) => {
-            if (element.fecha_ingreso) {
-              const fechaEntrada = new Date(element.fecha_ingreso);
-              const fechaSalida = element.fecha_salida ? new Date(element.fecha_salida) : null;
-
-              this.fechasEntradaSalida.push({
-                                            nRegistro: '123',
-                                            FechaEntrada: this.formatoFecha(fechaEntrada),
-                                            FechaSalida : this.formatoFecha(fechaSalida),
-                                            habitacion: '1',
-                                            cama : '1'});
-              if (fechaEntrada.getTime() > this.datosUltimoRegistro.ultimaFechaIngreso.getTime()) {
-                this.datosUltimoRegistro.ultimaFechaIngreso = fechaEntrada;
-                this.datosUltimoRegistro.index = index;
-              }
-            }
+          response.data.fechas.forEach((element, index) => {
           });
-          console.log("datos registro", this.datosUltimoRegistro);
-          this.dataSource = new MatTableDataSource(this.fechasEntradaSalida);
-          this.dataSource.sort = this.sort;
+          // response.data.mainData.forEach((element, index) => {
+          //   if (element.fecha_ingreso) {
+          //     const fechaEntrada = new Date(element.fecha_ingreso);
+          //     const fechaSalida = element.fecha_salida ? new Date(element.fecha_salida) : null;
+
+          //     this.fechasEntradaSalida.push({
+          //                                   nRegistro: '123',
+          //                                   FechaEntrada: this.formatoFecha(fechaEntrada),
+          //                                   FechaSalida : this.formatoFecha(fechaSalida),
+          //                                   habitacion: '1',
+          //                                   cama : '1'});
+          //     if (fechaEntrada.getTime() > this.datosUltimoRegistro.ultimaFechaIngreso.getTime()) {
+          //       this.datosUltimoRegistro.ultimaFechaIngreso = fechaEntrada;
+          //       this.datosUltimoRegistro.index = index;
+          //     }
+          //   }
+          // });
           break;
         default:
           this.logoutService.goToLogin();
@@ -80,6 +325,11 @@ export class ShowPersonalFileComponent implements OnInit {
       }
     });
   }
+  public onResize(event) {
+    this.col = event.column;
+    this.pWidth = event.prevWidth;
+    this.nWidth = event.newWidth;
+}
   formatoFecha(date) {
     return date != null ? date.getFullYear() + '/' + date.getMonth() + '/' + date.getDate() : '';
 

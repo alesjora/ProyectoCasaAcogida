@@ -19,36 +19,18 @@
     <li><i class="material-icons">airline_seat_individual_suite</i> {{nCama}}</li>
   </ul>
 </div>
-<div class='tableSortingContainer'>
-  <div class= 'overflowTable mat-elevation-z8'>
-    <table mat-table [dataSource]="dataSource" matSort class="">
-      <ng-container matColumnDef="nRegistro">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> nº Registro </th>
-          <td mat-cell *matCellDef="let element"> {{element.nRegistro}} </td>
-        </ng-container>
-      <ng-container matColumnDef="fechaEntrada">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Entrada </th>
-        <td mat-cell *matCellDef="let element"> {{element.FechaEntrada}} </td>
-      </ng-container>
 
-      <ng-container matColumnDef="fechaSalida">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Salida </th>
-        <td mat-cell *matCellDef="let element"> {{element.FechaSalida}} </td>
-      </ng-container>
+<igx-hierarchical-grid class="hierarchicalGrid" [data]="fechasTabla" (onColumnResized)="onResize($event)" [autoGenerate]="false"
+[height]="'auto'" [width]="'100%'" #hierarchicalGrid>
+    <igx-column field="Número Registro"  [sortable]='true' [resizable]="true"></igx-column>
+    <igx-column field="Fecha Entrada"  [sortable]='true' [resizable]="true"></igx-column>
+    <igx-column field="Fecha Salida" [sortable]='true' [resizable]="true"></igx-column>
 
-      <ng-container matColumnDef="habitacion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Habitación </th>
-        <td mat-cell *matCellDef="let element"> {{element.habitacion}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="cama">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cama </th>
-        <td mat-cell *matCellDef="let element"> {{element.cama}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </div>
-</div>
+    <igx-row-island [key]="'Estancia'" [autoGenerate]="false">
+      <igx-column field="Número Habitación" [sortable]='true' [resizable]="true"></igx-column>
+      <igx-column field="Número Cama" [sortable]='true' [resizable]="true"></igx-column>
+      <igx-column field="Fecha asignación" [sortable]='true' [resizable]="true"></igx-column>
+      <igx-column field="Fecha abandono" [sortable]='true' [resizable]="true"></igx-column>
+  </igx-row-island>
+</igx-hierarchical-grid>
 
