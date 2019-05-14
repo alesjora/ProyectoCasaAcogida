@@ -153,6 +153,8 @@ export class RegistrationFormComponent implements OnInit {
           });
           this.storeService.setComeFromNewEntry(false);
           this.router.navigate(['/dashboard/nuevo-ingreso']);
+        } else {
+          this.router.navigate(['/dashboard/fichas-personales']);
         }
         break;
       case 'DOCUMENTATION_EXISTS':
