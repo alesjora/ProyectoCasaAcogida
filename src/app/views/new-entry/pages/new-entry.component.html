@@ -3,12 +3,12 @@
   <form [formGroup]="newEntryForm" #formDirective="ngForm" (ngSubmit)="newEntryForm.valid ? sendData(): null">
     <igx-input-group class="autocomplete" [disabled]="personalFiles.length === 0 || personalFiles === null">
       <label igxLabel for="personalFile">Nombre de la persona</label>
-      <input igxInput name="personalFile" type="text" [igxAutocomplete]="personalFilesPanel"
+      <input igxInput name="personalFile" type="text" [igxAutocomplete]="personalFilesPanel" (onItemSelected)="selectPerson($event)"
         [(ngModel)]="personalFileSelected" formControlName="personalFile"/>
     </igx-input-group>
     <igx-drop-down #personalFilesPanel maxHeight="300px">
       <igx-drop-down-item *ngFor="let personalFile of personalFiles | startsWith:personalFileSelected"
-        [value]="selectPerson(personalFile)">
+       [value]="personalFile.name + ' ' + personalFile.surname1 + ' ' + personalFile.surname2">
         <igx-avatar [src]="personalFile.image" roundShape="true"></igx-avatar>
         <span>&nbsp; {{ personalFile.name }} {{ personalFile.surname1 }} {{ personalFile.surname2 === 'null' ? '' :  personalFile.surname2}}</span>
       </igx-drop-down-item>

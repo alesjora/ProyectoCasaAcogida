@@ -6,6 +6,7 @@ import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { StoreService } from 'src/app/shared/services/store.service';
 import { Router } from '@angular/router';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-new-entry',
@@ -119,8 +120,14 @@ export class NewEntryComponent implements OnInit {
   }
 
   selectPerson(person) {
-    this.personalFileId = person.id;
-    return person.name + ' ' + person.surname1 + ' ' + person.surname2;
+    this.personalFiles.find(element => {
+      const nombre = element.name + ' ' + element.surname1 + ' ' + element.surname2;
+      if (nombre === person.value) {
+        this.personalFileId = element.id;
+        return true;
+      }
+      return false;
+    });
   }
 
   selectBedsOfRoom() {
@@ -147,6 +154,7 @@ export class NewEntryComponent implements OnInit {
       idBed: this.bed.value,
       idConserje: this.storeService.getUserId()
     };
+    console.log(data);
     this.newEntryService.sendData(data).subscribe(this.sendDataSuccess.bind(this),
     this.snackBarService.showSnackbar.bind(this, 'Error al añadir el registro.', 3000, 'bottom', 'error'));
   }
