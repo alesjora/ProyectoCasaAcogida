@@ -280,7 +280,6 @@ export class ShowPersonalFileComponent implements OnInit {
 
   ngOnInit() {
     this.translate();
-    
     const id = this.activatedRoute.snapshot.params.id;
     this.showPersonalFileService.getPersonalFile({ id }).subscribe(response => {
       console.log(response);

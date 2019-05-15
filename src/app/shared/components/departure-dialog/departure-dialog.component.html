@@ -1,0 +1,16 @@
+<form [formGroup]="newDepartureForm" (ngSubmit)="submit()">
+  <igx-date-picker formControlName="departureDate" [value]="date" [(ngModel)]="date" [formatter]="formatter"
+    label="Fecha de entrada"></igx-date-picker>
+  <br>
+  <igx-time-picker format="HH:mm" [value]="time" formControlName="departureTime" [(ngModel)]="time">
+    <ng-template igxTimePickerTemplate let-openDialog="openDialog" let-value="value" let-displayTime="displayTime">
+      <igx-input-group (click)="openDialog()">
+        <igx-prefix>
+          <igx-icon>access_time</igx-icon>
+        </igx-prefix>
+        <label igxLabel>Hora de entrada</label>
+        <input igxInput [value]="displayTime" />
+      </igx-input-group>
+    </ng-template>
+  </igx-time-picker>
+</form>

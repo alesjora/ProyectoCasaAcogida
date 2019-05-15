@@ -47,9 +47,9 @@ export class TablePeopleAtHomeComponent implements OnInit {
         id: element.id,
         name: element.name,
         surname1: element.surname1,
-        surname2: (element.surname2 === null) ? '': element.surname2,
+        surname2: (element.surname2 === null) ? '' : element.surname2,
         entry_date: element.entry_date,
-        departure_date: (element.departure_date === null) ? 'Sin fecha de salida': element.departure_date,
+        departure_date: (element.departure_date === null) ? false : element.departure_date,
         room: element.room,
         bed: element.bed,
         search
