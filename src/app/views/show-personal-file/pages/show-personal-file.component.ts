@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { environment } from 'src/environments/environment';
 import { IgxColumnComponent, IgxHierarchicalGridComponent, IgxRowIslandComponent } from 'igniteui-angular';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-show-personal-file',
@@ -20,9 +21,7 @@ export class ShowPersonalFileComponent implements OnInit{
   @ViewChild('hierarchicalGrid')
   private hierarchicalGrid: IgxHierarchicalGridComponent;
 
-  fechasEntradaSalida = [];
 
-  datosUltimoRegistro = { ultimaFechaIngreso: new Date(0), index: -1, dentroDeLaCasa: false };
   srcImagen = '';
   nombre: string;
   apellido1: string;
@@ -30,16 +29,26 @@ export class ShowPersonalFileComponent implements OnInit{
   nacionalidad: string;
   paisNacimiento: string;
   fechaNacimiento: string;
-  documentation: string;
 
-  nHabitacion = 2;
-  nCama = 3;
+  nHabitacion: string;
+  nCama: string;
 
+  documentation;
+  documentTypeForm = this.fb.group({
+    documentType: ['']
+  });
+  docu = this.documentType;
+  get documentType(){
+    return this.documentTypeForm.get('documentType');
+  }
   constructor(private activatedRoute: ActivatedRoute,
     private showPersonalFileService: ShowPersonalFileService,
-    private logoutService: LogoutService) {
+    private logoutService: LogoutService,
+    private fb: FormBuilder) {
   }
-
+mostrarDocumentacion(ele){
+  console.log(ele);
+}
   ngOnInit() {
     this.translate();
     const id = this.activatedRoute.snapshot.params.id;
@@ -84,6 +93,7 @@ export class ShowPersonalFileComponent implements OnInit{
   }
 
   datosObtenidosCorrectamente(response){
+    console.log(response);
     this.srcImagen = response.data.mainData[0].image;
     if (response.data.mainData[0].image === '') {
       this.srcImagen = environment.urlImage + 'StandarProfile.png';
@@ -93,11 +103,19 @@ export class ShowPersonalFileComponent implements OnInit{
     this.apellido2 = response.data.mainData[0].apellido2 ? response.data.mainData[0].apellido2 : null;
     this.nacionalidad = response.data.mainData[0].nacionalidad ? response.data.mainData[0].nacionalidad : null;
     this.paisNacimiento = response.data.mainData[0].lugarNacimiento ? response.data.mainData[0].lugarNacimiento : null;
-    this.fechaNacimiento = response.data.mainData[0].fecha_nacimiento ? response.data.mainData[0].fechaNacimiento : null;
-    let fechas = [];
+    this.fechaNacimiento = response.data.mainData[0].fecha_nacimiento ? response.data.mainData[0].fecha_nacimiento : null;
 
+    this.nHabitacion = response.data.habitacionActual ? response.data.habitacionActual : '-';
+    this.nCama = response.data.camaActual ? response.data.camaActual : '-';
+
+    this.getRegistroFechas(response);
+    this.getDocumentacion(response);
+
+  }
+  getRegistroFechas(response){
+    const fechas = [];
     response.data.fechas.forEach((element, index) => {
-      let estancia = [];
+      const estancia = [];
       element.estancia.forEach((est, i) => {
         estancia.push({
             'Número Habitación': est.nHabitacion,
@@ -114,6 +132,20 @@ export class ShowPersonalFileComponent implements OnInit{
       });
     });
     this.fechasTabla = fechas;
+  }
+  getDocumentacion(response){
+    if (response.data.documentacion.length === 0) {
+      return;
+    }
+    this.documentation = [];
+    response.data.documentacion.forEach(element => {
+      this.documentation.push(
+        {
+          type: element.documento, value: element.numero_documento
+        }
+      );
+    });
+    console.log(this.documentation[0].type);
   }
   formatoFecha(date) {
     date = date != null ? new Date(date) : null;

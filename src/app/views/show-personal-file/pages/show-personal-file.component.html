@@ -9,9 +9,22 @@
     <li>Apellidos: <span>{{apellido1}} {{apellido2}}</span></li>
     <li *ngIf="nacionalidad">Nacionalidad: <span>{{nacionalidad}}</span></li>
     <li *ngIf="paisNacimiento">País Nacimiento: <span>{{paisNacimiento}}</span></li>
-    <li *ngIf="fechaNacimiento">Fecha Nacimiento <span>{{fechaNacimiento}}</span></li>
+    <li *ngIf="fechaNacimiento">Fecha Nacimiento <span>{{fechaNacimiento | dateFormat}}</span></li>
   </ul>
   </div>
+</div>
+<div *ngIf="documentation" class='documetationContainer'>
+  <form [formGroup]="documentTypeForm">
+    <mat-form-field class="containerInputs">
+      <mat-label>Tipo de documentación</mat-label>
+      <mat-select formControlName="documentType">
+        <mat-option *ngFor="let element of documentation"  [value]="element.value" >
+          {{element.type}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+  {{ docu.value }}
 </div>
 <div class='roomsInfoContainer'>
   <ul>
