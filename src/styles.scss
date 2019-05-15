@@ -11,3 +11,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background: #D32F2F;
     color: #fff;
 }
+.igx-overlay__wrapper--flex{
+    z-index: 9999 !important;
+}
+.igx-dialog__window{
+    padding: 8px;
+}

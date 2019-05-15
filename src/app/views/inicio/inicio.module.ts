@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { TablePeopleAtHomeComponent } from './components/table-people-at-home/table-people-at-home.component';
 import { TaulaPersonesExpedientsComponent } from './components/taula-persones-expedients/taula-persones-expedients.component';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 @NgModule({
   declarations: [InicioComponent, TablePeopleAtHomeComponent, TaulaPersonesExpedientsComponent],
@@ -16,7 +17,8 @@ import { TaulaPersonesExpedientsComponent } from './components/taula-persones-ex
     InicioRoutingModule,
     IgniteModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    ComponentsModule
   ],
   exports: [TablePeopleAtHomeComponent]
 })
