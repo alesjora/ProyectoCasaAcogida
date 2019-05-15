@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-departure-dialog',
@@ -14,7 +15,7 @@ export class DepartureDialogComponent implements OnInit {
   private dayFormatter = new Intl.DateTimeFormat('es', { weekday: 'long' });
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
 
-   constructor(public fb: FormBuilder) {
+   constructor(public fb: FormBuilder, private snackBarService: SnackBarService) {
     this.date = new Date(Date.now());
     this.time = this.date;
   }
@@ -37,7 +38,20 @@ export class DepartureDialogComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     return `${this.dayFormatter.format(date)}, ${date.getDate()} ${this.monthFormatter.format(date)}, ${date.getFullYear()}`;
   }
-  submit(){
-    console.log('aa');
+  submit(event, idRecord) {
+    const data = {
+      idRecord,
+      departureDate: this.getDate(this.departureDate.value),
+      departureHour: this.getTime(this.departureTime.value),
+    };
+    //console.log(data);
+    //this.snackBarService.showSnackbar('Fecha de salida añadida correctamente.', 2000, 'bottom', 'success');
+    event.dialog.close();
+  }
+  public getDate(date: Date) {
+    return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+  }
+  public getTime(date: Date) {
+    return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
   }
 }

@@ -15,5 +15,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     z-index: 9999 !important;
 }
 .igx-dialog__window{
-    padding: 8px;
+    padding: 16px;
+    width: 300px;
+    @media (min-width: 768px){
+        width: 450px;
+    } 
+}
+.igx-dialog__window-title{
+    padding: 8px !important;
+    margin-bottom: 8px;
 }

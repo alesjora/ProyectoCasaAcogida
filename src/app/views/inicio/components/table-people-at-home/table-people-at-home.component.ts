@@ -15,7 +15,8 @@ export class TablePeopleAtHomeComponent implements OnInit {
   public data: object[] = [];
   public displayedColumns = ['name', 'entry_date', 'departure_date', 'room', 'bed'];
   public dataSource;
-  public valueFilter: string = 'Todo';
+  public currentPerson: string;
+  public currentIdRegistro: string;
   @ViewChild(MatSort) sort: MatSort;
   constructor(public storeService: StoreService,
     private logoutService: LogoutService,
@@ -45,9 +46,11 @@ export class TablePeopleAtHomeComponent implements OnInit {
       arrayData.push({
         image: element.image,
         id: element.id,
+        idRegistro: element.idRegistro,
         name: element.name,
         surname1: element.surname1,
         surname2: (element.surname2 === null) ? '' : element.surname2,
+        nameComplete: element.name + ' ' + element.surname1 + ' ' + ((element.surname2 === null) ? '' : element.surname2),
         entry_date: element.entry_date,
         departure_date: (element.departure_date === null) ? false : element.departure_date,
         room: element.room,
@@ -57,13 +60,20 @@ export class TablePeopleAtHomeComponent implements OnInit {
     });
     return arrayData;
   }
+  openDialog(dialog, idRegistro, currentPerson){
+    this.currentIdRegistro = idRegistro;
+    this.currentPerson = currentPerson;
+    dialog.open();
+  }
 }
 export interface PersonElement {
   image: string;
   id: string;
+  idRegistro: string;
   name: string;
   surname1: string;
   surname2: string;
+  nameComplete: string;
   entry_date: string;
   departure_date: string;
   room: string;
