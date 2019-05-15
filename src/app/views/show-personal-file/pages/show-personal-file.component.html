@@ -21,7 +21,7 @@
 </div>
 
 <igx-hierarchical-grid class="hierarchicalGrid" [data]="fechasTabla" (onColumnResized)="onResize($event)" [autoGenerate]="false"
-[height]="'auto'" [width]="'100%'" [allowFiltering]="true" #hierarchicalGrid>
+[height]="'500px'" [width]="'100%'" [allowFiltering]="true" #hierarchicalGrid>
     <igx-column field="Número Registro"  [sortable]='true' [resizable]="true" [filterable]="true"></igx-column>
     <igx-column field="Fecha Entrada"  [sortable]='true' [resizable]="true"></igx-column>
     <igx-column field="Fecha Salida" [sortable]='true' [resizable]="true"></igx-column>
