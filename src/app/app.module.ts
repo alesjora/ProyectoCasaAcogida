@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginModule } from './views/login/login.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ConexionInterceptorService } from './shared/interceptors/conexion-interceptor.service';
+import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 
 @NgModule({
   declarations: [
