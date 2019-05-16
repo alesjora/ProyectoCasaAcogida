@@ -7,6 +7,7 @@ import { IgxColumnComponent, IgxHierarchicalGridComponent, IgxRowIslandComponent
 import { FormBuilder } from '@angular/forms';
 import { ChangeRoomDialogComponent } from 'src/app/shared/components/change-room-dialog/change-room-dialog.component';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { DepartureDialogComponent } from 'src/app/shared/components/departure-dialog/departure-dialog.component';
 
 @Component({
   selector: 'app-show-personal-file',
@@ -159,6 +160,15 @@ export class ShowPersonalFileComponent implements OnInit {
       event.dialog.close();
     } else {
       this.snackBarService.showSnackbar('Error al cambiar la cama.', 1500, 'bottom', 'error');
+    }
+    this.getDatos();
+  }
+  async sendDepartureDate(event, departureDialog: DepartureDialogComponent) {
+    if (await departureDialog.submit(this.idRegistro, this.idRegistroCama)) {
+      this.snackBarService.showSnackbar('Fecha de salida añadida correctamente.', 1500, 'bottom', 'success');
+      event.dialog.close();
+    } else {
+      this.snackBarService.showSnackbar('Error al añadir la fecha de salida.', 1500, 'bottom', 'error');
     }
     this.getDatos();
   }
