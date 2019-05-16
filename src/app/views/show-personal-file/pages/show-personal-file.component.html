@@ -4,46 +4,60 @@
     <img [src]="srcImagen" alt="">
   </div>
   <div class='basicDescriptionContainer'>
-  <ul>
-    <li>Nombre: <span>{{nombre}}</span></li>
-    <li>Apellidos: <span>{{apellido1}} {{apellido2}}</span></li>
-    <li *ngIf="nacionalidad">Nacionalidad: <span>{{nacionalidad}}</span></li>
-    <li *ngIf="paisNacimiento">País Nacimiento: <span>{{paisNacimiento}}</span></li>
-    <li *ngIf="fechaNacimiento">Fecha Nacimiento <span>{{fechaNacimiento | dateFormat}}</span></li>
-  </ul>
+    <ul>
+      <li>Nombre: <span>{{nombre}}</span></li>
+      <li>Apellidos: <span>{{apellido1}} {{apellido2}}</span></li>
+      <li *ngIf="nacionalidad">Nacionalidad: <span>{{nacionalidad}}</span></li>
+      <li *ngIf="paisNacimiento">País Nacimiento: <span>{{paisNacimiento}}</span></li>
+      <li *ngIf="fechaNacimiento">Fecha Nacimiento <span>{{fechaNacimiento | dateFormat}}</span></li>
+    </ul>
   </div>
 </div>
 <div *ngIf="documentation" class='documetationContainer'>
-    <ul>
-        <ng-container *ngFor="let item of documentation">
-          <li>{{item.type}}<span>{{item.value}}</span></li>
-        </ng-container>
-    </ul>
+  <ul>
+    <ng-container *ngFor="let item of documentation">
+      <li>{{item.type}}<span>{{item.value}}</span></li>
+    </ng-container>
+  </ul>
 </div>
 <div class='roomsInfoContainer'>
   <ul>
     <li><i class="material-icons">meeting_room</i> {{nHabitacion}}</li>
     <li><i class="material-icons">airline_seat_individual_suite</i> {{nCama}}</li>
   </ul>
-  <button *ngIf="idRegistroCama" mat-raised-button color="accent" (click)="dialogCama.open()">Asignar Cama</button>
-
+  <button *ngIf="idRegistroCama" mat-raised-button color="accent" (click)="dialogCama.open()">Cambiar de cama</button>
 </div>
 
-<igx-hierarchical-grid class="hierarchicalGrid" [data]="fechasTabla" (onColumnResized)="onResize($event)" [autoGenerate]="false"
-[height]="'500px'" [width]="'100%'" [allowFiltering]="true" #hierarchicalGrid>
-    <igx-column field="Número Registro"  [sortable]='true' [resizable]="true" [filterable]="true"></igx-column>
-    <igx-column field="Fecha Entrada"  [sortable]='true' [resizable]="true"></igx-column>
-    <igx-column field="Fecha Salida" [sortable]='true' [resizable]="true"></igx-column>
+<igx-hierarchical-grid class="hierarchicalGrid" [data]="fechasTabla" (onColumnResized)="onResize($event)"
+  [autoGenerate]="false" [height]="'500px'" [width]="'100%'" [allowFiltering]="true" #hierarchicalGrid>
+  <igx-column field="Número Registro" [sortable]='true' [resizable]="true" [filterable]="true"></igx-column>
+  <igx-column field="Fecha Entrada" [sortable]='true' [resizable]="true"></igx-column>
+  <igx-column field="Fecha Salida" [sortable]='true' [resizable]="true">
+    <ng-template igxCell let-cell="cell">
+      <button *ngIf="cell.value == '';else textoPlano" mat-raised-button color="accent" (click)="dialogCama.open()">Asignar fecha de salida</button>
+      <ng-template #textoPlano>
+        {{cell.value}}
+      </ng-template>
+    </ng-template>
+  </igx-column>
 
-    <igx-row-island [key]="'Estancia'" [autoGenerate]="false">
-      <igx-column field="Número Habitación" [sortable]='true' [resizable]="true"></igx-column>
-      <igx-column field="Número Cama" [sortable]='true' [resizable]="true"></igx-column>
-      <igx-column field="Fecha asignación" [sortable]='true' [resizable]="true"></igx-column>
-      <igx-column field="Fecha abandono" [sortable]='true' [resizable]="true"></igx-column>
+  <igx-row-island [key]="'Estancia'" [autoGenerate]="false">
+    <igx-column field="Número Habitación" [sortable]='true' [resizable]="true"></igx-column>
+    <igx-column field="Número Cama" [sortable]='true' [resizable]="true"></igx-column>
+    <igx-column field="Fecha asignación" [sortable]='true' [resizable]="true"></igx-column>
+    <igx-column field="Fecha abandono" [sortable]='true' [resizable]="true">
+      <ng-template igxCell let-cell="cell">
+        <mat-chip class="inHome" *ngIf="cell.value == ''; else textoPlano" selected>Actualmente en casa</mat-chip>
+        <ng-template #textoPlano>
+          {{cell.value}}
+        </ng-template>
+      </ng-template>
+    </igx-column>
   </igx-row-island>
 </igx-hierarchical-grid>
 
 <igx-dialog #dialogCama title="Asignar Cama " (onLeftButtonSelect)="dialogCama.close()"
-  (onRightButtonSelect)="changeBed($event, changeRoomDialog)" leftButtonLabel="Cancelar" rightButtonLabel="Asignar" closeOnOutsideSelect="true">
+  (onRightButtonSelect)="changeBed($event, changeRoomDialog)" leftButtonLabel="Cancelar" rightButtonLabel="Asignar"
+  closeOnOutsideSelect="true">
   <app-change-room-dialog #changeRoomDialog></app-change-room-dialog>
 </igx-dialog>
