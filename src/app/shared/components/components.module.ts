@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DepartureDialogComponent } from './departure-dialog/departure-dialog.component';
 import { IgniteModule } from '../ignite/ignite.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '../material/material.module';
 
 
 @NgModule({
@@ -10,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     IgniteModule,
+    MaterialModule,
     FormsModule,
     ReactiveFormsModule
   ],

@@ -34,7 +34,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de salida </th>
       <td mat-cell *matCellDef="let element">
         <ng-container *ngIf="!element.departure_date;else departureDate">
-          <button mat-raised-button color="accent" (click)="openDialog(alert, element.idRegistro, element.nameComplete)">Asignar fecha de salida</button>
+          <button mat-raised-button color="accent" (click)="openDialog(alert, element.idRegistro, element.idRegistroCama, element.nameComplete)">Asignar fecha de salida</button>
         </ng-container>
         <ng-template #departureDate>
           {{element.departure_date}}
@@ -60,6 +60,6 @@
   </table>
 </div>
 <igx-dialog #alert title="Asignar fecha de salida a {{ currentPerson }}" (onLeftButtonSelect)="alert.close()"
-  (onRightButtonSelect)="departureDialog.submit($event, currentIdRegistro)" leftButtonLabel="Cancelar" rightButtonLabel="Asignar" closeOnOutsideSelect="true">
+  (onRightButtonSelect)="sendDepartureDate($event, departureDialog)" leftButtonLabel="Cancelar" rightButtonLabel="Asignar" closeOnOutsideSelect="true">
   <app-departure-dialog #departureDialog></app-departure-dialog>
 </igx-dialog>

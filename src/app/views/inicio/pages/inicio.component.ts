@@ -10,14 +10,9 @@ import { StoreService } from 'src/app/shared/services/store.service';
 })
 export class InicioComponent implements OnInit {
   constructor(public storeService: StoreService) {
-
+    this.storeService.sendCurrentRoute('Inicio');
   }
   ngOnInit() {
   }
 
 }
-
-// const ELEMENT_DATA: PersonElement[] = [
-//   {image: 'http://localhost/api/public/image/StandarProfile.png', id: '1', name: 'José Rafael Álvarez Espino', entry_date: '04/05/2019', departure_date: '--/--/----', room: '3', bed: '4'},
-//   {image: 'http://localhost/api/public/image/StandarProfile.png', id: '2', name: 'Marcos Gallardo Pérez', entry_date: '06/05/2019', departure_date: '--/--/----', room: '11', bed: '5'}
-// ];

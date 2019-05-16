@@ -47,8 +47,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
               private checkToken: CheckTokenService,
               public storeService: StoreService,
               private logoutService: LogoutService,
-              private ref: ChangeDetectorRef,
-              private activatedRoute: ActivatedRoute) {
+              private ref: ChangeDetectorRef) {
     this.subscription = this.storeService.getCurrentRoute().subscribe(route => {
       this.selected = route;
       this.ref.detectChanges();
