@@ -32,12 +32,10 @@ export class TablePeopleAtHomeComponent implements OnInit {
     this.obtenerDatos();
   }
   obtenerDatos() {
-    // if (this.subscription) {
-    //   console.log('entra');
-    //   this.subscription.unsubscribe();
-    // }
-    // this.subscription = 
-    this.inicioService.getPersonasEnCasa().subscribe(this.getPersonasEnCasaSuccess.bind(this));
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = this.inicioService.getPersonasEnCasa().subscribe(this.getPersonasEnCasaSuccess.bind(this));
   }
   getPersonasEnCasaSuccess(response) {
     switch (response.status) {
@@ -54,9 +52,7 @@ export class TablePeopleAtHomeComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   generarData(data) {
-    console.log(data);
     let arrayData: Array<PersonElement> = [];
-    console.log(arrayData);
     data.forEach(element => {
       let search = element.name + " " + element.surname1 + " " + ((element.surname2 === null) ? '': element.surname2) + " " + element.entry_date + " " + ((element.departure_date === null) ? 'Sin fecha de salida': element.departure_date)  + " " + element.room + " " + element.bed;
       arrayData.push({
@@ -75,7 +71,6 @@ export class TablePeopleAtHomeComponent implements OnInit {
         search
       });
     });
-    console.log(arrayData);
     return arrayData;
   }
   openDialog(dialog, idRegistro, idRegistroCama, currentPerson) {
@@ -84,15 +79,14 @@ export class TablePeopleAtHomeComponent implements OnInit {
     this.currentIdRegistroCama = idRegistroCama;
     dialog.open();
   }
-  sendDepartureDate(event, departureDialog: DepartureDialogComponent) {
-    if (departureDialog.submit(this.currentIdRegistro, this.currentIdRegistroCama)) {
+  async sendDepartureDate(event, departureDialog: DepartureDialogComponent) {
+    if (await departureDialog.submit(this.currentIdRegistro, this.currentIdRegistroCama)) {
       this.snackBarService.showSnackbar('Fecha de salida añadida correctamente.', 1500, 'bottom', 'success');
       event.dialog.close();
     } else {
       this.snackBarService.showSnackbar('Error al añadir la fecha de salida.', 1500, 'bottom', 'error');
     }
     this.obtenerDatos();
-    
   }
 }
 export interface PersonElement {
