@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewChecked, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked, AfterViewInit, Renderer2 } from '@angular/core';
 import { ShowPersonalFileService } from '../service/show-personal-file.service';
 import { ActivatedRoute } from '@angular/router';
 import { LogoutService } from 'src/app/shared/services/logout.service';
@@ -13,7 +13,7 @@ import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
   templateUrl: './show-personal-file.component.html',
   styleUrls: ['./show-personal-file.component.scss']
 })
-export class ShowPersonalFileComponent implements OnInit{
+export class ShowPersonalFileComponent implements OnInit {
 
   public fechasTabla = [];
   public col: IgxColumnComponent;
@@ -42,21 +42,22 @@ export class ShowPersonalFileComponent implements OnInit{
               private showPersonalFileService: ShowPersonalFileService,
               private logoutService: LogoutService,
               private fb: FormBuilder,
-              private snackBarService: SnackBarService) {
+              private snackBarService: SnackBarService,
+              private renderer: Renderer2) {
   }
 
   ngOnInit() {
     this.translate();
+    console.log(this.renderer.data);
     document.getElementById('buttonNav').addEventListener('click', () => {
-      document.getElementsByClassName('igx-grid__tbody-content')[0].style.width = '100%';
-      document.getElementsByClassName('igx-grid__thead-wrapper')[0].style.width = '100%';
-      // igx-grid__thead-wrapper
+      this.renderer.setStyle(document.getElementsByClassName('igx-grid__tbody-content')[0], 'width', '100%');
+      this.renderer.setStyle(document.getElementsByClassName('igx-grid__thead-wrapper')[0], 'width', '100%');
     });
 
 
     this.getDatos();
   }
-  getDatos(){
+  getDatos() {
     const id = this.activatedRoute.snapshot.params.id;
     this.showPersonalFileService.getPersonalFile({ id }).subscribe(response => {
       switch (response.status) {
@@ -96,7 +97,7 @@ export class ShowPersonalFileComponent implements OnInit{
     this.nWidth = event.newWidth;
   }
 
-  datosObtenidosCorrectamente(response){
+  datosObtenidosCorrectamente(response) {
     this.srcImagen = response.data.mainData[0].image;
     if (response.data.mainData[0].image === '') {
       this.srcImagen = environment.urlImage + 'StandarProfile.png';
@@ -116,7 +117,7 @@ export class ShowPersonalFileComponent implements OnInit{
     this.getDocumentacion(response);
 
   }
-  getRegistroFechas(response){
+  getRegistroFechas(response) {
     const fechas = [];
     response.data.fechas.forEach((element, index) => {
       const estancia = [];
@@ -137,7 +138,7 @@ export class ShowPersonalFileComponent implements OnInit{
     });
     this.fechasTabla = fechas;
   }
-  getDocumentacion(response){
+  getDocumentacion(response) {
     if (response.data.documentacion.length === 0) {
       return;
     }
@@ -156,10 +157,10 @@ export class ShowPersonalFileComponent implements OnInit{
   }
 
   async changeBed(event, changeRoomDialogComponent: ChangeRoomDialogComponent) {
-    if(await changeRoomDialogComponent.sendData(this.idRegistro, this.idRegistroCama)){
+    if(await changeRoomDialogComponent.sendData(this.idRegistro, this.idRegistroCama)) {
       this.snackBarService.showSnackbar('Cama cambiada correctamente.', 1500, 'bottom', 'success');
-        event.dialog.close();
-    }else{
+      event.dialog.close();
+    } else {
       this.snackBarService.showSnackbar('Error al cambiar la cama.', 1500, 'bottom', 'error');
     }
     this.getDatos();
