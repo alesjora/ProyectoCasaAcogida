@@ -52,18 +52,13 @@ export class DepartureDialogComponent implements OnInit {
       departureHour: this.getTime(this.departureTime.value),
       reasonDeparture: this.reasonDeparture.value
     };
-    return await this.sendData(data);
+    return await this.stayService.sendDepartureDate(data).toPromise().then(this.sendDepartureDateSuccess.bind(this));
   }
-  sendData(data){
-    return new Promise(resolve => {
-      this.stayService.sendDepartureDate(data).toPromise().then(this.sendDepartureDateSuccess.bind(this));
-    });
-  }
-  sendDepartureDateSuccess(response) {
+  private sendDepartureDateSuccess(response) {
     switch (response.status) {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
-        break;
+        return false;
       case 'OPERATION_SUCCESS':
         return true;
       default:
