@@ -13,7 +13,8 @@
   </ul>
   </div>
 </div>
-<div *ngIf="documentation" class='documetationContainer'>
+<div class='mainContainer'>
+  <div *ngIf="documentation" class='documetationContainer'>
     <ul>
         <ng-container *ngFor="let item of documentation">
           <li>{{item.type}}<span>{{item.value}}</span></li>
@@ -26,9 +27,8 @@
     <li><i class="material-icons">airline_seat_individual_suite</i> {{nCama}}</li>
   </ul>
   <button *ngIf="idRegistroCama" mat-raised-button color="accent" (click)="dialogCama.open()">Asignar Cama</button>
-
 </div>
-
+</div>
 <igx-hierarchical-grid class="hierarchicalGrid" [data]="fechasTabla" (onColumnResized)="onResize($event)" [autoGenerate]="false"
 [height]="'500px'" [width]="'100%'" [allowFiltering]="true" #hierarchicalGrid>
     <igx-column field="Número Registro"  [sortable]='true' [resizable]="true" [filterable]="true"></igx-column>

@@ -154,7 +154,6 @@ export class NewEntryComponent implements OnInit {
       idBed: this.bed.value,
       idConserje: this.storeService.getUserId()
     };
-    console.log(data);
     this.newEntryService.sendData(data).subscribe(this.sendDataSuccess.bind(this),
     this.snackBarService.showSnackbar.bind(this, 'Error al añadir el registro.', 3000, 'bottom', 'error'));
   }

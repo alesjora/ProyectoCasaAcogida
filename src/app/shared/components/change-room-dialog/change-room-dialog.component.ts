@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChildren, ViewChild } from '@angular/core';
 import { StayService } from '../../services/stay.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { SnackBarService } from '../../services/snack-bar.service';
 import { LogoutService } from '../../services/logout.service';
 
@@ -19,8 +19,8 @@ export class ChangeRoomDialogComponent implements OnInit {
               private logoutService: LogoutService) { }
   public rooms = [];
   changeBedForm = this.fb.group({
-    room: ['', [Validators.required, Validators.min(1)]],
-    bed: ['', [Validators.required, Validators.min(1)]]
+    room: new FormControl({value: '', disabled: false}, [Validators.required, Validators.min(1)]),
+    bed: new FormControl({value: '', disabled: true}, [Validators.required, Validators.min(1)])
   });
   ngOnInit() {
     this.stayService.getRoomsAndBedsAvailable().subscribe(this.getRoomsAndBedsAvailableSuccess.bind(this),
@@ -32,6 +32,10 @@ export class ChangeRoomDialogComponent implements OnInit {
   get bed() {
     return this.changeBedForm.get('bed');
   }
+  cambio(){
+    this.bed.enable();
+  }
+
   getRoomsAndBedsAvailableSuccess(response) {
     switch (response.status) {
       case 'SESSION_EXPIRED':
@@ -39,6 +43,9 @@ export class ChangeRoomDialogComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         this.rooms = response.data;
+        if (this.rooms.length === 0){
+          this.room.disable();
+        }
         break;
       default:
         this.snackBarService.showSnackbar('No hay camas disponibles.', 3000, 'bottom', 'error');

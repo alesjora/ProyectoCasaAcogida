@@ -48,13 +48,10 @@ export class ShowPersonalFileComponent implements OnInit {
 
   ngOnInit() {
     this.translate();
-    console.log(this.renderer.data);
     document.getElementById('buttonNav').addEventListener('click', () => {
       this.renderer.setStyle(document.getElementsByClassName('igx-grid__tbody-content')[0], 'width', '100%');
       this.renderer.setStyle(document.getElementsByClassName('igx-grid__thead-wrapper')[0], 'width', '100%');
     });
-
-
     this.getDatos();
   }
   getDatos() {

@@ -139,7 +139,6 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   sendDataSuccess(response) {
-    console.log(response);
     switch (response.status) {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
