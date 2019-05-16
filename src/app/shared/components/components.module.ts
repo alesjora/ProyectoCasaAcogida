@@ -4,10 +4,11 @@ import { DepartureDialogComponent } from './departure-dialog/departure-dialog.co
 import { IgniteModule } from '../ignite/ignite.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
+import { ChangeRoomDialogComponent } from './change-room-dialog/change-room-dialog.component';
 
 
 @NgModule({
-  declarations: [DepartureDialogComponent],
+  declarations: [DepartureDialogComponent, ChangeRoomDialogComponent],
   imports: [
     CommonModule,
     IgniteModule,
@@ -15,6 +16,6 @@ import { MaterialModule } from '../material/material.module';
     FormsModule,
     ReactiveFormsModule
   ],
-  exports: [DepartureDialogComponent]
+  exports: [DepartureDialogComponent, ChangeRoomDialogComponent]
 })
 export class ComponentsModule { }
