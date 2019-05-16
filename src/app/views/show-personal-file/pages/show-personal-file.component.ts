@@ -34,21 +34,13 @@ export class ShowPersonalFileComponent implements OnInit{
   nCama: string;
 
   documentation;
-  documentTypeForm = this.fb.group({
-    documentType: ['']
-  });
-  docu = this.documentType;
-  get documentType(){
-    return this.documentTypeForm.get('documentType');
-  }
+
   constructor(private activatedRoute: ActivatedRoute,
     private showPersonalFileService: ShowPersonalFileService,
     private logoutService: LogoutService,
     private fb: FormBuilder) {
   }
-mostrarDocumentacion(ele){
-  console.log(ele);
-}
+
   ngOnInit() {
     this.translate();
     const id = this.activatedRoute.snapshot.params.id;
@@ -145,7 +137,6 @@ mostrarDocumentacion(ele){
         }
       );
     });
-    console.log(this.documentation[0].type);
   }
   formatoFecha(date) {
     date = date != null ? new Date(date) : null;

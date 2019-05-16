@@ -14,17 +14,11 @@
   </div>
 </div>
 <div *ngIf="documentation" class='documetationContainer'>
-  <form [formGroup]="documentTypeForm">
-    <mat-form-field class="containerInputs">
-      <mat-label>Tipo de documentación</mat-label>
-      <mat-select formControlName="documentType">
-        <mat-option *ngFor="let element of documentation"  [value]="element.value" >
-          {{element.type}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </form>
-  {{ docu.value }}
+    <ul>
+        <ng-container *ngFor="let item of documentation">
+          <li>{{item.type}}<span>{{item.value}}</span></li>
+        </ng-container>
+    </ul>
 </div>
 <div class='roomsInfoContainer'>
   <ul>

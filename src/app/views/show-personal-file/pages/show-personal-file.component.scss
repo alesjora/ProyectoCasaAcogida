@@ -41,6 +41,7 @@ h2{
   ul{
     margin:0;
     margin-bottom: 5px;
+    padding-left:20px;
     @media (min-width: 800px) {
       padding: 0;
     }
@@ -62,10 +63,36 @@ h2{
 }
 .documetationContainer{
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  form{
-    margin-right: 10px;
+  width: 100%;
+  ul{
+    width: 100%;
+    padding-left:20px;
+    @media (min-width: 800px) {
+      width: 50%;
+    }
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    li{
+      list-style: none;
+      display: flex;
+      flex-flow: column;
+      color: grey;
+      font-size: 1em;
+      justify-content: flex-end;
+      span{
+        margin-top: -3px;
+        margin-left: 10px;
+        font-size:1.5em;
+        color: black;
+      }
+    }
+  }
+  .containerRespuesta{
+    font-size:1.5em;
   }
 }
 .roomsInfoContainer{
