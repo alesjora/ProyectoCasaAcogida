@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SnackBarService } from '../../services/snack-bar.service';
+import { StayService } from '../../services/stay.service';
+import { LogoutService } from '../../services/logout.service';
 
 @Component({
   selector: 'app-departure-dialog',
@@ -15,7 +17,7 @@ export class DepartureDialogComponent implements OnInit {
   private dayFormatter = new Intl.DateTimeFormat('es', { weekday: 'long' });
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
 
-   constructor(public fb: FormBuilder, private snackBarService: SnackBarService) {
+   constructor(public fb: FormBuilder, private stayService: StayService, private logoutService: LogoutService) {
     this.date = new Date(Date.now());
     this.time = this.date;
   }
@@ -26,6 +28,7 @@ export class DepartureDialogComponent implements OnInit {
     this.newDepartureForm = this.fb.group({
       departureDate: ['', [Validators.required]],
       departureTime: ['', [Validators.required]],
+      reasonDeparture: ['']
     });
   }
   get departureDate() {
@@ -34,19 +37,39 @@ export class DepartureDialogComponent implements OnInit {
   get departureTime() {
     return this.newDepartureForm.get('departureTime');
   }
+  get reasonDeparture() {
+    return this.newDepartureForm.get('reasonDeparture');
+  }
   public formatter = (date: Date) => {
     // tslint:disable-next-line:max-line-length
     return `${this.dayFormatter.format(date)}, ${date.getDate()} ${this.monthFormatter.format(date)}, ${date.getFullYear()}`;
   }
-  submit(event, idRecord) {
+  async submit(idRecord, idRecordBed) {
     const data = {
       idRecord,
+      idRecordBed,
       departureDate: this.getDate(this.departureDate.value),
       departureHour: this.getTime(this.departureTime.value),
+      reasonDeparture: this.reasonDeparture.value
     };
-    //console.log(data);
-    //this.snackBarService.showSnackbar('Fecha de salida añadida correctamente.', 2000, 'bottom', 'success');
-    event.dialog.close();
+    return await this.sendData(data);
+  }
+  sendData(data){
+    return new Promise(resolve => {
+      this.stayService.sendDepartureDate(data).toPromise().then(this.sendDepartureDateSuccess.bind(this));
+    });
+  }
+  sendDepartureDateSuccess(response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        return true;
+      default:
+        return false;
+    }
+
   }
   public getDate(date: Date) {
     return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
