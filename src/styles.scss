@@ -12,14 +12,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: #fff;
 }
 .igx-overlay__wrapper--flex{
-    z-index: 9999 !important;
+    z-index: 999 !important;
 }
 .igx-dialog__window{
     padding: 16px;
     width: 300px;
     @media (min-width: 768px){
         width: 450px;
-    } 
+    }
 }
 .igx-dialog__window-title{
     padding: 8px !important;
