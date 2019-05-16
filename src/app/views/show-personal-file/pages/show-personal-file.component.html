@@ -25,6 +25,8 @@
     <li><i class="material-icons">meeting_room</i> {{nHabitacion}}</li>
     <li><i class="material-icons">airline_seat_individual_suite</i> {{nCama}}</li>
   </ul>
+  <button *ngIf="idRegistroCama" mat-raised-button color="accent" (click)="dialogCama.open()">Asignar Cama</button>
+
 </div>
 
 <igx-hierarchical-grid class="hierarchicalGrid" [data]="fechasTabla" (onColumnResized)="onResize($event)" [autoGenerate]="false"
@@ -41,3 +43,7 @@
   </igx-row-island>
 </igx-hierarchical-grid>
 
+<igx-dialog #dialogCama title="Asignar Cama " (onLeftButtonSelect)="dialogCama.close()"
+  (onRightButtonSelect)="changeBed($event, changeRoomDialog)" leftButtonLabel="Cancelar" rightButtonLabel="Asignar" closeOnOutsideSelect="true">
+  <app-change-room-dialog #changeRoomDialog></app-change-room-dialog>
+</igx-dialog>

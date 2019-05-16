@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
 import { IgniteModule } from 'src/app/shared/ignite/ignite.module';
 import { DateFormatPipe } from 'src/app/shared/pipes/date-format.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 @NgModule({
   declarations: [ShowPersonalFileComponent, DateFormatPipe],
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ShowPersonalFileRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    IgniteModule
+    IgniteModule,
+    ComponentsModule
   ]
 })
 export class ShowPersonalFileModule { }

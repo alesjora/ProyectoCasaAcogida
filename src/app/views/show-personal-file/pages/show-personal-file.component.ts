@@ -5,6 +5,8 @@ import { LogoutService } from 'src/app/shared/services/logout.service';
 import { environment } from 'src/environments/environment';
 import { IgxColumnComponent, IgxHierarchicalGridComponent, IgxRowIslandComponent } from 'igniteui-angular';
 import { FormBuilder } from '@angular/forms';
+import { ChangeRoomDialogComponent } from 'src/app/shared/components/change-room-dialog/change-room-dialog.component';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-show-personal-file',
@@ -32,19 +34,30 @@ export class ShowPersonalFileComponent implements OnInit{
 
   nHabitacion: string;
   nCama: string;
-
+  idRegistroCama: string;
+  idRegistro: string;
   documentation;
 
   constructor(private activatedRoute: ActivatedRoute,
-    private showPersonalFileService: ShowPersonalFileService,
-    private logoutService: LogoutService,
-    private fb: FormBuilder) {
+              private showPersonalFileService: ShowPersonalFileService,
+              private logoutService: LogoutService,
+              private fb: FormBuilder,
+              private snackBarService: SnackBarService) {
   }
 
   ngOnInit() {
     this.translate();
-    const id = this.activatedRoute.snapshot.params.id;
+    document.getElementById('buttonNav').addEventListener('click', () => {
+      document.getElementsByClassName('igx-grid__tbody-content')[0].style.width = '100%';
+      document.getElementsByClassName('igx-grid__thead-wrapper')[0].style.width = '100%';
+      // igx-grid__thead-wrapper
+    });
 
+
+    this.getDatos();
+  }
+  getDatos(){
+    const id = this.activatedRoute.snapshot.params.id;
     this.showPersonalFileService.getPersonalFile({ id }).subscribe(response => {
       switch (response.status) {
         case 'SESSION_EXPIRED':
@@ -59,7 +72,6 @@ export class ShowPersonalFileComponent implements OnInit{
       }
     });
   }
-
   private translate() {
     const currentRS = this.hierarchicalGrid.resourceStrings;
     currentRS.igx_grid_filter = 'Filtro';
@@ -85,7 +97,6 @@ export class ShowPersonalFileComponent implements OnInit{
   }
 
   datosObtenidosCorrectamente(response){
-    console.log(response);
     this.srcImagen = response.data.mainData[0].image;
     if (response.data.mainData[0].image === '') {
       this.srcImagen = environment.urlImage + 'StandarProfile.png';
@@ -99,7 +110,8 @@ export class ShowPersonalFileComponent implements OnInit{
 
     this.nHabitacion = response.data.habitacionActual ? response.data.habitacionActual : '-';
     this.nCama = response.data.camaActual ? response.data.camaActual : '-';
-
+    this.idRegistroCama = response.data.idRegistroCama ? response.data.idRegistroCama : null;
+    this.idRegistro = response.data.idRegistro ? response.data.idRegistro : null;
     this.getRegistroFechas(response);
     this.getDocumentacion(response);
 
@@ -141,6 +153,16 @@ export class ShowPersonalFileComponent implements OnInit{
   formatoFecha(date) {
     date = date != null ? new Date(date) : null;
     return date != null ? date.getFullYear() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + ('0' + date.getDate()).slice(-2) : '';
+  }
+
+  async changeBed(event, changeRoomDialogComponent: ChangeRoomDialogComponent) {
+    if(await changeRoomDialogComponent.sendData(this.idRegistro, this.idRegistroCama)){
+      this.snackBarService.showSnackbar('Cama cambiada correctamente.', 1500, 'bottom', 'success');
+        event.dialog.close();
+    }else{
+      this.snackBarService.showSnackbar('Error al cambiar la cama.', 1500, 'bottom', 'error');
+    }
+    this.getDatos();
   }
 
 }
