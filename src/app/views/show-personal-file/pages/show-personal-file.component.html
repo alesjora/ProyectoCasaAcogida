@@ -68,7 +68,7 @@
           <div class="cell__inner_2">
               <span *ngIf='cell.value; else dentroCasa'>{{cell.value | dateFormat}}</span>
               <ng-template #dentroCasa>
-                <span>Actualmente en esta cama</span>
+                <mat-chip class="inHome" selected>Actualmente en casa</mat-chip>
               </ng-template>
           </div>
         </ng-template>
