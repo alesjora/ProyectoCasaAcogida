@@ -23,6 +23,10 @@ export class ChangeRoomDialogComponent implements OnInit {
     bed: new FormControl({value: '', disabled: true}, [Validators.required, Validators.min(1)])
   });
   ngOnInit() {
+    this.getgetRoomsAndBedsAvailablePeticion();
+  }
+
+  getgetRoomsAndBedsAvailablePeticion() {
     this.stayService.getRoomsAndBedsAvailable().subscribe(this.getRoomsAndBedsAvailableSuccess.bind(this),
     this.snackBarService.showSnackbar.bind(this, 'Error al conectar con el servidor', 3000, 'bottom', 'error'))
   }
@@ -76,6 +80,7 @@ export class ChangeRoomDialogComponent implements OnInit {
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         return false;
       case 'OPERATION_SUCCESS':
+        this.getgetRoomsAndBedsAvailablePeticion();
         return true;
       default:
         return false;

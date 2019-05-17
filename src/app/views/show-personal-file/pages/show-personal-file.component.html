@@ -13,13 +13,16 @@
     </ul>
   </div>
 </div>
+
 <div class='mainContainer'>
-  <div *ngIf="documentation" class='documetationContainer'>
-    <ul>
-        <ng-container *ngFor="let item of documentation">
-          <li>{{item.type}}<span>{{item.value}}</span></li>
-        </ng-container>
-    </ul>
+<div  class='documetationContainer'>
+  <ng-container *ngIf="documentation">
+      <ul>
+          <ng-container *ngFor="let item of documentation">
+            <li>{{item.type}}<span>{{item.value}}</span></li>
+          </ng-container>
+      </ul>
+  </ng-container>
 </div>
 <div class='roomsInfoContainer'>
   <ul>
