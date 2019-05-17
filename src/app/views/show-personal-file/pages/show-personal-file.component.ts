@@ -8,6 +8,7 @@ import { FormBuilder } from '@angular/forms';
 import { ChangeRoomDialogComponent } from 'src/app/shared/components/change-room-dialog/change-room-dialog.component';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { DepartureDialogComponent } from 'src/app/shared/components/departure-dialog/departure-dialog.component';
+import { StoreService } from 'src/app/shared/services/store.service';
 
 @Component({
   selector: 'app-show-personal-file',
@@ -44,7 +45,9 @@ export class ShowPersonalFileComponent implements OnInit {
               private logoutService: LogoutService,
               private fb: FormBuilder,
               private snackBarService: SnackBarService,
-              private renderer: Renderer2) {
+              private renderer: Renderer2,
+              private storeService: StoreService) {
+                this.storeService.sendCurrentRoute('Fichas personales');
   }
 
   ngOnInit() {

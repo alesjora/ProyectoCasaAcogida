@@ -8,21 +8,18 @@ import { Validators, FormBuilder } from '@angular/forms';
 })
 export class FamilyMemberDataComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
-  identifyingDataForm;
+  familyMemberDataForm;
   @ViewChild('familyMemberData') familyMemberData;
   ngOnInit() {
     this.createForm();
   }
   createForm(){
-    this.identifyingDataForm = this.fb.group({
+    this.familyMemberDataForm = this.fb.group({
       hola : ['', Validators.required]
     });
   }
-  get hola() {
-    return this.identifyingDataForm.get('hola');
-  }
-  public formIsValid(){
-    return this.identifyingDataForm.valid;
+  public formIsValid() {
+    return this.familyMemberDataForm.valid;
   }
 
 
