@@ -20,7 +20,8 @@ IgxForOfModule,
   IgxDropDownModule,
   IgxTimePickerModule,
   IgxHierarchicalGridModule,
-  IgxDialogModule
+  IgxDialogModule,
+  IgxTabsModule
 } from "igniteui-angular";
 
 @NgModule({
@@ -47,6 +48,7 @@ IgxForOfModule,
     IgxDropDownModule,
     IgxTimePickerModule,
     IgxHierarchicalGridModule,
-    IgxDialogModule]
+    IgxDialogModule,
+  	IgxTabsModule]
 })
 export class IgniteModule { }

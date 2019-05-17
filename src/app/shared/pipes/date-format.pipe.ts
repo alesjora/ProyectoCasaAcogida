@@ -6,11 +6,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DateFormatPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
+    if (value == null || value === undefined) {
+      return '';
+    }
     let fecha;
-    if(/\//.test(value)){
+    if (/\//.test(value)) {
       fecha = value.split('/');
     }
-    if(/-/.test(value)){
+    if (/-/.test(value)) {
       fecha = value.split('-');
     }
 

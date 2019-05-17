@@ -37,6 +37,10 @@ const routes: Routes = [
       loadChildren: './../show-personal-file/show-personal-file.module#ShowPersonalFileModule'
     },
     {
+      path: 'formulario-expediente',
+      loadChildren: './../case-file-form/case-file-form.module#CaseFileFormModule'
+    },
+    {
       path: 'logout',
       component: LogoutComponent
     },

@@ -8,6 +8,7 @@ import { LoginModule } from './views/login/login.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ConexionInterceptorService } from './shared/interceptors/conexion-interceptor.service';
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
+import { CaseFileFormComponent } from './views/case-file-form/case-file-form.component';
 
 @NgModule({
   declarations: [

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, OnDestroy, AfterContentInit } from '@angular/core';
 import { IgxNavigationDrawerComponent } from 'igniteui-angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CheckTokenService } from 'src/app/shared/services/check-token.service';
@@ -13,7 +13,8 @@ import { LogoutService } from 'src/app/shared/services/logout.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy,AfterContentInit {
+
 
   show: boolean = false;
   selected: string = 'Inicio';
@@ -70,12 +71,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigate(['dashboard/inicio']);
       }
     });
-
+    this.ref.detectChanges();
     if (this.resolucionMovil()) {
       this.drawerState.miniTemplate = false;
     }
   }
-  
+  ngAfterContentInit(): void {
+    this.ref.detectChanges();
+  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
