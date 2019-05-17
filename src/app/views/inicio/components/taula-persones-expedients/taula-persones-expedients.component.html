@@ -33,7 +33,7 @@
       <ng-container matColumnDef="expedients">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Expediente personal </th>
         <td mat-cell *matCellDef="let element">
-            <button class="button_expedient" routerLink="/dashboard/nuevo-ingreso" mat-raised-button color="accent"> {{ element.expedient_started ? 'Editar evaluación' : 'Comenzar evaluación'}}</button>
+            <button class="button_expedient" routerLink="/dashboard/formulario-expediente/{{element.idExpedient}}" mat-raised-button color="accent"> {{ element.expedient_started ? 'Editar expediente' : 'Comenzar expediente'}}</button>
         </td>
       </ng-container>
   

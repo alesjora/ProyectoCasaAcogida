@@ -53,6 +53,7 @@ export class TaulaPersonesExpedientsComponent implements OnInit {
       arrayData.push({
         image: element.image,
         id: element.id,
+        idExpedient: element.idExpedient,
         name: element.name,
         surname1: element.surname1,
         surname2: (element.surname2 === null) ? '' : element.surname2,
@@ -67,6 +68,7 @@ export class TaulaPersonesExpedientsComponent implements OnInit {
 export interface PersonElement {
   image: string;
   id: string;
+  idExpedient: string;
   name: string;
   surname1: string;
   surname2: string;

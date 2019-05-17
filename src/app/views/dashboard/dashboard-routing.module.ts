@@ -37,7 +37,7 @@ const routes: Routes = [
       loadChildren: './../show-personal-file/show-personal-file.module#ShowPersonalFileModule'
     },
     {
-      path: 'formulario-expediente',
+      path: 'formulario-expediente/:id',
       loadChildren: './../case-file-form/case-file-form.module#CaseFileFormModule'
     },
     {
