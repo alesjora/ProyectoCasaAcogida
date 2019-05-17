@@ -6,6 +6,7 @@ import { InicioService } from '../../service/inicio.service';
 import { DepartureDialogComponent } from 'src/app/shared/components/departure-dialog/departure-dialog.component';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { Subscription } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-table-people-at-home',
@@ -17,16 +18,24 @@ export class TablePeopleAtHomeComponent implements OnInit {
   public search: string;
   public data: object[] = [];
   public displayedColumns = ['name', 'entry_date', 'departure_date', 'room', 'bed'];
-  public dataSource;
+  public dataSource = new MatTableDataSource();
   public currentPerson: string;
   public currentIdRegistro: string;
   public currentIdRegistroCama: string;
   private subscription: Subscription;
   @ViewChild(MatSort) sort: MatSort;
+  private pipe: DatePipe;
   constructor(public storeService: StoreService,
               private logoutService: LogoutService,
               private inicioService: InicioService,
-              private snackBarService: SnackBarService) { }
+              private snackBarService: SnackBarService) {
+    this.pipe = new DatePipe('en');
+    console.log('hi',this.dataSource.filterPredicate);
+    this.dataSource.filterPredicate = (data: PersonElement, filter) => {
+      const dataStr = data.search;
+      return dataStr.indexOf(filter) !== -1;
+    }
+  }
 
   ngOnInit() {
     this.obtenerDatos();
@@ -54,7 +63,7 @@ export class TablePeopleAtHomeComponent implements OnInit {
   generarData(data) {
     let arrayData: Array<PersonElement> = [];
     data.forEach(element => {
-      let search = element.name + " " + element.surname1 + " " + ((element.surname2 === null) ? '': element.surname2) + " " + element.entry_date + " " + ((element.departure_date === null) ? 'Sin fecha de salida': element.departure_date)  + " " + element.room + " " + element.bed;
+      let search = element.name + ' ' + element.surname1 + ' ' + ((element.surname2 === null) ? ' ' : element.surname2) + ' ' + this.pipe.transform(element.entry_date, 'dd/MM/yyyy') + ' ' + ((element.departure_date === null) ? ' ' : this.pipe.transform(element.departure_date, 'dd/MM/yyyy')) + ' ' + element.room + ' ' + element.bed;
       arrayData.push({
         image: element.image,
         id: element.id,
