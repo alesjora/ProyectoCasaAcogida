@@ -16,8 +16,8 @@ import { LogoutService } from 'src/app/shared/services/logout.service';
 export class DashboardComponent implements OnInit, OnDestroy,AfterContentInit {
 
 
-  show: boolean = false;
-  selected: string = 'Inicio';
+  show = false;
+  selected = 'Inicio';
   subscription: Subscription;
 
   public menuConserje = [
