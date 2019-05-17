@@ -4,13 +4,13 @@
     <img [src]="srcImagen" alt="">
   </div>
   <div class='basicDescriptionContainer'>
-  <ul>
-    <li>Nombre: <span>{{nombre}}</span></li>
-    <li>Apellidos: <span>{{apellido1}} {{apellido2}}</span></li>
-    <li *ngIf="nacionalidad">Nacionalidad: <span>{{nacionalidad}}</span></li>
-    <li *ngIf="paisNacimiento">País Nacimiento: <span>{{paisNacimiento}}</span></li>
-    <li *ngIf="fechaNacimiento">Fecha Nacimiento <span>{{fechaNacimiento | dateFormat}}</span></li>
-  </ul>
+    <ul>
+      <li>Nombre: <span>{{nombre}}</span></li>
+      <li>Apellidos: <span>{{apellido1}} {{apellido2}}</span></li>
+      <li *ngIf="nacionalidad">Nacionalidad: <span>{{nacionalidad}}</span></li>
+      <li *ngIf="paisNacimiento">País Nacimiento: <span>{{paisNacimiento}}</span></li>
+      <li *ngIf="fechaNacimiento">Fecha Nacimiento <span>{{fechaNacimiento | dateFormat}}</span></li>
+    </ul>
   </div>
 </div>
 <div class='mainContainer'>
@@ -74,7 +74,8 @@
 </igx-hierarchical-grid>
 
 <igx-dialog #dialogCama title="Asignar Cama " (onLeftButtonSelect)="dialogCama.close()"
-  (onRightButtonSelect)="changeBed($event, changeRoomDialog)" leftButtonLabel="Cancelar" rightButtonLabel="Asignar" closeOnOutsideSelect="true">
+  (onRightButtonSelect)="changeBed($event, changeRoomDialog)" leftButtonLabel="Cancelar" rightButtonLabel="Asignar"
+  closeOnOutsideSelect="true">
   <app-change-room-dialog #changeRoomDialog></app-change-room-dialog>
 </igx-dialog>
 
