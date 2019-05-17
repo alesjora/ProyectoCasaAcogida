@@ -1,24 +1,42 @@
 <igx-tabs>
     <igx-tabs-group label="Datos identificativos" icon="face">
         <app-identifying-data #identifyingData></app-identifying-data>
-        <button mat-raised-button color="primary" (click)='goTo(socioFamiliares)' [disabled]="checkPreviousForm([identifyingData])">Siguiente</button>
+        <button mat-raised-button color="primary" (click)='goTo(socioFamiliares)'
+        [disabled]="checkPreviousForm([identifyingData])">Siguiente</button>
     </igx-tabs-group>
     <igx-tabs-group label="Datos sociofamiliares" icon="group" #socioFamiliares [disabled]="checkPreviousForm([identifyingData])">
         <app-family-member-data #familyMemberData></app-family-member-data>
-        <button mat-raised-button color="primary" (click)='goTo(hateCrimes)' [disabled]="checkPreviousForm([identifyingData, familyMemberData])">Siguiente</button>
+        <button mat-raised-button color="primary" (click)='goTo(delitosOdio)'
+        [disabled]="checkPreviousForm([identifyingData, familyMemberData])">Siguiente</button>
     </igx-tabs-group>
-    <igx-tabs-group label="Delitos de odio (violencia contra PSH)" #hateCrimes icon="record_voice_over" [disabled]="checkPreviousForm([identifyingData, familyMemberData])">
-      Delitos de odio (violencia contra PSH).
+    <igx-tabs-group label="Delitos de odio (violencia contra PSH)" icon="record_voice_over" #delitosOdio [disabled]="checkPreviousForm([identifyingData, familyMemberData])">
+      <app-hate-crimes #hateCrimes ></app-hate-crimes>
+      <button mat-raised-button color="primary" (click)='goTo(violenciaGenero)'
+      [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes])">Siguiente</button>
     </igx-tabs-group>
-    <igx-tabs-group label="Violencia de género" icon="pan_tool" [disabled]='true'>
-      Violencia de género.
+    <igx-tabs-group label="Violencia de género" icon="pan_tool" #violenciaGenero [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes])'>
+        <app-gender-violence #genderViolence></app-gender-violence>
+        <button mat-raised-button color="primary" (click)='goTo(formativoLaborales)'
+        [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence])">Siguiente</button>
     </igx-tabs-group>
-    <igx-tabs-group label="Datos formativo-laborales" icon="work" [disabled]='true'>
-      Datos formativo-laborales.
+    <igx-tabs-group label="Datos formativo-laborales" icon="work" #formativoLaborales [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence])'>
+      <app-labor-training #laborTraining></app-labor-training>
+      <button mat-raised-button color="primary" (click)='goTo(economicos)'
+      [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining])">Siguiente</button>
     </igx-tabs-group>
-    <igx-tabs-group label="Datos económicos" icon="euro_symbol" [disabled]='true'>
-      Datos económicos.
+    <igx-tabs-group label="Datos económicos" icon="euro_symbol" #economicos [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining])'>
+      <app-economic #economic></app-economic>
+      <button mat-raised-button color="primary" (click)='goTo(sanitarios)'
+      [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic])">Siguiente</button>
     </igx-tabs-group>
-    <igx-tabs-group label="Datos sanitarios" icon="healing" [disabled]='true'>Datos sanitarios.</igx-tabs-group>
-    <igx-tabs-group label="Datos jurídicos/ legales" icon="gavel" [disabled]='true'> Datos jurídicos/ legales.</igx-tabs-group>
+    <igx-tabs-group label="Datos sanitarios" icon="healing" #sanitarios [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic])'>
+      <app-health #health></app-health>
+      <button mat-raised-button color="primary" (click)='goTo(juridicoLegales)'
+      [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic, health])">Siguiente</button>
+    </igx-tabs-group>
+    <igx-tabs-group label="Datos jurídicos/ legales" icon="gavel" #juridicoLegales [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic, health])'>
+       <app-legal-legal #legalLegal></app-legal-legal>
+       <button mat-raised-button color="primary" (click)='goTo(hateCrimes)'
+       [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic, health, legalLegal])">Enviar </button>
+    </igx-tabs-group>
 </igx-tabs>

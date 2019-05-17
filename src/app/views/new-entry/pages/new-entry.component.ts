@@ -29,13 +29,18 @@ export class NewEntryComponent implements OnInit {
 
 
   constructor(public fb: FormBuilder,
-    public newEntryService: NewEntryService,
-    public logoutService: LogoutService,
-    public snackBarService: SnackBarService,
-    public storeService: StoreService,
-    public router: Router) {
+              public newEntryService: NewEntryService,
+              public logoutService: LogoutService,
+              public snackBarService: SnackBarService,
+              public storeService: StoreService,
+              public router: Router) {
     this.date = new Date(Date.now());
     this.time = this.date;
+    if (this.storeService.getUserProfile() === 'tecnico') {
+      this.storeService.sendCurrentRoute('Registros');
+    } else {
+      this.storeService.sendCurrentRoute('Inicio');
+    }
   }
 
   createForm() {

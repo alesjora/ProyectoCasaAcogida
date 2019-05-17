@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-gender-violence',
@@ -6,10 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./gender-violence.component.scss']
 })
 export class GenderViolenceComponent implements OnInit {
-
-  constructor() { }
-
+  constructor(private fb: FormBuilder) { }
+  genderViolenceForm;
+  @ViewChild('genderViolence') genderViolence;
   ngOnInit() {
+    this.createForm();
+  }
+  createForm() {
+    this.genderViolenceForm = this.fb.group({
+      hola : ['', Validators.required]
+    });
+  }
+  public formIsValid() {
+    return this.genderViolenceForm.valid;
   }
 
 }

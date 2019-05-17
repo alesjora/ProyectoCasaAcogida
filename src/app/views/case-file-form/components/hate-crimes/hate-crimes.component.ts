@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-hate-crimes',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hate-crimes.component.scss']
 })
 export class HateCrimesComponent implements OnInit {
-
-  constructor() { }
-
+  constructor(private fb: FormBuilder) { }
+  hateCrimesForm;
   ngOnInit() {
+    this.createForm();
+  }
+  createForm() {
+    this.hateCrimesForm = this.fb.group({
+      hola : ['', Validators.required]
+    });
+  }
+  public formIsValid() {
+    return this.hateCrimesForm.valid;
   }
 
 }
