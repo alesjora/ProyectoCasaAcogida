@@ -25,8 +25,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   sendEmail() {
-    this.forgotPasswordService.sendEmail({ email: this.email.value }).subscribe(this.sendEmailSuccess.bind(this),
-      this.snackBarService.showSnackbar.bind(this, 'Error al enviar el correo.', 1000, 'bottom', 'error')
+    this.forgotPasswordService.sendEmail({ email: this.email.value }).subscribe(this.sendEmailSuccess.bind(this)
       );
   }
 
