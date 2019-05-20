@@ -1,3 +1,89 @@
 <form [formGroup]="familyMemberDataForm">
-    <input formControlName="hola">
-  </form>
+  <div class="familia">
+    <label>Familia: </label>
+    <mat-radio-group aria-label="Selecciona una opción" formControlName="familyCheckbox">
+      <mat-radio-button value="1" (click)="getDataFamily()">Si</mat-radio-button>
+      <mat-radio-button value="2">No</mat-radio-button>
+    </mat-radio-group>
+    <igx-combo #combo class="combo" formControlName="comboBoxDataFamily" [itemsMaxHeight]="255" [data]="dataFamily"
+      [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Parentesco(s)" searchPlaceholder="Buscar..."
+      [disabled]="familyCheckbox.value != 1">
+    </igx-combo>
+    <mat-form-field [hidden]="!enableInputDataFamily('family', 2)">
+      <input matInput type="text" placeholder="Número de hermanos" formControlName="nHermanosFamily">
+      <mat-error *ngIf="nHermanosFamily?.invalid">El número de hermanos es obligatorio</mat-error>
+    </mat-form-field>
+    <mat-form-field [hidden]="!enableInputDataFamily('family', 3)">
+      <input matInput type="text" placeholder="Número de hijos" formControlName="nHijosFamily">
+      <mat-error *ngIf="nHijosFamily?.invalid">El número de hermanos es obligatorio</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="relacionFamiliar">
+    <label>Relación familiar: </label>
+    <mat-radio-group aria-label="Selecciona una opción" formControlName="familyRelationshipCheckbox">
+      <mat-radio-button value="1" (click)="getDataFamily()">Si</mat-radio-button>
+      <mat-radio-button value="2">No</mat-radio-button>
+    </mat-radio-group>
+    <igx-combo #combo class="combo" formControlName="comboBoxDataFamilyRelationship" [itemsMaxHeight]="255"
+      [data]="dataFamily" [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Parentesco(s)"
+      searchPlaceholder="Buscar..." [disabled]="familyRelationshipCheckbox.value != 1">
+    </igx-combo>
+    <mat-form-field [hidden]="!enableInputDataFamily('relationship', 2)">
+      <input matInput type="text" placeholder="Número de hermanos" formControlName="nHermanosFamilyRelationship">
+      <mat-error *ngIf="nHermanosFamily?.invalid">El número de hermanos es obligatorio</mat-error>
+    </mat-form-field>
+    <mat-form-field [hidden]="!enableInputDataFamily('relationship', 3)">
+      <input matInput type="text" placeholder="Número de hijos" formControlName="nHijosFamilyRelationship">
+      <mat-error *ngIf="nHijosFamily?.invalid">El número de hermanos es obligatorio</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="personaContacto">
+    <label>Persona de contacto: </label>
+    <mat-radio-group aria-label="Selecciona una opción" formControlName="personContactCheckbox">
+      <mat-radio-button value="1" (click)="getDataFamily()">Si</mat-radio-button>
+      <mat-radio-button value="2">No</mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field class="containerInputs">
+      <mat-label>Parentesco</mat-label>
+      <mat-select formControlName="comboBoxPersonContact" [disabled]="personContactCheckbox.value != 1">
+        <mat-option *ngFor="let data of dataFamily" [value]="data.value">
+          {{data.viewValue}}
+        </mat-option>
+        <mat-option value="100">Otros</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field [hidden]="comboBoxPersonContact.value != 100 || personContactCheckbox.value != 1">
+      <input matInput type="text" placeholder="Parentesco de la persona" formControlName="typePersonContact">
+      <mat-error *ngIf="typePersonContact?.invalid">El número de hermanos es obligatorio</mat-error>
+    </mat-form-field>
+    <mat-form-field [hidden]="!comboBoxPersonContact.value || personContactCheckbox.value != 1">
+      <input matInput type="text" placeholder="Nombre de la persona de contacto" formControlName="infoPersonContact">
+      <mat-error *ngIf="infoPersonContact?.invalid">El nombre de la persona de contacto es obligatorio</mat-error>
+    </mat-form-field>
+    <mat-form-field [hidden]="!comboBoxPersonContact.value || personContactCheckbox.value != 1">
+      <input matInput type="text" placeholder="Teléfono de la persona de contacto"
+        formControlName="telephonePersonContact">
+      <mat-error *ngIf="infoPersonContact?.invalid">El teléfono de la persona de contacto es obligatorio</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="residencia">
+    <mat-form-field>
+      <mat-label>País de residencia</mat-label>
+      <mat-select formControlName="paisSelected" (openedChange)="getProvincias()">
+        <mat-option *ngFor="let element of paises" [value]="element.value">
+          {{element.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Provincia</mat-label>
+      <mat-select formControlName="provinciaSelected">
+        <mat-option *ngFor="let element of provincias" [value]="element.value">
+          {{element.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <br>
+  <button (click)="getData()">Ver datos</button>
+</form>

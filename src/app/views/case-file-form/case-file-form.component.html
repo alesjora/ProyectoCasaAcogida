@@ -4,7 +4,8 @@
         <button mat-raised-button color="primary" (click)='goTo(socioFamiliares)'
         [disabled]="checkPreviousForm([identifyingData])">Siguiente</button>
     </igx-tabs-group>
-    <igx-tabs-group label="Datos sociofamiliares" icon="group" #socioFamiliares [disabled]="checkPreviousForm([identifyingData])">
+    <!-- <igx-tabs-group label="Datos sociofamiliares" icon="group" #socioFamiliares [disabled]="checkPreviousForm([identifyingData])"> -->
+        <igx-tabs-group label="Datos sociofamiliares" icon="group" #socioFamiliares>
         <app-family-member-data #familyMemberData></app-family-member-data>
         <button mat-raised-button color="primary" (click)='goTo(delitosOdio)'
         [disabled]="checkPreviousForm([identifyingData, familyMemberData])">Siguiente</button>
