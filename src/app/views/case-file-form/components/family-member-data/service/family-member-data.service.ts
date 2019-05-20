@@ -1,0 +1,25 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class FamilyMemberDataService {
+
+  constructor(private httpClient: HttpClient) { }
+
+  getDataFamily(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerDatosParentesco');
+  }
+  getPaises(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerPaises');
+  }
+  getProvincias(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerProvincias', data);
+  }
+  getMunicipios(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerMunicipios', data);
+  }
+}

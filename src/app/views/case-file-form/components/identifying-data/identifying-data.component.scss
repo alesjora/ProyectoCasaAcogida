@@ -1,0 +1,39 @@
+.materialTheme{
+  width: 100%;
+  padding-left:0px;
+  margin: 16px 0px 0px 0px;
+  @media (min-width: 800px) {
+    padding-left:0px;
+  }
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  li{
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    color: grey;
+    font-size: 1em;
+    justify-content: flex-end;
+    span{
+      margin-top: -3px;
+      margin-left: 10px;
+      font-size:1.5em;
+      color: black;
+    }
+  }
+}
+.containerInputs{
+  width: 100%;
+}
+.datesContainer{
+  width: 100%;
+  padding-bottom: 1.25rem
+}
+.formaIngresoContainer{
+  width: 100%;
+}
+.nameContainer{
+  width: 100%;
+}
