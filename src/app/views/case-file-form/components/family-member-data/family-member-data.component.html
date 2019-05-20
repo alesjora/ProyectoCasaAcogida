@@ -77,12 +77,20 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Provincia</mat-label>
-      <mat-select formControlName="provinciaSelected">
+      <mat-select formControlName="provinciaSelected" (openedChange)="getMunicipios()">
         <mat-option *ngFor="let element of provincias" [value]="element.value">
           {{element.viewValue}}
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field>
+        <mat-label>Municipio</mat-label>
+        <mat-select formControlName="provinciaSelected">
+          <mat-option *ngFor="let element of municipios" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
   </div>
   <br>
   <button (click)="getData()">Ver datos</button>

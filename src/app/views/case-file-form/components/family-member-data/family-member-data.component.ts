@@ -19,6 +19,7 @@ export class FamilyMemberDataComponent implements OnInit {
   dataFamily = [];
   paises = [];
   provincias = [];
+  municipios = [];
   valuesComboboxDataFamily;
 
   ngOnInit() {
@@ -57,6 +58,7 @@ export class FamilyMemberDataComponent implements OnInit {
       telephonePersonContact: ['', Validators.required],
       paisSelected: ['', Validators.required],
       provinciaSelected: ['', Validators.required],
+      municipioSelected: ['', Validators.required],
     });
   }
   public formIsValid() {
@@ -110,7 +112,9 @@ export class FamilyMemberDataComponent implements OnInit {
   get provinciaSelected() {
     return this.familyMemberDataForm.get('provinciaSelected');
   }
-
+  get municipioSelected() {
+    return this.familyMemberDataForm.get('municipioSelected');
+  }
   getDataFamily() {
     this.familiaMemberDataService.getDataFamily().subscribe(this.getDataFamilySuccess.bind(this))
   }
@@ -152,9 +156,42 @@ export class FamilyMemberDataComponent implements OnInit {
     console.log(data);
   }
   getProvincias() {
-    this.provincias = [{value: 1, viewValue: 'Córdoba'}];
-    console.log(this.paisSelected.value);
+    this.familiaMemberDataService.getProvincias({idPais: this.paisSelected.value}).subscribe(this.getProvinciasSuccess.bind(this));
   }
-
-
+  getProvinciasSuccess(response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        this.provincias = [];
+        response.data.forEach(element => {
+          this.provincias.push({ value: element.id, viewValue: element.provincia });
+        });
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
+        break;
+    }
+  }
+  getMunicipios() {
+    this.familiaMemberDataService.getMunicipios({idProvincia: this.provinciaSelected.value}).subscribe(
+      this.getMunicipiosSuccess.bind(this));
+  }
+  getMunicipiosSuccess(response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        this.municipios = [];
+        response.data.forEach(element => {
+          this.municipios.push({ value: element.id, viewValue: element.poblacion });
+        });
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
+        break;
+    }
+  }
 }
