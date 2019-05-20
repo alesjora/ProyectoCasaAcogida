@@ -11,9 +11,9 @@ import {
   IgxToggleModule,
   IgxNavbarModule,
   IgxAvatarModule,
-IgxFilterModule,
-IgxListModule,
-IgxForOfModule,
+  IgxFilterModule,
+  IgxListModule,
+  IgxForOfModule,
   IgxInputGroupModule,
   IgxDatePickerModule,
   IgxAutocompleteModule,
@@ -21,7 +21,8 @@ IgxForOfModule,
   IgxTimePickerModule,
   IgxHierarchicalGridModule,
   IgxDialogModule,
-  IgxTabsModule
+  IgxTabsModule,
+  IgxComboModule
 } from "igniteui-angular";
 
 @NgModule({
@@ -49,6 +50,7 @@ IgxForOfModule,
     IgxTimePickerModule,
     IgxHierarchicalGridModule,
     IgxDialogModule,
-  	IgxTabsModule]
+    IgxTabsModule,
+    IgxComboModule]
 })
 export class IgniteModule { }
