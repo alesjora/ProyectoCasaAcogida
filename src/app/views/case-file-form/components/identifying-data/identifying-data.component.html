@@ -50,6 +50,7 @@
     </mat-form-field>
   </div>
   <div class="documentationContainer">
+
       <mat-form-field class="containerInputs">
           <mat-label>Tipo de documentación </mat-label>
           <mat-select formControlName="documentationType" >
@@ -64,13 +65,39 @@
               </mat-option>
           </mat-select>
       </mat-form-field>
-      <mat-form-field class="containerInputs">
-          <input matInput type="text" placeholder="Tipo Documento" formControlName="documentation">
-      </mat-form-field>
-      <mat-form-field *ngIf="documentationType.value != -1 || documentationType.value != -2 " class="containerInputs">
-          <input matInput type="text" placeholder="Documentación" formControlName="documentation">
-      </mat-form-field>
-    </div>
 
+      <mat-form-field *ngIf="documentationType.value === (-1)"  class="containerInputs">
+          <input matInput type="text"formControlName="documentationOtherType" placeholder="Tipo Documento">
+      </mat-form-field>
+
+      <mat-form-field *ngIf="documentationType.value !== (-2)"  class="containerInputs">
+          <input matInput type="text" formControlName="documentationNumber" placeholder="Documentación">
+      </mat-form-field>
+
+      <igx-combo #combo class="combo" formControlName="lackDocumentation" [itemsMaxHeight]="155" [data]="tiposDocumento"
+      [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Falta de documentación" searchPlaceholder="Buscar...">
+      </igx-combo>
+
+      <!-- <mat-form-field *ngFor="let item of list" class="containerInputs">
+          <mat-label>Origen de Ingreso</mat-label>
+          <mat-select formControlName="origenIngreso">
+            <mat-option *ngFor="let origenIngreso of origenesIngreso" [value]="origenIngreso.value" >
+              {{origenIngreso.viewValue}}
+            </mat-option>
+          </mat-select>
+      </mat-form-field> -->
+  </div>
+  <mat-form-field class="containerInputs">
+      <input matInput type="text" placeholder="Nombre" formControlName="name">
+      <mat-error *ngIf="name?.invalid">El nombre es obligatorio</mat-error>
+  </mat-form-field>
+  <mat-form-field class="containerInputs">
+      <input matInput type="text" placeholder="Primer Apellido" formControlName="apellido1">
+      <mat-error *ngIf="apellido1?.invalid">El nombre es obligatorio</mat-error>
+  </mat-form-field>
+  <mat-form-field class="containerInputs">
+      <input matInput type="text" placeholder="Segundo Apellido" formControlName="apellido2">
+      <mat-error *ngIf="apellido2?.invalid">El nombre es obligatorio</mat-error>
+  </mat-form-field>
   <button (click)='sendDatos()'>Enviar</button>
 </form>

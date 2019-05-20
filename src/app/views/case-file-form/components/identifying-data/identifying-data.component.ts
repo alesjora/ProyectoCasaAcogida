@@ -21,7 +21,9 @@ export class IdentifyingDataComponent implements OnInit {
   formasIngreso = [];
   origenesIngreso = [];
   tiposDocumento = [];
+  valuesComboboxDataFamily;
   @ViewChild('identifyingData') identifyingData;
+  @ViewChild('familyMemberData') familyMemberData;
   ngOnInit() {
     this.createForm();
     this.getDatos();
@@ -31,13 +33,15 @@ export class IdentifyingDataComponent implements OnInit {
       entryDate : ['', Validators.required],
       departureDate : ['', Validators.required],
       evaluationDate : ['', Validators.required],
-      formaIngreso: [{value: '', disabled: false}, Validators.required],
+      formaIngreso: ['', Validators.required],
       origenIngreso: ['', Validators.required],
       name : ['', Validators.required],
       apellido1 : [''],
       apellido2: [''],
       documentationType: [''],
-      documentation: ['']
+      documentationOtherType: [''],
+      documentationNumber: [''],
+      lackDocumentation: ['']
     });
   }
 
