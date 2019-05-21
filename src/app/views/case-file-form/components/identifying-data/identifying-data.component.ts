@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { IdentifyingDataService } from './services/identifying-data.service';
+import { StayService } from 'src/app/shared/services/stay.service';
 
 @Component({
   selector: 'app-identifying-data',
@@ -14,20 +15,29 @@ export class IdentifyingDataComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private logoutService: LogoutService,
               private snackBarService: SnackBarService,
-              private identifyingDataService: IdentifyingDataService ) { }
+              private identifyingDataService: IdentifyingDataService,
+              private stayService: StayService) { }
 
   identifyingDataForm;
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
   formasIngreso = [];
   origenesIngreso = [];
   tiposDocumento = [];
+  ausenciaDocumento = [];
+  tiposAusenciaDocumento = [];
+  paises = [];
+  provincias = [];
+  municipios = [];
   valuesComboboxDataFamily;
+  edad = new Array(100);
   @ViewChild('identifyingData') identifyingData;
   @ViewChild('familyMemberData') familyMemberData;
   ngOnInit() {
     this.createForm();
     this.getDatos();
+
   }
+
   createForm() {
     this.identifyingDataForm = this.fb.group({
       entryDate : ['', Validators.required],
@@ -41,7 +51,12 @@ export class IdentifyingDataComponent implements OnInit {
       documentationType: [''],
       documentationOtherType: [''],
       documentationNumber: [''],
-      lackDocumentation: ['']
+      lackDocumentation: [''],
+      tiposAusenciaDocumento: this.fb.array([]),
+      telefono: [''],
+      correo: [''],
+      bornDate: [''],
+      edad: ['']
     });
   }
 
@@ -63,11 +78,23 @@ export class IdentifyingDataComponent implements OnInit {
   get apellido2() {
     return this.identifyingDataForm.get('apellido2');
   }
-  get documentationType(){
+  get documentationType() {
     return this.identifyingDataForm.get('documentationType');
   }
-  get documentation(){
+  get documentation() {
     return this.identifyingDataForm.get('documentation');
+  }
+  get lackDocumentation() {
+    return this.identifyingDataForm.get('lackDocumentation');
+  }
+  get tipoAusenciaDocumento() {
+    return this.identifyingDataForm.get('tiposAusenciaDocumento') as FormArray;
+  }
+  get telefono() {
+    return this.identifyingDataForm.get('telefono');
+  }
+  get correo() {
+    return this.identifyingDataForm.get('correo');
   }
 
   /**
@@ -90,8 +117,11 @@ export class IdentifyingDataComponent implements OnInit {
   getDatos() {
     this.identifyingDataService.getFormasIngreso().subscribe(this.peticionHandle.bind(this, this.getFormasIngreso));
     this.identifyingDataService.getOrigenIngreso().subscribe(this.peticionHandle.bind(this, this.getOrigenIngreso));
-    this.identifyingDataService.getTypeDocuments().subscribe(this.peticionHandle.bind(this, this.getTypeDocuments))
+    this.identifyingDataService.getTypeDocuments().subscribe(this.peticionHandle.bind(this, this.getTypeDocuments));
+    this.stayService.getTypesLackDocumentation().subscribe(this.peticionHandle.bind(this, this.getLackDocumentation));
+    this.createEdad();
   }
+
 
   /**
    * Maneja la petición http
@@ -133,12 +163,92 @@ export class IdentifyingDataComponent implements OnInit {
       that.origenesIngreso.push({value: element.id, viewValue: element.origen_ingreso});
     });
   }
+  /**
+   * Guarda los tipos de documento
+   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   * @param that contexto de la clase
+   */
   getTypeDocuments(response, that){
     response.data.forEach(element => {
       that.tiposDocumento.push({value: element.id, viewValue: element.documento});
     });
+    that.ausenciaDocumento = that.tiposDocumento;
+  }
+  /**
+   * Guarda los tipos de ausencia de documento
+   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   * @param that contexto de la clase
+   */
+  getLackDocumentation(response, that) {
+    response.data.forEach(element => {
+      that.tiposAusenciaDocumento.push({value: element.id, viewValue: element.ausencia_documento});
+    });
   }
 
+  createLackDocumentation() {
+    this.ausenciaDocumento = this.tiposDocumento.filter(value => {
+      return value.value !== this.documentationType.value;
+    });
+  }
+  createMotivosAusenciaInputs(event) {
+    if (event.newSelection.length === 0) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let index = 0; index < this.tipoAusenciaDocumento.length; index++) {
+        this.tipoAusenciaDocumento.removeAt(this.tipoAusenciaDocumento.length - 1);
+      }
+    }
+    if (event.newSelection.length > event.oldSelection.length) {
+      this.tipoAusenciaDocumento.push(this.fb.control(''));
+    } else if (event.newSelection.length < event.oldSelection.length) {
+      this.tipoAusenciaDocumento.removeAt(this.tipoAusenciaDocumento.length - 1);
+    }
+  }
+  createEdad() {
+    for (let i = 0; i < 101; i++) {
+      this.edad[i] = i;
+    }
+  }
+  getProvincias() {
+    this.familiaMemberDataService.getProvincias({idPais: this.paisSelected.value}).subscribe(this.getProvinciasSuccess.bind(this));
+  }
+  getProvinciasSuccess(response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        this.provincias = [];
+        response.data.forEach(element => {
+          this.provincias.push({ value: element.id, viewValue: element.provincia });
+        });
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
+        break;
+    }
+  }
+  getMunicipios() {
+    this.familiaMemberDataService.getMunicipios({idProvincia: this.provinciaSelected.value}).subscribe(
+      this.getMunicipiosSuccess.bind(this));
+  }
+  getMunicipiosSuccess(response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        this.municipios = [];
+        response.data.forEach(element => {
+          this.municipios.push({ value: element.id, viewValue: element.poblacion });
+        });
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
+        break;
+    }
+  }
   sendDatos() {
     console.log(this.identifyingDataForm.value);
   }

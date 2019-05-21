@@ -5,13 +5,13 @@
   </ul>
 
   <div class="datesContainer">
-    <igx-date-picker formControlName="entryDate" [formatter]="formatter"
+    <igx-date-picker class="datePicker" formControlName="entryDate" [formatter]="formatter"
                 label="Fecha Ingreso"></igx-date-picker>
 
-    <igx-date-picker formControlName="departureDate" [formatter]="formatter"
+    <igx-date-picker class="datePicker" formControlName="departureDate" [formatter]="formatter"
                 label="Fecha Salida"></igx-date-picker>
 
-    <igx-date-picker formControlName="evaluationDate" [formatter]="formatter"
+    <igx-date-picker class="datePicker" formControlName="evaluationDate" [formatter]="formatter"
                 label="Fecha evaluación"></igx-date-picker>
   </div>
 
@@ -42,18 +42,16 @@
     </mat-form-field>
     <mat-form-field class="containerInputs">
         <input matInput type="text" placeholder="Primer Apellido" formControlName="apellido1">
-        <mat-error *ngIf="apellido1?.invalid">El nombre es obligatorio</mat-error>
+        <mat-error *ngIf="apellido1?.invalid">El primer apellido es obligatorio</mat-error>
     </mat-form-field>
     <mat-form-field class="containerInputs">
         <input matInput type="text" placeholder="Segundo Apellido" formControlName="apellido2">
-        <mat-error *ngIf="apellido2?.invalid">El nombre es obligatorio</mat-error>
     </mat-form-field>
   </div>
   <div class="documentationContainer">
-
       <mat-form-field class="containerInputs">
           <mat-label>Tipo de documentación </mat-label>
-          <mat-select formControlName="documentationType" >
+          <mat-select formControlName="documentationType" (openedChange)='createLackDocumentation()' >
             <mat-option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.value" >
               {{tipoDocumento.viewValue}}
             </mat-option>
@@ -73,31 +71,63 @@
       <mat-form-field *ngIf="documentationType.value !== (-2)"  class="containerInputs">
           <input matInput type="text" formControlName="documentationNumber" placeholder="Documentación">
       </mat-form-field>
-
-      <igx-combo #combo class="combo" formControlName="lackDocumentation" [itemsMaxHeight]="155" [data]="tiposDocumento"
-      [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Falta de documentación" searchPlaceholder="Buscar...">
-      </igx-combo>
-
-      <!-- <mat-form-field *ngFor="let item of list" class="containerInputs">
-          <mat-label>Origen de Ingreso</mat-label>
-          <mat-select formControlName="origenIngreso">
-            <mat-option *ngFor="let origenIngreso of origenesIngreso" [value]="origenIngreso.value" >
-              {{origenIngreso.viewValue}}
-            </mat-option>
-          </mat-select>
-      </mat-form-field> -->
+      <div class="multiSelect">
+          <igx-combo #combo class="combo" (onSelectionChange)='createMotivosAusenciaInputs($event)' formControlName="lackDocumentation" [itemsMaxHeight]="155" [data]="ausenciaDocumento"
+        [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Falta de documentación" searchPlaceholder="Buscar...">
+        </igx-combo>
+      </div>
+      <mat-form-field *ngFor='let item of lackDocumentation.value; let i= index' class="containerInputs" formArrayName="tiposAusenciaDocumento">
+        <mat-label>Motivo ausencia de {{item.viewValue}}</mat-label>
+        <mat-select [formControlName]="i" >
+          <mat-option *ngFor="let tipoAusenciaDocumento of tiposAusenciaDocumento" [value]="tipoAusenciaDocumento.value" >
+            {{tipoAusenciaDocumento.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
   </div>
   <mat-form-field class="containerInputs">
-      <input matInput type="text" placeholder="Nombre" formControlName="name">
-      <mat-error *ngIf="name?.invalid">El nombre es obligatorio</mat-error>
+      <input matInput type="text" placeholder="Telefono" formControlName="telefono">
   </mat-form-field>
   <mat-form-field class="containerInputs">
-      <input matInput type="text" placeholder="Primer Apellido" formControlName="apellido1">
-      <mat-error *ngIf="apellido1?.invalid">El nombre es obligatorio</mat-error>
+      <input matInput type="text" placeholder="Correo" formControlName="correo">
   </mat-form-field>
-  <mat-form-field class="containerInputs">
-      <input matInput type="text" placeholder="Segundo Apellido" formControlName="apellido2">
-      <mat-error *ngIf="apellido2?.invalid">El nombre es obligatorio</mat-error>
-  </mat-form-field>
+  <div class="bornDate">
+    <igx-date-picker class="datePicker" formControlName="bornDate" [formatter]="formatter"
+                  label="Fecha Nacimiento"></igx-date-picker>
+    <mat-form-field class="containerInputs" >
+      <mat-label>Edad</mat-label>
+      <mat-select formControlName="edad" >
+        <mat-option *ngFor="let anio of edad" [value]="anio" >
+          {{anio}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="residenciaNacimiento">
+    <mat-form-field>
+      <mat-label>País de residencia</mat-label>
+      <mat-select formControlName="paisSelected" (openedChange)="getProvincias()">
+        <mat-option *ngFor="let element of paises" [value]="element.value">
+          {{element.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Provincia</mat-label>
+      <mat-select formControlName="provinciaSelected" (openedChange)="getMunicipios()">
+        <mat-option *ngFor="let element of provincias" [value]="element.value">
+          {{element.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Municipio</mat-label>
+        <mat-select formControlName="provinciaSelected">
+          <mat-option *ngFor="let element of municipios" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
   <button (click)='sendDatos()'>Enviar</button>
 </form>

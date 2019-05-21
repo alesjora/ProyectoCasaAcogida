@@ -12,11 +12,13 @@ export class StayService {
   sendDepartureDate(data): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'agregarNuevaSalida', data);
   }
-
   getRoomsAndBedsAvailable(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerCamasLibres');
   }
-  sendChangeRoom(data): Observable<any>{
+  sendChangeRoom(data): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'cambiarCama', data);
+  }
+  getTypesLackDocumentation(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerTiposAusenciaDocumento');
   }
 }
