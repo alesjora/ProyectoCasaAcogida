@@ -13,18 +13,21 @@ import { StayService } from 'src/app/shared/services/stay.service';
 })
 export class FamilyMemberDataComponent implements OnInit {
   constructor(private fb: FormBuilder,
-    private familiaMemberDataService: FamilyMemberDataService,
-    private logoutService: LogoutService,
-    private snackBarService: SnackBarService,
-    private stayService: StayService) { }
+              private familiaMemberDataService: FamilyMemberDataService,
+              private logoutService: LogoutService,
+              private snackBarService: SnackBarService,
+              private stayService: StayService) { }
   @ViewChild('familyMemberData') familyMemberData;
   familyMemberDataForm;
   dataFamily = [];
   paises = [];
   provincias = [];
   municipios = [];
-  valuesComboboxDataFamily;
-  valuesComboboxTypeSocialSupport;
+  valuesComboboxDataFamily  = [];
+  valuesComboboxTypeSocialSupport  = [];
+  valuesComboboxSocialSupport  = [];
+  valuesComboboxSocialSupportHidden  = [];
+  showOtherSocialSupport = false;
 
   ngOnInit() {
     this.stayService.getPaises().subscribe(this.getPaisesSuccess.bind(this));
@@ -63,12 +66,13 @@ export class FamilyMemberDataComponent implements OnInit {
       typePersonContact: ['', Validators.required],
       infoPersonContact: ['', Validators.required],
       telephonePersonContact: ['', Validators.required],
-      paisSelected: ['', Validators.required],
-      provinciaSelected: ['', Validators.required],
-      municipioSelected: ['', Validators.required],
+      pais: ['', Validators.required],
+      provincia: ['', Validators.required],
+      municipio: ['', Validators.required],
       socialSupportCheckbox: ['', Validators.required],
       comboBoxTypeSocialSupport: ['', Validators.required],
-      comboBoxSocialSupport: ['', Validators.required]
+      comboBoxSocialSupport: ['', Validators.required],
+      otherSocialSupport: ['', Validators.required]
     });
   }
   public formIsValid() {
@@ -116,14 +120,14 @@ export class FamilyMemberDataComponent implements OnInit {
   get telephonePersonContact() {
     return this.familyMemberDataForm.get('telephonePersonContact');
   }
-  get paisSelected() {
-    return this.familyMemberDataForm.get('paisSelected');
+  get pais() {
+    return this.familyMemberDataForm.get('pais');
   }
-  get provinciaSelected() {
-    return this.familyMemberDataForm.get('provinciaSelected');
+  get provincia() {
+    return this.familyMemberDataForm.get('provincia');
   }
-  get municipioSelected() {
-    return this.familyMemberDataForm.get('municipioSelected');
+  get municipio() {
+    return this.familyMemberDataForm.get('municipio');
   }
   get socialSupportCheckbox(){
     return this.familyMemberDataForm.get('socialSupportCheckbox');
@@ -134,6 +138,10 @@ export class FamilyMemberDataComponent implements OnInit {
   get comboBoxSocialSupport(){
     return this.familyMemberDataForm.get('comboBoxSocialSupport');
   }
+  get otherSocialSupport(){
+    return this.familyMemberDataForm.get('otherSocialSupport');
+  }
+  
 
   getDataFamily() {
     this.familiaMemberDataService.getDataFamily().subscribe(this.getDataFamilySuccess.bind(this))
@@ -173,7 +181,7 @@ export class FamilyMemberDataComponent implements OnInit {
     if (opened) {
       return;
     }
-    this.stayService.getProvincias({ idPais: this.paisSelected.value }).subscribe(this.getProvinciasSuccess.bind(this));
+    this.stayService.getProvincias({ idPais: this.pais.value }).subscribe(this.getProvinciasSuccess.bind(this));
   }
   getProvinciasSuccess(response) {
     this.provincias = [];
@@ -199,7 +207,7 @@ export class FamilyMemberDataComponent implements OnInit {
     if (opened) {
       return;
     }
-    this.stayService.getMunicipios({ idProvincia: this.provinciaSelected.value }).subscribe(
+    this.stayService.getMunicipios({ idProvincia: this.provincia.value }).subscribe(
       this.getMunicipiosSuccess.bind(this));
   }
   getMunicipiosSuccess(response) {
@@ -223,6 +231,7 @@ export class FamilyMemberDataComponent implements OnInit {
   }
   getTypeSocialSupport() {
     this.familiaMemberDataService.getTipoApoyoSocial().subscribe(this.getTypeSocialSupportSuccess.bind(this));
+    this.familiaMemberDataService.getApoyosSociales().subscribe(this.getApoyosSocialesSuccess.bind(this));
   }
   getTypeSocialSupportSuccess(response) {
     this.valuesComboboxTypeSocialSupport = [];
@@ -243,15 +252,54 @@ export class FamilyMemberDataComponent implements OnInit {
         break;
     }
   }
+  getApoyosSocialesSuccess(response) {
+    this.valuesComboboxSocialSupportHidden = [];
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        console.log(response.data);
+        response.data.forEach(element => {
+          this.valuesComboboxSocialSupportHidden.push({
+            value: element.id,
+            viewValue: element.apoyo_social + ' (' + element.tipo + ')',
+            idTipo: element.idTipo });
+        });
+        this.valuesComboboxSocialSupportHidden.push({
+          value: 100,
+          viewValue: 'Otros (Informal)',
+          idTipo: 2 });
+        break;
+      case 'DATA_EMPTY':
+        this.snackBarService.showSnackbar('No se han encontrado municipios para la provincia seleccionada', 1000, 'bottom', 'warning');
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
+        break;
+    }
+  }
   getSocialSupport(event) {
-    console.log(event.newSelection);
+    this.valuesComboboxSocialSupport = [];
+    this.valuesComboboxSocialSupportHidden.forEach(element => {
+      event.newSelection.forEach(element2 => {
+        if (element2.value == element.idTipo) {
+          this.valuesComboboxSocialSupport.push(element);
+        }
+      });
+    });
   }
 
+  handleSocialsSupports(event) {
+    this.showOtherSocialSupport = event.newSelection.find(element => {
+      return element.value == 100;
+    });
+  }
   getData() {
     const data = {
       familyCheckbox: this.familyCheckbox.value,
       comboBoxDataFamily: this.comboBoxDataFamily.value,
-      provincia: this.provinciaSelected.value
+      provincia: this.provincia.value
     };
     console.log(data);
   }

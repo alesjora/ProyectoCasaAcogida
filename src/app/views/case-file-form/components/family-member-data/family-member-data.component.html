@@ -69,7 +69,7 @@
   <div class="residencia">
     <mat-form-field>
       <mat-label>País de residencia</mat-label>
-      <mat-select formControlName="paisSelected" (openedChange)="getProvincias($event)">
+      <mat-select formControlName="pais" (openedChange)="getProvincias($event)">
         <mat-option *ngFor="let element of paises" [value]="element.value">
           {{element.viewValue}}
         </mat-option>
@@ -77,8 +77,8 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Provincia</mat-label>
-      <mat-select formControlName="provinciaSelected" (openedChange)="getMunicipios($event)"
-        [disabled]="!paisSelected.value || provincias.length === 0">
+      <mat-select formControlName="provincia" (openedChange)="getMunicipios($event)"
+        [disabled]="!pais.value || provincias.length === 0">
         <mat-option *ngFor="let element of provincias" [value]="element.value">
           {{element.viewValue}}
         </mat-option>
@@ -86,7 +86,8 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Municipio</mat-label>
-      <mat-select formControlName="municipioSelected" [disabled]="!provinciaSelected.value || provincias.length === 0 || municipios.length === 0">
+      <mat-select formControlName="municipio"
+        [disabled]="!provincia.value || provincias.length === 0 || municipios.length === 0">
         <mat-option *ngFor="let element of municipios" [value]="element.value">
           {{element.viewValue}}
         </mat-option>
@@ -99,14 +100,19 @@
       <mat-radio-button value="1" (click)="getTypeSocialSupport()">Si</mat-radio-button>
       <mat-radio-button value="2">No</mat-radio-button>
     </mat-radio-group>
-    <igx-combo #combo class="combo" (onSelectionChange)="getSocialSupport($event)" formControlName="comboBoxTypeSocialSupport" [itemsMaxHeight]="255" [data]="valuesComboboxTypeSocialSupport"
+    <igx-combo #combo class="combo" (onSelectionChange)="getSocialSupport($event)"
+      formControlName="comboBoxTypeSocialSupport" [itemsMaxHeight]="255" [data]="valuesComboboxTypeSocialSupport"
       [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Tipo(s) de apoyo" searchPlaceholder="Buscar..."
       [disabled]="socialSupportCheckbox.value != 1">
     </igx-combo>
-    <igx-combo #combo class="combo" formControlName="comboBoxSocialSupport" [itemsMaxHeight]="255" [data]="valuesComboboxSocialSupport"
-      [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Apoyo(s)" searchPlaceholder="Buscar..."
-      [disabled]="socialSupportCheckbox.value != 1">
+    <igx-combo #combo class="combo" (onSelectionChange)="handleSocialsSupports($event)" formControlName="comboBoxSocialSupport" [itemsMaxHeight]="255"
+      [data]="valuesComboboxSocialSupport" [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Apoyo(s)"
+      searchPlaceholder="Buscar..." [disabled]="valuesComboboxSocialSupport.length == 0">
     </igx-combo>
+    <mat-form-field [hidden]="!showOtherSocialSupport">
+      <input matInput type="text" placeholder="Otro apoyo social" formControlName="otherSocialSupport">
+      <mat-error *ngIf="otherSocialSupport?.invalid">El número de hermanos es obligatorio</mat-error>
+    </mat-form-field>
   </div>
   <br>
   <button (click)="getData()">Ver datos</button>

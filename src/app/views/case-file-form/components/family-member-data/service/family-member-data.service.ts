@@ -16,4 +16,7 @@ export class FamilyMemberDataService {
   getTipoApoyoSocial(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerTipoApoyoSocial');
   }
+  getApoyosSociales(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerApoyosSociales');
+  }
 }
