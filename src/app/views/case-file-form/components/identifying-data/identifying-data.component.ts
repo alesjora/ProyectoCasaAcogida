@@ -56,7 +56,10 @@ export class IdentifyingDataComponent implements OnInit {
       telefono: [''],
       correo: [''],
       bornDate: [''],
-      edad: ['']
+      edad: [''],
+      paisNacimiento: [''],
+      provinciaNacimiento: [''],
+      municipioNacimiento: ['']
     });
   }
 
@@ -96,6 +99,15 @@ export class IdentifyingDataComponent implements OnInit {
   get correo() {
     return this.identifyingDataForm.get('correo');
   }
+  get paisNacimiento() {
+    return this.identifyingDataForm.get('paisNacimiento');
+  }
+  get provinciaNacimiento() {
+    return this.identifyingDataForm.get('provinciaNacimiento');
+  }
+  get municipioNacimiento() {
+    return this.identifyingDataForm.get('municipioNacimiento')
+  }
 
   /**
    * @return true cuando el formulario es valido, false en caso contrario.
@@ -119,6 +131,8 @@ export class IdentifyingDataComponent implements OnInit {
     this.identifyingDataService.getOrigenIngreso().subscribe(this.peticionHandle.bind(this, this.getOrigenIngreso));
     this.identifyingDataService.getTypeDocuments().subscribe(this.peticionHandle.bind(this, this.getTypeDocuments));
     this.stayService.getTypesLackDocumentation().subscribe(this.peticionHandle.bind(this, this.getLackDocumentation));
+    this.stayService.getPaises().subscribe(this.peticionHandle.bind(this, this.getPaises));
+
     this.createEdad();
   }
 
@@ -210,44 +224,36 @@ export class IdentifyingDataComponent implements OnInit {
       this.edad[i] = i;
     }
   }
-  getProvincias() {
-    this.familiaMemberDataService.getProvincias({idPais: this.paisSelected.value}).subscribe(this.getProvinciasSuccess.bind(this));
+  getPaises(response, that) {
+    response.data.forEach(element => {
+      that.paises.push({ value: element.id, viewValue: element.nacionalidad });
+    });
   }
-  getProvinciasSuccess(response) {
-    switch (response.status) {
-      case 'SESSION_EXPIRED':
-        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
-        break;
-      case 'OPERATION_SUCCESS':
-        this.provincias = [];
-        response.data.forEach(element => {
-          this.provincias.push({ value: element.id, viewValue: element.provincia });
-        });
-        break;
-      default:
-        this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
-        break;
+  getProvincias(opened: boolean) {
+    if (opened) {
+      return;
     }
+    this.stayService.getProvincias({idPais: this.paisNacimiento.value}).subscribe(this.peticionHandle.bind(this, this.getProvinciasBD));
   }
-  getMunicipios() {
-    this.familiaMemberDataService.getMunicipios({idProvincia: this.provinciaSelected.value}).subscribe(
-      this.getMunicipiosSuccess.bind(this));
+  getProvinciasBD(response,that) {
+    that.provincias = [];
+    that.municipios = [];
+    response.data.forEach(element => {
+      that.provincias.push({ value: element.id, viewValue: element.provincia });
+    });
   }
-  getMunicipiosSuccess(response) {
-    switch (response.status) {
-      case 'SESSION_EXPIRED':
-        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
-        break;
-      case 'OPERATION_SUCCESS':
-        this.municipios = [];
-        response.data.forEach(element => {
-          this.municipios.push({ value: element.id, viewValue: element.poblacion });
-        });
-        break;
-      default:
-        this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
-        break;
+  getMunicipios(opened: boolean) {
+    if (opened) {
+      return;
     }
+    this.stayService.getMunicipios({idProvincia: this.provinciaNacimiento.value}).subscribe(
+      this.peticionHandle.bind(this, this.getMunicipiosBD));
+  }
+  getMunicipiosBD(response,that) {
+    that.municipios = [];
+    response.data.forEach(element => {
+      that.municipios.push({ value: element.id, viewValue: element.poblacion });
+    });
   }
   sendDatos() {
     console.log(this.identifyingDataForm.value);

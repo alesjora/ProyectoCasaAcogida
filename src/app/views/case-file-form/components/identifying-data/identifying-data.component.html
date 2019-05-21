@@ -104,25 +104,25 @@
     </mat-form-field>
   </div>
   <div class="residenciaNacimiento">
-    <mat-form-field>
+    <mat-form-field class="containerInputs">
       <mat-label>País de residencia</mat-label>
-      <mat-select formControlName="paisSelected" (openedChange)="getProvincias()">
+      <mat-select formControlName="paisNacimiento" (openedChange)="getProvincias($event)">
         <mat-option *ngFor="let element of paises" [value]="element.value">
           {{element.viewValue}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="containerInputs">
       <mat-label>Provincia</mat-label>
-      <mat-select formControlName="provinciaSelected" (openedChange)="getMunicipios()">
+      <mat-select formControlName="provinciaNacimiento" (openedChange)="getMunicipios($event)">
         <mat-option *ngFor="let element of provincias" [value]="element.value">
           {{element.viewValue}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="containerInputs">
         <mat-label>Municipio</mat-label>
-        <mat-select formControlName="provinciaSelected">
+        <mat-select formControlName="provinciaNacimiento">
           <mat-option *ngFor="let element of municipios" [value]="element.value">
             {{element.viewValue}}
           </mat-option>
