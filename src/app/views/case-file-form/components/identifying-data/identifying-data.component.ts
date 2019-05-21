@@ -28,6 +28,8 @@ export class IdentifyingDataComponent implements OnInit {
   paises = [];
   provincias = [];
   municipios = [];
+  sexosEv = [];
+  orientacionesSexual = [];
   valuesComboboxDataFamily;
   edad = new Array(100);
   @ViewChild('identifyingData') identifyingData;
@@ -35,7 +37,6 @@ export class IdentifyingDataComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.getDatos();
-
   }
 
   createForm() {
@@ -59,7 +60,10 @@ export class IdentifyingDataComponent implements OnInit {
       edad: [''],
       paisNacimiento: [''],
       provinciaNacimiento: [''],
-      municipioNacimiento: ['']
+      municipioNacimiento: [''],
+      nacionalidad: [''],
+      sexoEv: [''],
+      orientacionSexual: ['']
     });
   }
 
@@ -106,7 +110,16 @@ export class IdentifyingDataComponent implements OnInit {
     return this.identifyingDataForm.get('provinciaNacimiento');
   }
   get municipioNacimiento() {
-    return this.identifyingDataForm.get('municipioNacimiento')
+    return this.identifyingDataForm.get('municipioNacimiento');
+  }
+  get nacionalidad(){
+    return this.identifyingDataForm.get('nacionalidad');
+  }
+  get sexoEv() {
+    return this.identifyingDataForm.get('sexoEv');
+  }
+  get orientacionSexual() {
+    return this.identifyingDataForm.get('orientacionSexual');
   }
 
   /**
@@ -131,11 +144,11 @@ export class IdentifyingDataComponent implements OnInit {
     this.identifyingDataService.getOrigenIngreso().subscribe(this.peticionHandle.bind(this, this.getOrigenIngreso));
     this.identifyingDataService.getTypeDocuments().subscribe(this.peticionHandle.bind(this, this.getTypeDocuments));
     this.stayService.getTypesLackDocumentation().subscribe(this.peticionHandle.bind(this, this.getLackDocumentation));
+    this.stayService.getSexosEv().subscribe(this.peticionHandle.bind(this, this.getSexosEv))
     this.stayService.getPaises().subscribe(this.peticionHandle.bind(this, this.getPaises));
 
     this.createEdad();
   }
-
 
   /**
    * Maneja la petición http
@@ -155,6 +168,7 @@ export class IdentifyingDataComponent implements OnInit {
         break;
     }
   }
+
   /**
    * Guarda las formas de ingreso
    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
@@ -166,6 +180,7 @@ export class IdentifyingDataComponent implements OnInit {
       that.formasIngreso.push({value: element.id, viewValue: element.forma_ingreso});
     });
   }
+
   /**
    * Guarda los orígenes de ingreso
    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
@@ -177,6 +192,7 @@ export class IdentifyingDataComponent implements OnInit {
       that.origenesIngreso.push({value: element.id, viewValue: element.origen_ingreso});
     });
   }
+
   /**
    * Guarda los tipos de documento
    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
@@ -201,11 +217,43 @@ export class IdentifyingDataComponent implements OnInit {
     });
   }
 
+  /**
+   * Guarda los paises que vienen la base de datos
+   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   * @param that contexto de la clase
+   */
+  getPaises(response, that) {
+    response.data.forEach(element => {
+      that.paises.push({ value: element.id, viewValue: element.nacionalidad });
+    });
+  }
+
+  /**
+   * Guarda los sexos que vienen la base de datos
+   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   * @param that contexto de la clase
+   */
+  getSexosEv(response, that) {
+    response.data.forEach(element => {
+      that.sexosEv.push({ value: element.id, viewValue: element.sexo });
+    });
+  }
+
+  /**
+   * Crea el array de la ausencia de documentos en base a los tipos de documento que existen menos los que tiene.
+   */
   createLackDocumentation() {
     this.ausenciaDocumento = this.tiposDocumento.filter(value => {
       return value.value !== this.documentationType.value;
     });
   }
+
+  /**
+   * Rellena o vacia el array del formBuilder en función de los tipos de documento que faltan.
+   * @param event nos da información sobre las selección actual y la anterior
+   */
   createMotivosAusenciaInputs(event) {
     if (event.newSelection.length === 0) {
       // tslint:disable-next-line: prefer-for-of
@@ -219,29 +267,44 @@ export class IdentifyingDataComponent implements OnInit {
       this.tipoAusenciaDocumento.removeAt(this.tipoAusenciaDocumento.length - 1);
     }
   }
+  /**
+   * Rellena el array para saber la edad.
+   */
   createEdad() {
     for (let i = 0; i < 101; i++) {
       this.edad[i] = i;
     }
   }
-  getPaises(response, that) {
-    response.data.forEach(element => {
-      that.paises.push({ value: element.id, viewValue: element.nacionalidad });
-    });
-  }
+
+  /**
+   * Envia una petición a la base de datos para traerse las provincias de un país ya seleccionado
+   * @param opened boolean con el estado del select que lo lanza, true en caso de que este abierto, false en caso de que se halla cerrado
+   */
   getProvincias(opened: boolean) {
     if (opened) {
       return;
     }
     this.stayService.getProvincias({idPais: this.paisNacimiento.value}).subscribe(this.peticionHandle.bind(this, this.getProvinciasBD));
   }
-  getProvinciasBD(response,that) {
+
+  /**
+   * Guarda las provincias que vienen la base de datos
+   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   * @param that contexto de la clase
+   */
+  getProvinciasBD(response, that) {
     that.provincias = [];
     that.municipios = [];
     response.data.forEach(element => {
       that.provincias.push({ value: element.id, viewValue: element.provincia });
     });
   }
+
+  /**
+   * Envia una petición a la base de datos para traerse los municipios de una provincia ya seleccionada
+   * @param opened boolean con el estado del select que lo lanza, true en caso de que este abierto, false en caso de que se halla cerrado
+   */
   getMunicipios(opened: boolean) {
     if (opened) {
       return;
@@ -249,7 +312,14 @@ export class IdentifyingDataComponent implements OnInit {
     this.stayService.getMunicipios({idProvincia: this.provinciaNacimiento.value}).subscribe(
       this.peticionHandle.bind(this, this.getMunicipiosBD));
   }
-  getMunicipiosBD(response,that) {
+
+  /**
+   * Guarda los municipios que vienen de la base de datos
+   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   * @param that contexto de la clase
+   */
+  getMunicipiosBD(response, that) {
     that.municipios = [];
     response.data.forEach(element => {
       that.municipios.push({ value: element.id, viewValue: element.poblacion });
@@ -260,3 +330,4 @@ export class IdentifyingDataComponent implements OnInit {
   }
 
 }
+

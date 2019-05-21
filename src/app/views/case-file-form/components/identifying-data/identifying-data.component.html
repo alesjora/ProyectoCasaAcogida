@@ -103,25 +103,25 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <div class="residenciaNacimiento">
+  <div class="residenciaNacimientoContainer">
     <mat-form-field class="containerInputs">
-      <mat-label>País de residencia</mat-label>
+      <mat-label>País de Nacimiento</mat-label>
       <mat-select formControlName="paisNacimiento" (openedChange)="getProvincias($event)">
         <mat-option *ngFor="let element of paises" [value]="element.value">
           {{element.viewValue}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="containerInputs">
-      <mat-label>Provincia</mat-label>
+    <mat-form-field *ngIf="paisNacimiento.value" class="containerInputs">
+      <mat-label>Provincia de Nacimiento</mat-label>
       <mat-select formControlName="provinciaNacimiento" (openedChange)="getMunicipios($event)">
         <mat-option *ngFor="let element of provincias" [value]="element.value">
           {{element.viewValue}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="containerInputs">
-        <mat-label>Municipio</mat-label>
+    <mat-form-field *ngIf="provinciaNacimiento.value" class="containerInputs">
+        <mat-label>Municipio de Nacimiento</mat-label>
         <mat-select formControlName="provinciaNacimiento">
           <mat-option *ngFor="let element of municipios" [value]="element.value">
             {{element.viewValue}}
@@ -129,5 +129,26 @@
         </mat-select>
       </mat-form-field>
   </div>
+  <div class="nacionalidadContainer">
+    <mat-form-field class="containerInputs">
+      <mat-label>Nacionalidad</mat-label>
+      <mat-select formControlName="nacionalidad">
+        <mat-option *ngFor="let element of paises" [value]="element.value">
+          {{element.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="sexosContainer">
+    <mat-form-field class="containerInputs">
+      <mat-label>Sexo</mat-label>
+      <mat-select formControlName="sexoEv">
+        <mat-option *ngFor="let element of sexosEv" [value]="element.value">
+          {{element.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
   <button (click)='sendDatos()'>Enviar</button>
 </form>

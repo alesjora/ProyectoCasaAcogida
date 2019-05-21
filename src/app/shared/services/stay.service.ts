@@ -21,6 +21,12 @@ export class StayService {
   getTypesLackDocumentation(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerTiposAusenciaDocumento');
   }
+  getSexosEv(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerSexosEv');
+  }
+  getOrientacionSexual(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerOrientacionSexual');
+  }
   getPaises(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerPaises');
   }
