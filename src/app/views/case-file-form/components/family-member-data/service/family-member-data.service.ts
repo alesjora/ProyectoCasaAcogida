@@ -13,13 +13,7 @@ export class FamilyMemberDataService {
   getDataFamily(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerDatosParentesco');
   }
-  getPaises(): Observable<any> {
-    return this.httpClient.get(environment.urlAPI + 'obtenerPaises');
-  }
-  getProvincias(data): Observable<any> {
-    return this.httpClient.post(environment.urlAPI + 'obtenerProvincias', data);
-  }
-  getMunicipios(data): Observable<any> {
-    return this.httpClient.post(environment.urlAPI + 'obtenerMunicipios', data);
+  getTipoApoyoSocial(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerTipoApoyoSocial');
   }
 }

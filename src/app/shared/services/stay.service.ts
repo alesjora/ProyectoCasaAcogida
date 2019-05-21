@@ -19,4 +19,13 @@ export class StayService {
   sendChangeRoom(data): Observable<any>{
     return this.httpClient.post(environment.urlAPI + 'cambiarCama', data);
   }
+  getPaises(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerPaises');
+  }
+  getProvincias(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerProvincias', data);
+  }
+  getMunicipios(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerMunicipios', data);
+  }
 }

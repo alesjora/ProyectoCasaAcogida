@@ -3,6 +3,8 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { FamilyMemberDataService } from './service/family-member-data.service';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { IgxComboComponent } from 'igniteui-angular';
+import { StayService } from 'src/app/shared/services/stay.service';
 
 @Component({
   selector: 'app-family-member-data',
@@ -13,7 +15,8 @@ export class FamilyMemberDataComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private familiaMemberDataService: FamilyMemberDataService,
     private logoutService: LogoutService,
-    private snackBarService: SnackBarService) { }
+    private snackBarService: SnackBarService,
+    private stayService: StayService) { }
   @ViewChild('familyMemberData') familyMemberData;
   familyMemberDataForm;
   dataFamily = [];
@@ -21,9 +24,10 @@ export class FamilyMemberDataComponent implements OnInit {
   provincias = [];
   municipios = [];
   valuesComboboxDataFamily;
+  valuesComboboxTypeSocialSupport;
 
   ngOnInit() {
-    this.familiaMemberDataService.getPaises().subscribe(this.getPaisesSuccess.bind(this));
+    this.stayService.getPaises().subscribe(this.getPaisesSuccess.bind(this));
     this.createForm();
   }
   getPaisesSuccess(response) {
@@ -33,8 +37,11 @@ export class FamilyMemberDataComponent implements OnInit {
         break;
       case 'OPERATION_SUCCESS':
         response.data.forEach(element => {
-          this.paises.push({value: element.id, viewValue: element.nacionalidad});
+          this.paises.push({ value: element.id, viewValue: element.nacionalidad });
         });
+        break;
+      case 'DATA_EMPTY':
+        this.snackBarService.showSnackbar('No se han encontrado países', 1000, 'bottom', 'warning');
         break;
       default:
         this.snackBarService.showSnackbar('Error al obtener los paises', 1000, 'bottom', 'error');
@@ -59,6 +66,9 @@ export class FamilyMemberDataComponent implements OnInit {
       paisSelected: ['', Validators.required],
       provinciaSelected: ['', Validators.required],
       municipioSelected: ['', Validators.required],
+      socialSupportCheckbox: ['', Validators.required],
+      comboBoxTypeSocialSupport: ['', Validators.required],
+      comboBoxSocialSupport: ['', Validators.required]
     });
   }
   public formIsValid() {
@@ -115,6 +125,16 @@ export class FamilyMemberDataComponent implements OnInit {
   get municipioSelected() {
     return this.familyMemberDataForm.get('municipioSelected');
   }
+  get socialSupportCheckbox(){
+    return this.familyMemberDataForm.get('socialSupportCheckbox');
+  }
+  get comboBoxTypeSocialSupport(){
+    return this.familyMemberDataForm.get('comboBoxTypeSocialSupport');
+  }
+  get comboBoxSocialSupport(){
+    return this.familyMemberDataForm.get('comboBoxSocialSupport');
+  }
+
   getDataFamily() {
     this.familiaMemberDataService.getDataFamily().subscribe(this.getDataFamilySuccess.bind(this))
   }
@@ -148,50 +168,91 @@ export class FamilyMemberDataComponent implements OnInit {
       });
     }
   }
-  getData() {
-    const data = {
-      familyCheckbox: this.familyCheckbox.value,
-      comboBoxDataFamily: this.comboBoxDataFamily.value
-    };
-    console.log(data);
-  }
-  getProvincias() {
-    this.familiaMemberDataService.getProvincias({idPais: this.paisSelected.value}).subscribe(this.getProvinciasSuccess.bind(this));
+
+  getProvincias(opened: boolean) {
+    if (opened) {
+      return;
+    }
+    this.stayService.getProvincias({ idPais: this.paisSelected.value }).subscribe(this.getProvinciasSuccess.bind(this));
   }
   getProvinciasSuccess(response) {
+    this.provincias = [];
+    this.municipios = [];
     switch (response.status) {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
       case 'OPERATION_SUCCESS':
-        this.provincias = [];
         response.data.forEach(element => {
           this.provincias.push({ value: element.id, viewValue: element.provincia });
         });
         break;
+      case 'DATA_EMPTY':
+        this.snackBarService.showSnackbar('No se han encontrado provincias para el país seleccionado', 1000, 'bottom', 'warning');
+        break;
       default:
-        this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
+        this.snackBarService.showSnackbar('Error al obtener las provincias.', 1000, 'bottom', 'error');
         break;
     }
   }
-  getMunicipios() {
-    this.familiaMemberDataService.getMunicipios({idProvincia: this.provinciaSelected.value}).subscribe(
+  getMunicipios(opened: boolean) {
+    if (opened) {
+      return;
+    }
+    this.stayService.getMunicipios({ idProvincia: this.provinciaSelected.value }).subscribe(
       this.getMunicipiosSuccess.bind(this));
   }
   getMunicipiosSuccess(response) {
+    this.municipios = [];
     switch (response.status) {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
       case 'OPERATION_SUCCESS':
-        this.municipios = [];
         response.data.forEach(element => {
           this.municipios.push({ value: element.id, viewValue: element.poblacion });
         });
+        break;
+      case 'DATA_EMPTY':
+        this.snackBarService.showSnackbar('No se han encontrado municipios para la provincia seleccionada', 1000, 'bottom', 'warning');
         break;
       default:
         this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
         break;
     }
+  }
+  getTypeSocialSupport() {
+    this.familiaMemberDataService.getTipoApoyoSocial().subscribe(this.getTypeSocialSupportSuccess.bind(this));
+  }
+  getTypeSocialSupportSuccess(response) {
+    this.valuesComboboxTypeSocialSupport = [];
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        response.data.forEach(element => {
+          this.valuesComboboxTypeSocialSupport.push({ value: element.id, viewValue: element.tipo });
+        });
+        break;
+      case 'DATA_EMPTY':
+        this.snackBarService.showSnackbar('No se han encontrado municipios para la provincia seleccionada', 1000, 'bottom', 'warning');
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
+        break;
+    }
+  }
+  getSocialSupport(event) {
+    console.log(event.newSelection);
+  }
+
+  getData() {
+    const data = {
+      familyCheckbox: this.familyCheckbox.value,
+      comboBoxDataFamily: this.comboBoxDataFamily.value,
+      provincia: this.provinciaSelected.value
+    };
+    console.log(data);
   }
 }
