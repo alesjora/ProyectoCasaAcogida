@@ -27,13 +27,29 @@
 .containerInputs{
   width: 100%;
 }
+.datePicker{
+  padding-bottom: 1.25rem;
+}
 .datesContainer{
   width: 100%;
-  padding-bottom: 1.25rem
 }
 .formaIngresoContainer{
   width: 100%;
 }
 .nameContainer{
   width: 100%;
+}
+.documentationContainer{
+  width: 100%;
+  .multiSelect{
+    padding-bottom: 1.25rem;
+  }
+}
+.bornDate{
+  // .igx-input-group{
+  //   padding-bottom: 20px;
+  // }
+  .datePicker{
+    padding-bottom: 1.25rem;
+  }
 }

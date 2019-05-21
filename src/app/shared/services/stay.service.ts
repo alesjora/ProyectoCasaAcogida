@@ -12,11 +12,28 @@ export class StayService {
   sendDepartureDate(data): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'agregarNuevaSalida', data);
   }
-
   getRoomsAndBedsAvailable(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerCamasLibres');
   }
-  sendChangeRoom(data): Observable<any>{
+  sendChangeRoom(data): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'cambiarCama', data);
+  }
+  getTypesLackDocumentation(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerTiposAusenciaDocumento');
+  }
+  getSexosEv(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerSexosEv');
+  }
+  getOrientacionSexual(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerOrientacionSexual');
+  }
+  getPaises(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerPaises');
+  }
+  getProvincias(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerProvincias', data);
+  }
+  getMunicipios(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerMunicipios', data);
   }
 }
