@@ -116,7 +116,7 @@ export class IdentifyingDataComponent implements OnInit {
   get municipioNacimiento() {
     return this.identifyingDataForm.get('municipioNacimiento');
   }
-  get nacionalidad(){
+  get nacionalidad() {
     return this.identifyingDataForm.get('nacionalidad');
   }
   get sexoEv() {
@@ -125,10 +125,10 @@ export class IdentifyingDataComponent implements OnInit {
   get orientacionSexual() {
     return this.identifyingDataForm.get('orientacionSexual');
   }
-  get provinciaEmpadronamiento(){
+  get provinciaEmpadronamiento() {
     return this.identifyingDataForm.get('provinciaEmpadronamiento');
   }
-  get municipioEmpadronamiento(){
+  get municipioEmpadronamiento() {
     return this.municipioEmpadronamiento.get('municipioEmpadronamiento');
   }
 
@@ -150,13 +150,22 @@ export class IdentifyingDataComponent implements OnInit {
    * Obtiene todos los datos que se necesitan de la base de datos.
    */
   getDatos() {
-    this.identifyingDataService.getFormasIngreso().subscribe(this.peticionHandle.bind(this, this.getFormasIngreso));
-    this.identifyingDataService.getOrigenIngreso().subscribe(this.peticionHandle.bind(this, this.getOrigenIngreso));
-    this.identifyingDataService.getTypeDocuments().subscribe(this.peticionHandle.bind(this, this.getTypeDocuments));
-    this.stayService.getTypesLackDocumentation().subscribe(this.peticionHandle.bind(this, this.getLackDocumentation));
-    this.stayService.getSexosEv().subscribe(this.peticionHandle.bind(this, this.getSexosEv));
-    this.stayService.getOrientacionSexual().subscribe(this.peticionHandle.bind(this, this.getOrientacionesSexual));
-    this.stayService.getPaises().subscribe(this.peticionHandle.bind(this, this.getPaises));
+    const serv = this.stayService;
+
+    serv.getFormasIngreso().subscribe(this.peticionHandleMejorada
+      .bind(this, this.formasIngreso, 'id', 'forma_ingreso', () => {}, () => {}));
+    serv.getOrigenIngreso().subscribe(this.peticionHandleMejorada
+      .bind(this, this.origenesIngreso, 'id', 'origen_ingreso', () => {}, () => {}));
+    serv.getTypeDocuments().subscribe(this.peticionHandleMejorada
+      .bind(this, this.tiposDocumento, 'id', 'documento', this.creacionAusenciaDocumento, () => {}));
+    serv.getTypesLackDocumentation().subscribe(this.peticionHandleMejorada
+      .bind(this, this.tiposAusenciaDocumento, 'id', 'ausencia_documento', () => {}, () => {}));
+    serv.getSexosEv().subscribe(this.peticionHandleMejorada
+      .bind(this, this.sexosEv, 'id', 'sexo', () => {}, () => {}));
+    serv.getOrientacionSexual().subscribe(this.peticionHandleMejorada
+      .bind(this, this.orientacionesSexual, 'id', 'orientacion_sexual', () => {}, () => {}));
+    serv.getPaises().subscribe(this.peticionHandleMejorada
+      .bind(this, this.paises, 'id', 'nacionalidad', () => {}, () => {}));
 
     this.createEdad();
   }
@@ -167,7 +176,6 @@ export class IdentifyingDataComponent implements OnInit {
    *                  {status: estado respuesta , data: datos obtenidos };
    */
   peticionHandle(funcion, response) {
-    console.log(response);
     switch (response.status) {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
@@ -176,7 +184,31 @@ export class IdentifyingDataComponent implements OnInit {
         funcion(response, this);
         break;
       case 'DATA_EMPTY':
-        funcion(response, this);
+        funcion(response, this, true);
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al obtener los datos', 1000, 'bottom', 'error');
+        break;
+    }
+  }
+  /**
+   * Maneja la petición http
+   * @param response que contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   */
+  peticionHandleMejorada(array: Array<any>, value: string, viewValue: string, funcion1 , funcion2 , response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        response.data.forEach(element => {
+          array.push({value: element[value], viewValue: element[viewValue]});
+        });
+        funcion1(this);
+        break;
+      case 'DATA_EMPTY':
+        funcion2(this);
         break;
       default:
         this.snackBarService.showSnackbar('Error al obtener los datos', 1000, 'bottom', 'error');
@@ -184,88 +216,8 @@ export class IdentifyingDataComponent implements OnInit {
     }
   }
 
-  /**
-   * Guarda las formas de ingreso
-   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
-   *                  {status: estado respuesta , data: datos obtenidos };
-   * @param that contexto de la clase
-   */
-  public getFormasIngreso(response, that) {
-    response.data.forEach(element => {
-      that.formasIngreso.push({value: element.id, viewValue: element.forma_ingreso});
-    });
-  }
-
-  /**
-   * Guarda los orígenes de ingreso
-   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
-   *                  {status: estado respuesta , data: datos obtenidos };
-   * @param that contexto de la clase
-   */
-  getOrigenIngreso(response, that) {
-    response.data.forEach(element => {
-      that.origenesIngreso.push({value: element.id, viewValue: element.origen_ingreso});
-    });
-  }
-
-  /**
-   * Guarda los tipos de documento
-   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
-   *                  {status: estado respuesta , data: datos obtenidos };
-   * @param that contexto de la clase
-   */
-  getTypeDocuments(response, that){
-    response.data.forEach(element => {
-      that.tiposDocumento.push({value: element.id, viewValue: element.documento});
-    });
+  creacionAusenciaDocumento(that) {
     that.ausenciaDocumento = that.tiposDocumento;
-  }
-  /**
-   * Guarda los tipos de ausencia de documento
-   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
-   *                  {status: estado respuesta , data: datos obtenidos };
-   * @param that contexto de la clase
-   */
-  getLackDocumentation(response, that) {
-    response.data.forEach(element => {
-      that.tiposAusenciaDocumento.push({value: element.id, viewValue: element.ausencia_documento});
-    });
-  }
-
-  /**
-   * Guarda los paises que vienen la base de datos
-   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
-   *                  {status: estado respuesta , data: datos obtenidos };
-   * @param that contexto de la clase
-   */
-  getPaises(response, that) {
-    response.data.forEach(element => {
-      that.paises.push({ value: element.id, viewValue: element.nacionalidad });
-    });
-  }
-
-  /**
-   * Guarda los sexos que vienen la base de datos
-   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
-   *                  {status: estado respuesta , data: datos obtenidos };
-   * @param that contexto de la clase
-   */
-  getSexosEv(response, that) {
-    response.data.forEach(element => {
-      that.sexosEv.push({ value: element.id, viewValue: element.sexo });
-    });
-  }
-
-  /**
-   * Guarda la orientaciones sexuales que vienen de la base de datos.
-   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
-   *                  {status: estado respuesta , data: datos obtenidos };
-   * @param that contexto de la clase
-   */
-  getOrientacionesSexual(response, that) {
-    response.data.forEach(element => {
-      that.orientacionesSexual.push({ value: element.id, viewValue: element.orientacion_sexual });
-    });
   }
 
   /**
@@ -311,7 +263,10 @@ export class IdentifyingDataComponent implements OnInit {
     if (opened) {
       return;
     }
-    this.stayService.getProvincias({idPais: this.paisNacimiento.value}).subscribe(this.peticionHandle.bind(this, this.getProvinciasBD));
+    this.provincias = [];
+    this.municipios = [];
+    this.stayService.getProvincias({idPais: this.paisNacimiento.value})
+      .subscribe(this.peticionHandleMejorada.bind(this, this.provincias, '', '', () => {} , () => {}));
   }
   /**
    * Envia una petición a la base de datos para traerse las provincias de un país ya seleccionado
@@ -321,8 +276,10 @@ export class IdentifyingDataComponent implements OnInit {
     if (opened) {
       return;
     }
+    this.provincias = [];
+    this.municipios = [];
     this.stayService.getProvincias({idPais: this.nacionalidad.value})
-                    .subscribe(this.peticionHandle.bind(this, this.getProvinciasEmpadronamientoBD));
+      .subscribe(this.peticionHandle.bind(this, this.getProvinciasEmpadronamientoBD));
   }
 
   /**
@@ -331,22 +288,29 @@ export class IdentifyingDataComponent implements OnInit {
    *                  {status: estado respuesta , data: datos obtenidos };
    * @param that contexto de la clase
    */
-  getProvinciasBD(response, that) {
+  getProvinciasBD(response, that, empty = false ) {
     that.provincias = [];
     that.municipios = [];
+    if (empty) {
+      return;
+    }
     response.data.forEach(element => {
       that.provincias.push({ value: element.id, viewValue: element.provincia });
     });
   }
+
   /**
    * Guarda las provincias que vienen la base de datos
    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
    *                  {status: estado respuesta , data: datos obtenidos };
    * @param that contexto de la clase
    */
-  getProvinciasEmpadronamientoBD(response, that) {
+  getProvinciasEmpadronamientoBD(response, that, empty = false) {
     that.provinciasEmpadronamiento = [];
     that.municipiosEmpadronamiento = [];
+    if (empty) {
+      return;
+    }
     response.data.forEach(element => {
       that.provinciasEmpadronamiento.push({ value: element.id, viewValue: element.provincia });
     });
@@ -360,8 +324,8 @@ export class IdentifyingDataComponent implements OnInit {
     if (opened) {
       return;
     }
-    this.stayService.getMunicipios({idProvincia: this.provinciaNacimiento.value}).subscribe(
-      this.peticionHandle.bind(this, this.getMunicipiosBD));
+    this.stayService.getMunicipios({idProvincia: this.provinciaNacimiento.value})
+      .subscribe(this.peticionHandle.bind(this, this.getMunicipiosBD));
   }
 
   /**
@@ -372,8 +336,8 @@ export class IdentifyingDataComponent implements OnInit {
     if (opened) {
       return;
     }
-    this.stayService.getMunicipios({idProvincia: this.provinciaEmpadronamiento.value}).subscribe(
-      this.peticionHandle.bind(this, this.getMunicipiosEmpadronamientoBD));
+    this.stayService.getMunicipios({idProvincia: this.provinciaEmpadronamiento.value})
+      .subscribe(this.peticionHandle.bind(this, this.getMunicipiosEmpadronamientoBD));
   }
 
   /**
@@ -382,8 +346,11 @@ export class IdentifyingDataComponent implements OnInit {
    *                  {status: estado respuesta , data: datos obtenidos };
    * @param that contexto de la clase
    */
-  getMunicipiosBD(response, that) {
+  getMunicipiosBD(response, that, empty = false) {
     that.municipios = [];
+    if (empty) {
+      return;
+    }
     response.data.forEach(element => {
       that.municipios.push({ value: element.id, viewValue: element.poblacion });
     });
@@ -395,8 +362,11 @@ export class IdentifyingDataComponent implements OnInit {
    *                  {status: estado respuesta , data: datos obtenidos };
    * @param that contexto de la clase
    */
-  getMunicipiosEmpadronamientoBD(response, that) {
+  getMunicipiosEmpadronamientoBD(response, that, empty = false) {
     that.municipiosEmpadronamiento = [];
+    if (empty) {
+      return;
+    }
     response.data.forEach(element => {
       that.municipiosEmpadronamiento.push({ value: element.id, viewValue: element.poblacion });
     });
@@ -407,3 +377,89 @@ export class IdentifyingDataComponent implements OnInit {
 
 }
 
+
+
+
+//  /**
+//    * Guarda las formas de ingreso
+//    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+//    *                  {status: estado respuesta , data: datos obtenidos };
+//    * @param that contexto de la clase
+//    */
+//   public getFormasIngreso(response, that) {
+//     response.data.forEach(element => {
+//       that.formasIngreso.push({value: element.id, viewValue: element.forma_ingreso});
+//     });
+//   }
+
+//   /**
+//    * Guarda los orígenes de ingreso
+//    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+//    *                  {status: estado respuesta , data: datos obtenidos };
+//    * @param that contexto de la clase
+//    */
+//   getOrigenIngreso(response, that) {
+//     response.data.forEach(element => {
+//       that.origenesIngreso.push({value: element.id, viewValue: element.origen_ingreso});
+//     });
+//   }
+
+//   /**
+//    * Guarda los tipos de documento
+//    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+//    *                  {status: estado respuesta , data: datos obtenidos };
+//    * @param that contexto de la clase
+//    */
+//   getTypeDocuments(response, that) {
+//     response.data.forEach(element => {
+//       that.tiposDocumento.push({value: element.id, viewValue: element.documento});
+//     });
+//     that.ausenciaDocumento = that.tiposDocumento;
+//   }
+//   /**
+//    * Guarda los tipos de ausencia de documento
+//    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+//    *                  {status: estado respuesta , data: datos obtenidos };
+//    * @param that contexto de la clase
+//    */
+//   getLackDocumentation(response, that) {
+//     response.data.forEach(element => {
+//       that.tiposAusenciaDocumento.push({value: element.id, viewValue: element.ausencia_documento});
+//     });
+//   }
+
+//   /**
+//    * Guarda los paises que vienen la base de datos
+//    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+//    *                  {status: estado respuesta , data: datos obtenidos };
+//    * @param that contexto de la clase
+//    */
+//   getPaises(response, that) {
+//     response.data.forEach(element => {
+//       that.paises.push({ value: element.id, viewValue: element.nacionalidad });
+//     });
+//   }
+
+//   /**
+//    * Guarda los sexos que vienen la base de datos
+//    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+//    *                  {status: estado respuesta , data: datos obtenidos };
+//    * @param that contexto de la clase
+//    */
+//   getSexosEv(response, that) {
+//     response.data.forEach(element => {
+//       that.sexosEv.push({ value: element.id, viewValue: element.sexo });
+//     });
+//   }
+
+//   /**
+//    * Guarda la orientaciones sexuales que vienen de la base de datos.
+//    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+//    *                  {status: estado respuesta , data: datos obtenidos };
+//    * @param that contexto de la clase
+//    */
+//   getOrientacionesSexual(response, that) {
+//     response.data.forEach(element => {
+//       that.orientacionesSexual.push({ value: element.id, viewValue: element.orientacion_sexual });
+//     });
+//   }
