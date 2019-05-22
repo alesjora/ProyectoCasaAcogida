@@ -1,154 +1,213 @@
 <form [formGroup]="identifyingDataForm">
-  <ul class='materialTheme'>
-      <li>Número expediente: <span>2</span></li>
-      <li>Número ingreso: <span>2</span></li>
-  </ul>
+  <fieldset>
+    <legend>Información Interna</legend>
+    <ul class='materialTheme'>
+        <li>Número expediente: <span>2</span></li>
+        <li>Número ingreso: <span>2</span></li>
+    </ul>
 
-  <div class="datesContainer">
-    <igx-date-picker class="datePicker" formControlName="entryDate" [formatter]="formatter"
-                label="Fecha Ingreso"></igx-date-picker>
+    <div class="datesContainer">
+      <igx-date-picker class="datePicker" formControlName="entryDate" [formatter]="formatter"
+                  label="Fecha Ingreso"></igx-date-picker>
 
-    <igx-date-picker class="datePicker" formControlName="departureDate" [formatter]="formatter"
-                label="Fecha Salida"></igx-date-picker>
+      <igx-date-picker class="datePicker" formControlName="departureDate" [formatter]="formatter"
+                  label="Fecha Salida"></igx-date-picker>
 
-    <igx-date-picker class="datePicker" formControlName="evaluationDate" [formatter]="formatter"
-                label="Fecha evaluación"></igx-date-picker>
-  </div>
+      <igx-date-picker class="datePicker" formControlName="evaluationDate" [formatter]="formatter"
+                  label="Fecha evaluación"></igx-date-picker>
+    </div>
+  </fieldset>
 
-  <div class="formaIngresoContainer">
-    <mat-form-field class="containerInputs">
-        <mat-label>Forma de Ingreso</mat-label>
-        <mat-select formControlName="formaIngreso" >
-          <mat-option *ngFor="let formaIngreso of formasIngreso" [value]="formaIngreso.value" >
-            {{formaIngreso.viewValue}}
-          </mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <mat-form-field *ngIf="formaIngreso.value==2 || formaIngreso.value == 3" class="containerInputs">
-        <mat-label>Origen de Ingreso</mat-label>
-        <mat-select formControlName="origenIngreso">
-          <mat-option *ngFor="let origenIngreso of origenesIngreso" [value]="origenIngreso.value" >
-            {{origenIngreso.viewValue}}
-          </mat-option>
-        </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="nameContainer">
-    <mat-form-field class="containerInputs">
-        <input matInput type="text" placeholder="Nombre" formControlName="name">
-        <mat-error *ngIf="name?.invalid">El nombre es obligatorio</mat-error>
-    </mat-form-field>
-    <mat-form-field class="containerInputs">
-        <input matInput type="text" placeholder="Primer Apellido" formControlName="apellido1">
-        <mat-error *ngIf="apellido1?.invalid">El primer apellido es obligatorio</mat-error>
-    </mat-form-field>
-    <mat-form-field class="containerInputs">
-        <input matInput type="text" placeholder="Segundo Apellido" formControlName="apellido2">
-    </mat-form-field>
-  </div>
-  <div class="documentationContainer">
+  <fieldset>
+    <legend>Forma Ingreso</legend>
+    <div class="formaIngresoContainer">
       <mat-form-field class="containerInputs">
-          <mat-label>Tipo de documentación </mat-label>
-          <mat-select formControlName="documentationType" (openedChange)='createLackDocumentation()' >
-            <mat-option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.value" >
-              {{tipoDocumento.viewValue}}
+          <mat-label>Forma de Ingreso</mat-label>
+          <mat-select formControlName="formaIngreso" >
+            <mat-option *ngFor="let formaIngreso of formasIngreso" [value]="formaIngreso.value" >
+              {{formaIngreso.viewValue}}
             </mat-option>
-            <mat-option [value]="-1" >
-                Otro
-              </mat-option>
-              <mat-option [value]="-2" >
-                Sin Documentación
-              </mat-option>
           </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="documentationType.value === (-1)"  class="containerInputs">
-          <input matInput type="text"formControlName="documentationOtherType" placeholder="Tipo Documento">
+      <mat-form-field *ngIf="formaIngreso.value==2 || formaIngreso.value == 3" class="containerInputs">
+          <mat-label>Origen de Ingreso</mat-label>
+          <mat-select formControlName="origenIngreso">
+            <mat-option *ngFor="let origenIngreso of origenesIngreso" [value]="origenIngreso.value" >
+              {{origenIngreso.viewValue}}
+            </mat-option>
+          </mat-select>
       </mat-form-field>
+    </div>
+  </fieldset>
 
-      <mat-form-field *ngIf="documentationType.value !== (-2)"  class="containerInputs">
-          <input matInput type="text" formControlName="documentationNumber" placeholder="Documentación">
+  <fieldset>
+    <legend>Datos Identificación</legend>
+    <div class="nameContainer">
+      <mat-form-field class="containerInputs">
+          <input matInput type="text" placeholder="Nombre" formControlName="name">
+          <mat-error *ngIf="name?.invalid">El nombre es obligatorio</mat-error>
       </mat-form-field>
-      <div class="multiSelect">
-          <igx-combo #combo class="combo" (onSelectionChange)='createMotivosAusenciaInputs($event)' formControlName="lackDocumentation" [itemsMaxHeight]="155" [data]="ausenciaDocumento"
-        [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Falta de documentación" searchPlaceholder="Buscar...">
-        </igx-combo>
-      </div>
-      <mat-form-field *ngFor='let item of lackDocumentation.value; let i= index' class="containerInputs" formArrayName="tiposAusenciaDocumento">
-        <mat-label>Motivo ausencia de {{item.viewValue}}</mat-label>
-        <mat-select [formControlName]="i" >
-          <mat-option *ngFor="let tipoAusenciaDocumento of tiposAusenciaDocumento" [value]="tipoAusenciaDocumento.value" >
-            {{tipoAusenciaDocumento.viewValue}}
+      <mat-form-field class="containerInputs">
+          <input matInput type="text" placeholder="Primer Apellido" formControlName="apellido1">
+          <mat-error *ngIf="apellido1?.invalid">El primer apellido es obligatorio</mat-error>
+      </mat-form-field>
+      <mat-form-field class="containerInputs">
+          <input matInput type="text" placeholder="Segundo Apellido" formControlName="apellido2">
+      </mat-form-field>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Documentación</legend>
+    <div class="documentationContainer">
+        <mat-form-field class="containerInputs">
+            <mat-label>Tipo de documentación </mat-label>
+            <mat-select formControlName="documentationType" (openedChange)='createLackDocumentation()' >
+              <mat-option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.value" >
+                {{tipoDocumento.viewValue}}
+              </mat-option>
+              <mat-option [value]="-1" >
+                  Otro
+                </mat-option>
+                <mat-option [value]="-2" >
+                  Sin Documentación
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="documentationType.value === (-1)"  class="containerInputs">
+            <input matInput type="text"formControlName="documentationOtherType" placeholder="Tipo Documento">
+        </mat-form-field>
+
+        <mat-form-field *ngIf="documentationType.value !== (-2)"  class="containerInputs">
+            <input matInput type="text" formControlName="documentationNumber" placeholder="Documentación">
+        </mat-form-field>
+        <div class="multiSelect">
+            <igx-combo #combo class="combo" (onSelectionChange)='createMotivosAusenciaInputs($event)' formControlName="lackDocumentation" [itemsMaxHeight]="155" [data]="ausenciaDocumento"
+          [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Falta de documentación" searchPlaceholder="Buscar...">
+          </igx-combo>
+        </div>
+        <mat-form-field *ngFor='let item of lackDocumentation.value; let i= index' class="containerInputs" formArrayName="tiposAusenciaDocumento">
+          <mat-label>Motivo ausencia de {{item.viewValue}}</mat-label>
+          <mat-select [formControlName]="i" >
+            <mat-option *ngFor="let tipoAusenciaDocumento of tiposAusenciaDocumento" [value]="tipoAusenciaDocumento.value" >
+              {{tipoAusenciaDocumento.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Contacto</legend>
+    <mat-form-field class="containerInputs">
+        <input matInput type="text" placeholder="Telefono" formControlName="telefono">
+    </mat-form-field>
+    <mat-form-field class="containerInputs">
+        <input matInput type="text" placeholder="Correo" formControlName="correo">
+    </mat-form-field>
+  </fieldset>
+
+  <fieldset>
+    <legend>Nacimiento</legend>
+    <div class="bornDate">
+      <igx-date-picker class="datePicker" formControlName="bornDate" [formatter]="formatter"
+                    label="Fecha Nacimiento"></igx-date-picker>
+      <mat-form-field class="containerInputs" >
+        <mat-label>Edad</mat-label>
+        <mat-select formControlName="edad" >
+          <mat-option *ngFor="let anio of edad" [value]="anio" >
+            {{anio}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-  </div>
-  <mat-form-field class="containerInputs">
-      <input matInput type="text" placeholder="Telefono" formControlName="telefono">
-  </mat-form-field>
-  <mat-form-field class="containerInputs">
-      <input matInput type="text" placeholder="Correo" formControlName="correo">
-  </mat-form-field>
-  <div class="bornDate">
-    <igx-date-picker class="datePicker" formControlName="bornDate" [formatter]="formatter"
-                  label="Fecha Nacimiento"></igx-date-picker>
-    <mat-form-field class="containerInputs" >
-      <mat-label>Edad</mat-label>
-      <mat-select formControlName="edad" >
-        <mat-option *ngFor="let anio of edad" [value]="anio" >
-          {{anio}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="residenciaNacimientoContainer">
-    <mat-form-field class="containerInputs">
-      <mat-label>País de Nacimiento</mat-label>
-      <mat-select formControlName="paisNacimiento" (openedChange)="getProvincias($event)">
-        <mat-option *ngFor="let element of paises" [value]="element.value">
-          {{element.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field *ngIf="paisNacimiento.value" class="containerInputs">
-      <mat-label>Provincia de Nacimiento</mat-label>
-      <mat-select formControlName="provinciaNacimiento" (openedChange)="getMunicipios($event)">
-        <mat-option *ngFor="let element of provincias" [value]="element.value">
-          {{element.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field *ngIf="provinciaNacimiento.value" class="containerInputs">
-        <mat-label>Municipio de Nacimiento</mat-label>
-        <mat-select formControlName="provinciaNacimiento">
-          <mat-option *ngFor="let element of municipios" [value]="element.value">
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Sexos</legend>
+    <div class="sexosContainer">
+      <mat-form-field class="containerInputs">
+        <mat-label>Sexo</mat-label>
+        <mat-select formControlName="sexoEv">
+          <mat-option *ngFor="let element of sexosEv" [value]="element.value">
             {{element.viewValue}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-  </div>
-  <div class="nacionalidadContainer">
-    <mat-form-field class="containerInputs">
-      <mat-label>Nacionalidad</mat-label>
-      <mat-select formControlName="nacionalidad">
-        <mat-option *ngFor="let element of paises" [value]="element.value">
-          {{element.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="sexosContainer">
-    <mat-form-field class="containerInputs">
-      <mat-label>Sexo</mat-label>
-      <mat-select formControlName="sexoEv">
-        <mat-option *ngFor="let element of sexosEv" [value]="element.value">
-          {{element.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+
+      <mat-form-field class="containerInputs">
+        <mat-label>Orientacion Sexual</mat-label>
+        <mat-select formControlName="orientacionSexual">
+          <mat-option *ngFor="let element of orientacionesSexual" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend> Lugar Nacimiento</legend>
+    <div class="residenciaNacimientoContainer">
+      <mat-form-field class="containerInputs">
+        <mat-label>País de Nacimiento</mat-label>
+        <mat-select formControlName="paisNacimiento" (openedChange)="getProvincias($event)">
+          <mat-option *ngFor="let element of paises" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="paisNacimiento.value" class="containerInputs">
+        <mat-label>Provincia de Nacimiento</mat-label>
+        <mat-select formControlName="provinciaNacimiento" (openedChange)="getMunicipios($event)">
+          <mat-option *ngFor="let element of provincias" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="provinciaNacimiento.value" class="containerInputs">
+          <mat-label>Municipio de Nacimiento</mat-label>
+          <mat-select formControlName="municipioNacimiento">
+            <mat-option *ngFor="let element of municipios" [value]="element.value">
+              {{element.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend> Nacionalidad</legend>
+    <div class="nacionalidadContainer">
+      <mat-form-field class="containerInputs">
+        <mat-label>Nacionalidad</mat-label>
+        <mat-select formControlName="nacionalidad" (openedChange)="getProvinciasEmpadronamiento($event)">
+          <mat-option *ngFor="let element of paises" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="nacionalidad.value" class="containerInputs">
+        <mat-label>Provincia de Empadronamiento</mat-label>
+        <mat-select formControlName="provinciaEmpadronamiento" (openedChange)="getMunicipiosEmpadronamiento($event)">
+          <mat-option *ngFor="let element of provinciasEmpadronamiento" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="provinciaEmpadronamiento.value" class="containerInputs">
+        <mat-label>Municipio de Empadronamiento</mat-label>
+        <mat-select formControlName="municipioEmpadronamiento">
+          <mat-option *ngFor="let element of municipiosEmpadronamiento" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </fieldset>
+
 
   <button (click)='sendDatos()'>Enviar</button>
 </form>

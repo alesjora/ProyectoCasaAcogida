@@ -27,6 +27,8 @@ export class IdentifyingDataComponent implements OnInit {
   tiposAusenciaDocumento = [];
   paises = [];
   provincias = [];
+  provinciasEmpadronamiento = [];
+  municipiosEmpadronamiento = [];
   municipios = [];
   sexosEv = [];
   orientacionesSexual = [];
@@ -62,6 +64,8 @@ export class IdentifyingDataComponent implements OnInit {
       provinciaNacimiento: [''],
       municipioNacimiento: [''],
       nacionalidad: [''],
+      provinciaEmpadronamiento: [''],
+      municipioEmpadronamiento: [''],
       sexoEv: [''],
       orientacionSexual: ['']
     });
@@ -121,6 +125,12 @@ export class IdentifyingDataComponent implements OnInit {
   get orientacionSexual() {
     return this.identifyingDataForm.get('orientacionSexual');
   }
+  get provinciaEmpadronamiento(){
+    return this.identifyingDataForm.get('provinciaEmpadronamiento');
+  }
+  get municipioEmpadronamiento(){
+    return this.municipioEmpadronamiento.get('municipioEmpadronamiento');
+  }
 
   /**
    * @return true cuando el formulario es valido, false en caso contrario.
@@ -144,7 +154,8 @@ export class IdentifyingDataComponent implements OnInit {
     this.identifyingDataService.getOrigenIngreso().subscribe(this.peticionHandle.bind(this, this.getOrigenIngreso));
     this.identifyingDataService.getTypeDocuments().subscribe(this.peticionHandle.bind(this, this.getTypeDocuments));
     this.stayService.getTypesLackDocumentation().subscribe(this.peticionHandle.bind(this, this.getLackDocumentation));
-    this.stayService.getSexosEv().subscribe(this.peticionHandle.bind(this, this.getSexosEv))
+    this.stayService.getSexosEv().subscribe(this.peticionHandle.bind(this, this.getSexosEv));
+    this.stayService.getOrientacionSexual().subscribe(this.peticionHandle.bind(this, this.getOrientacionesSexual));
     this.stayService.getPaises().subscribe(this.peticionHandle.bind(this, this.getPaises));
 
     this.createEdad();
@@ -156,11 +167,15 @@ export class IdentifyingDataComponent implements OnInit {
    *                  {status: estado respuesta , data: datos obtenidos };
    */
   peticionHandle(funcion, response) {
+    console.log(response);
     switch (response.status) {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
       case 'OPERATION_SUCCESS':
+        funcion(response, this);
+        break;
+      case 'DATA_EMPTY':
         funcion(response, this);
         break;
       default:
@@ -242,6 +257,18 @@ export class IdentifyingDataComponent implements OnInit {
   }
 
   /**
+   * Guarda la orientaciones sexuales que vienen de la base de datos.
+   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   * @param that contexto de la clase
+   */
+  getOrientacionesSexual(response, that) {
+    response.data.forEach(element => {
+      that.orientacionesSexual.push({ value: element.id, viewValue: element.orientacion_sexual });
+    });
+  }
+
+  /**
    * Crea el array de la ausencia de documentos en base a los tipos de documento que existen menos los que tiene.
    */
   createLackDocumentation() {
@@ -286,6 +313,17 @@ export class IdentifyingDataComponent implements OnInit {
     }
     this.stayService.getProvincias({idPais: this.paisNacimiento.value}).subscribe(this.peticionHandle.bind(this, this.getProvinciasBD));
   }
+  /**
+   * Envia una petición a la base de datos para traerse las provincias de un país ya seleccionado
+   * @param opened boolean con el estado del select que lo lanza, true en caso de que este abierto, false en caso de que se halla cerrado
+   */
+  getProvinciasEmpadronamiento(opened: boolean) {
+    if (opened) {
+      return;
+    }
+    this.stayService.getProvincias({idPais: this.nacionalidad.value})
+                    .subscribe(this.peticionHandle.bind(this, this.getProvinciasEmpadronamientoBD));
+  }
 
   /**
    * Guarda las provincias que vienen la base de datos
@@ -298,6 +336,19 @@ export class IdentifyingDataComponent implements OnInit {
     that.municipios = [];
     response.data.forEach(element => {
       that.provincias.push({ value: element.id, viewValue: element.provincia });
+    });
+  }
+  /**
+   * Guarda las provincias que vienen la base de datos
+   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   * @param that contexto de la clase
+   */
+  getProvinciasEmpadronamientoBD(response, that) {
+    that.provinciasEmpadronamiento = [];
+    that.municipiosEmpadronamiento = [];
+    response.data.forEach(element => {
+      that.provinciasEmpadronamiento.push({ value: element.id, viewValue: element.provincia });
     });
   }
 
@@ -314,6 +365,18 @@ export class IdentifyingDataComponent implements OnInit {
   }
 
   /**
+   * Envia una petición a la base de datos para traerse los municipios de una provincia ya seleccionada
+   * @param opened boolean con el estado del select que lo lanza, true en caso de que este abierto, false en caso de que se halla cerrado
+   */
+  getMunicipiosEmpadronamiento(opened: boolean) {
+    if (opened) {
+      return;
+    }
+    this.stayService.getMunicipios({idProvincia: this.provinciaEmpadronamiento.value}).subscribe(
+      this.peticionHandle.bind(this, this.getMunicipiosEmpadronamientoBD));
+  }
+
+  /**
    * Guarda los municipios que vienen de la base de datos
    * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
    *                  {status: estado respuesta , data: datos obtenidos };
@@ -323,6 +386,19 @@ export class IdentifyingDataComponent implements OnInit {
     that.municipios = [];
     response.data.forEach(element => {
       that.municipios.push({ value: element.id, viewValue: element.poblacion });
+    });
+  }
+
+  /**
+   * Guarda los municipios que vienen de la base de datos
+   * @param response contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   * @param that contexto de la clase
+   */
+  getMunicipiosEmpadronamientoBD(response, that) {
+    that.municipiosEmpadronamiento = [];
+    response.data.forEach(element => {
+      that.municipiosEmpadronamiento.push({ value: element.id, viewValue: element.poblacion });
     });
   }
   sendDatos() {
