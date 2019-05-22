@@ -1,5 +1,5 @@
-<form [formGroup]="identifyingDataForm">
-  <fieldset>
+<form [formGroup]="identifyingDataForm" *ngIf="identifyingDataForm">
+  <fieldset class="datesContainer">
     <legend>Información Interna</legend>
     <ul class='materialTheme'>
         <li>Número expediente: <span>2</span></li>
@@ -18,7 +18,7 @@
     </div>
   </fieldset>
 
-  <fieldset>
+  <fieldset class="formaIngresoContainer">
     <legend>Forma Ingreso</legend>
     <div class="formaIngresoContainer">
       <mat-form-field class="containerInputs">
@@ -41,7 +41,7 @@
     </div>
   </fieldset>
 
-  <fieldset>
+  <fieldset class="nameContainer">
     <legend>Datos Identificación</legend>
     <div class="nameContainer">
       <mat-form-field class="containerInputs">
@@ -58,7 +58,7 @@
     </div>
   </fieldset>
 
-  <fieldset>
+  <fieldset class="documentationContainer">
     <legend>Documentación</legend>
     <div class="documentationContainer">
         <mat-form-field class="containerInputs">
@@ -99,7 +99,7 @@
     </div>
   </fieldset>
 
-  <fieldset>
+  <fieldset class="contactoContainer">
     <legend>Contacto</legend>
     <mat-form-field class="containerInputs">
         <input matInput type="text" placeholder="Telefono" formControlName="telefono">
@@ -109,7 +109,7 @@
     </mat-form-field>
   </fieldset>
 
-  <fieldset>
+  <fieldset class='bornContainer'>
     <legend>Nacimiento</legend>
     <div class="bornDate">
       <igx-date-picker class="datePicker" formControlName="bornDate" [formatter]="formatter"
@@ -125,7 +125,7 @@
     </div>
   </fieldset>
 
-  <fieldset>
+  <fieldset class='sexosContainer'>
     <legend>Sexos</legend>
     <div class="sexosContainer">
       <mat-form-field class="containerInputs">
@@ -148,7 +148,7 @@
     </div>
   </fieldset>
 
-  <fieldset>
+  <fieldset class='bornPlaceContainer'>
     <legend> Lugar Nacimiento</legend>
     <div class="residenciaNacimientoContainer">
       <mat-form-field class="containerInputs">
@@ -178,8 +178,8 @@
     </div>
   </fieldset>
 
-  <fieldset>
-    <legend> Nacionalidad</legend>
+  <fieldset class='empadronamientoContainer'>
+    <legend>Empadronamiento</legend>
     <div class="nacionalidadContainer">
       <mat-form-field class="containerInputs">
         <mat-label>Nacionalidad</mat-label>
@@ -189,6 +189,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
       <mat-form-field *ngIf="nacionalidad.value" class="containerInputs">
         <mat-label>Provincia de Empadronamiento</mat-label>
         <mat-select formControlName="provinciaEmpadronamiento" (openedChange)="getMunicipiosEmpadronamiento($event)">
@@ -197,6 +198,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
       <mat-form-field *ngIf="provinciaEmpadronamiento.value" class="containerInputs">
         <mat-label>Municipio de Empadronamiento</mat-label>
         <mat-select formControlName="municipioEmpadronamiento">
@@ -205,9 +207,75 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <igx-date-picker class="datePicker" formControlName="censusDate" [formatter]="formatter"
+      label="Fecha Empadronamiento"></igx-date-picker>
     </div>
   </fieldset>
 
+  <fieldset class='datosSanitariosContainer'>
+    <legend>Datos Sanitarios</legend>
+    <mat-form-field class="containerInputs">
+      <input matInput type="text" placeholder="Nº Afiliación SS" formControlName="sSNumber">
+    </mat-form-field>
+    <fieldset>
+      <legend>Asistencia Sanitaria</legend>
+      <div class='containerRadios'>
+        <igx-radio *ngFor="let asistenciaSanitaria of afirmacionNegacion"  [value]="asistenciaSanitaria.value" [(ngModel)]="selectedAsistenciaSanitaria" formControlName="asistenciaSanitaria">
+          {{asistenciaSanitaria.viewValue}}
+        </igx-radio>
+      </div>
+    </fieldset>
+    <mat-form-field  class="containerInputs">
+      <input matInput type="text"  placeholder="Nº de asistencia sanitaria en Servicio Nacional de Salud" formControlName="sNSNumber">
+    </mat-form-field>
+    <fieldset>
+      <legend>Tarjeta Sanitaria</legend>
+      <div class='containerRadios'>
+        <igx-radio *ngFor="let targetaSanitaria of afirmacionNegacion"  [value]="targetaSanitaria.value" [(ngModel)]="selectedTargetaSanitaria" formControlName="targetaSanitaria">
+          {{targetaSanitaria.viewValue}}
+        </igx-radio>
+      </div>
+      <mat-form-field *ngIf='targetaSanitaria.value==2' class="containerInputs" >
+        <mat-label>Motivo ausencia de Tarjeta Sanitaria </mat-label>
+        <mat-select formControlName="motivoAusenciaTargetaSanitaria" >
+          <mat-option *ngFor="let tipoAusenciaDocumento of tiposAusenciaDocumento" [value]="tipoAusenciaDocumento.value" >
+            {{tipoAusenciaDocumento.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </fieldset>
+  </fieldset>
 
+  <fieldset class='estadoCivilContainer'>
+    <legend>Estado Civil</legend>
+    <mat-form-field class="containerInputs" >
+      <mat-label>Estado Civil </mat-label>
+      <mat-select formControlName="estadoCivil" >
+        <mat-option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.value" >
+          {{estadoCivil.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </fieldset>
+
+  <fieldset class='permisoResidenciaContainer'>
+    <legend>Permiso Residencia</legend>
+    <div class='containerRadios'>
+      <igx-radio *ngFor="let permisoResidencia of afirmacionNegacion"  [value]="permisoResidencia.value" [(ngModel)]="selectedPermisoResidencia" formControlName="permisoResidencia">
+        {{permisoResidencia.viewValue}}
+      </igx-radio>
+    </div>
+    <mat-form-field *ngIf='permisoResidencia.value==1' class="containerInputs" >
+      <mat-label>Tipo permiso residencia </mat-label>
+      <mat-select formControlName="tipoPermisoResidencia" >
+        <mat-option *ngFor="let tipoPermisoResidencia of tipoPermisosResidencia" [value]="tipoPermisoResidencia.value" >
+          {{tipoPermisoResidencia.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <igx-date-picker class="datePicker" formControlName="residancePermitDate" [formatter]="formatter"
+      label="Renovación permiso residencia"></igx-date-picker>
+  </fieldset>
   <button (click)='sendDatos()'>Enviar</button>
 </form>

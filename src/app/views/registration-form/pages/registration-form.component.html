@@ -23,11 +23,14 @@
           <mat-form-field>
             <input matInput type="text" placeholder="Apellido 2" formControlName="surname2">
           </mat-form-field>
-          <div class='containerRadios'>
+          <fieldset class='containerRadios'>
+            <legend>Sexo</legend>
+            <div class='subContainerRadios'>
               <igx-radio *ngFor="let sexo of sexos" name="sexo"  [value]="sexo.value" [(ngModel)]="selectedSexo" formControlName="sexo">
                 {{sexo.viewValue}}
               </igx-radio>
             </div>
+          </fieldset>
           <div class='containerInput' >
               <igx-date-picker formControlName="bornDate" [formatter]="formatter"
               label="Fecha Nacimiento"></igx-date-picker>

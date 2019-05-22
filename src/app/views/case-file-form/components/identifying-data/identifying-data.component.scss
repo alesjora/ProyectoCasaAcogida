@@ -1,3 +1,4 @@
+
 .materialTheme{
   width: 100%;
   padding-left:0px;
@@ -30,17 +31,8 @@
 .datePicker{
   padding-bottom: 1.25rem;
 }
-.datesContainer{
-  width: 100%;
-}
-.formaIngresoContainer{
-  width: 100%;
-}
-.nameContainer{
-  width: 100%;
-}
+
 .documentationContainer{
-  width: 100%;
   .multiSelect{
     padding-bottom: 1.25rem;
   }
@@ -51,5 +43,62 @@
   // }
   .datePicker{
     padding-bottom: 1.25rem;
+  }
+}
+.containerRadios{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.datesContainer{
+  grid-area: datesContainer;
+}
+.formaIngresoContainer{
+  grid-area: formaIngresoContainer;
+}
+.nameContainer{
+  grid-area: nameContainer;
+}
+.documentationContainer{
+  grid-area: documentationContainer;
+}
+.contactoContainer{
+  grid-area: contactoContainer;
+}
+.bornContainer{
+  grid-area: bornContainer;
+}
+.sexosContainer{
+  grid-area: sexosContainer;
+}
+.bornPlaceContainer{
+  grid-area: bornPlaceContainer;
+}
+.empadronamientoContainer{
+  grid-area: empadronamientoContainer;
+}
+.datosSanitariosContainer{
+  grid-area: datosSanitariosContainer;
+}
+.estadoCivilContainer{
+  grid-area: estadoCivilContainer;
+}
+.permisoResidenciaContainer{
+  grid-area: permisoResidenciaContainer;
+}
+form{
+  margin-top: 20px;
+  @media (min-width: 800px) {
+    display: grid;
+    grid-template-columns:repeat(2,1fr);
+    grid-gap: 10px;
+    grid-template-areas:
+    "datesContainer documentationContainer"
+    "nameContainer sexosContainer"
+    "contactoContainer bornContainer"
+    "formaIngresoContainer bornPlaceContainer"
+    "empadronamientoContainer datosSanitariosContainer"
+    "estadoCivilContainer permisoResidenciaContainer";
   }
 }
