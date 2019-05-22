@@ -36,4 +36,13 @@ export class StayService {
   getMunicipios(data): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'obtenerMunicipios', data);
   }
+  getFormasIngreso(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerFormasIngreso');
+  }
+  getOrigenIngreso(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerOrigenIngreso');
+  }
+  getTypeDocuments(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerTiposDocumentos');
+  }
 }
