@@ -20,6 +20,8 @@ export class IdentifyingDataComponent implements OnInit {
 
   identifyingDataForm;
   private monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
+  numeroExpedienteCentro;
+  numeroExpedienteTecnico;
   formasIngreso = [];
   origenesIngreso = [];
   tiposDocumento = [];
@@ -228,43 +230,54 @@ export class IdentifyingDataComponent implements OnInit {
 
   getDatosExpediente(response){
     console.log(response);
+    const RESPUESTA_BD = response.data.mainData[0];
+    this.numeroExpedienteCentro = RESPUESTA_BD.numero_expediente_centro;
+    this.numeroExpedienteTecnico = RESPUESTA_BD.numero_expediente_tecnico;
     this.identifyingDataForm = this.fb.group({
-      entryDate : [''],
-      departureDate : [''],
-      evaluationDate : [''],
-      formaIngreso: [''],
-      origenIngreso: [''],
-      name : [response.data.mainData[0].nombre, Validators.required],
-      apellido1 : [response.data.mainData[0].apellido1, Validators.required],
-      apellido2: [response.data.mainData[0].email],
+      entryDate : [RESPUESTA_BD.fecha_ingreso ? new Date(RESPUESTA_BD.fecha_ingreso) : ''],
+      departureDate : [RESPUESTA_BD.fecha_salida ? new Date(RESPUESTA_BD.fecha_salida) : ''],
+      evaluationDate : [RESPUESTA_BD.fecha_evaluacion ? new Date(RESPUESTA_BD.fecha_evaluacion) : ''],
+      formaIngreso: [RESPUESTA_BD.idFormaIngreso],
+      origenIngreso: [RESPUESTA_BD.idOrigenIngreso],
+      name : [RESPUESTA_BD.nombre, Validators.required],
+      apellido1 : [RESPUESTA_BD.apellido1, Validators.required],
+      apellido2: [RESPUESTA_BD.apellido2],
       documentationType: [''],
       documentationOtherType: [''],
       documentationNumber: [''],
       lackDocumentation: [''],
       tiposAusenciaDocumento: this.fb.array([]),
-      telefono: [''],
-      correo: [''],
-      bornDate: [''],
-      edad: [''],
-      paisNacimiento: [''],
-      provinciaNacimiento: [''],
-      municipioNacimiento: [''],
-      nacionalidad: [''],
+      telefono: [RESPUESTA_BD.telefono],
+      correo: [RESPUESTA_BD.email],
+      bornDate: [RESPUESTA_BD.fecha_nacimiento ? new Date(RESPUESTA_BD.fecha_nacimiento) : ''],
+      edad: [RESPUESTA_BD.edad],
+      paisNacimiento: [RESPUESTA_BD.idPaisNacimiento],
+      provinciaNacimiento: [RESPUESTA_BD.idProvinciaNacimiento],
+      municipioNacimiento: [RESPUESTA_BD.idPoblacionNacimiento],
+      nacionalidad: [RESPUESTA_BD.nacionalidad],
       provinciaEmpadronamiento: [''],
-      municipioEmpadronamiento: [''],
-      sexoEv: [''],
-      orientacionSexual: [''],
+      municipioEmpadronamiento: [RESPUESTA_BD.idPoblacionEmpadronamiento],
+      sexoEv: [RESPUESTA_BD.idSexoEv],
+      orientacionSexual: [RESPUESTA_BD.idOrientacionSexual],
       censusDate: [''],
-      sSNumber: [''],
+      sSNumber: [RESPUESTA_BD.numero_ss],
       asistenciaSanitaria: [''],
       sNSNumber: [''],
       targetaSanitaria: [''],
       motivoAusenciaTargetaSanitaria: [''],
-      estadoCivil: [''],
+      estadoCivil: [RESPUESTA_BD.idEstadoCivil],
       permisoResidencia: [''],
       tipoPermisoResidencia: [''],
       residancePermitDate: ['']
     });
+  }
+  /**
+   * Recibe una parámetro, si es nulo devuelve un string vacío, si no devueve el mismo parámetro.
+   * @param toTransform string que vamos a devolver si no es nulo, en caso de que lo sea vamos a enviar una cadena vacía
+   * @return el parametro o una cadena vacía en caso de que el parámetro sea nulo
+   */
+  transformsNullsIntoEmptyStrings(toTransform) {
+    return toTransform ? toTransform : '';
   }
   /**
    * Maneja la petición http
