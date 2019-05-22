@@ -45,13 +45,11 @@ export class IdentifyingDataComponent implements OnInit {
   @ViewChild('identifyingData') identifyingData;
   @ViewChild('familyMemberData') familyMemberData;
   ngOnInit() {
-    console.log(this.router.snapshot.params.id)
     this.getDatos();
-    setTimeout(this.createForm.bind(this), 3000);
   }
 
-  createForm() {
-    this.identifyingDataForm = this.fb.group({
+  createForm(that) {
+    that.identifyingDataForm = that.fb.group({
       entryDate : [''],
       departureDate : [''],
       evaluationDate : [''],
@@ -63,7 +61,7 @@ export class IdentifyingDataComponent implements OnInit {
       documentationType: [''],
       documentationOtherType: [''],
       documentationNumber: [''],
-      lackDocumentation: [[{value:'1', viewValue:'DNI'}]],
+      lackDocumentation: [''],
       tiposAusenciaDocumento: this.fb.array([]),
       telefono: [''],
       correo: [''],
@@ -222,12 +220,52 @@ export class IdentifyingDataComponent implements OnInit {
       .bind(this, this.estadosCiviles, 'id', 'estado_civil'));
     serv.getResidencePermitType().subscribe(this.peticionHandleMejorada
       .bind(this, this.tipoPermisosResidencia, 'id', 'tipo'));
-    serv.getCaseFileInformation({id: this.router.snapshot.params.id}).subscribe(response=>{console.log(response)});
+    serv.getCaseFileInformation({id: this.router.snapshot.params.id}).subscribe(this.getDatosExpediente.bind(this));
     this.creacionAusenciaDocumento(this);
     this.createEdad();
 
   }
 
+  getDatosExpediente(response){
+    console.log(response);
+    this.identifyingDataForm = this.fb.group({
+      entryDate : [''],
+      departureDate : [''],
+      evaluationDate : [''],
+      formaIngreso: [''],
+      origenIngreso: [''],
+      name : [response.data.mainData[0].nombre, Validators.required],
+      apellido1 : [response.data.mainData[0].apellido1, Validators.required],
+      apellido2: [response.data.mainData[0].email],
+      documentationType: [''],
+      documentationOtherType: [''],
+      documentationNumber: [''],
+      lackDocumentation: [''],
+      tiposAusenciaDocumento: this.fb.array([]),
+      telefono: [''],
+      correo: [''],
+      bornDate: [''],
+      edad: [''],
+      paisNacimiento: [''],
+      provinciaNacimiento: [''],
+      municipioNacimiento: [''],
+      nacionalidad: [''],
+      provinciaEmpadronamiento: [''],
+      municipioEmpadronamiento: [''],
+      sexoEv: [''],
+      orientacionSexual: [''],
+      censusDate: [''],
+      sSNumber: [''],
+      asistenciaSanitaria: [''],
+      sNSNumber: [''],
+      targetaSanitaria: [''],
+      motivoAusenciaTargetaSanitaria: [''],
+      estadoCivil: [''],
+      permisoResidencia: [''],
+      tipoPermisoResidencia: [''],
+      residancePermitDate: ['']
+    });
+  }
   /**
    * Maneja la petición http
    * @param response que contiene la respuesta de la petición a la api. Debe tener la forma:
