@@ -73,12 +73,13 @@
           formControlName="telephonePersonContact">
         <mat-error *ngIf="infoPersonContact?.invalid">El teléfono de la persona de contacto es obligatorio</mat-error>
       </mat-form-field>
-      <div class="residencia" *ngIf="personContactCheckbox.value == 1">
+      <div class="residenciaPersonaContacto" *ngIf="personContactCheckbox.value == 1">
         <fieldset>
           <legend>Residencia</legend>
           <mat-form-field>
             <mat-label>País de residencia</mat-label>
-            <mat-select formControlName="pais" (openedChange)="getProvincias($event)">
+            <mat-select formControlName="paisPersonContact"
+              (openedChange)="getProvinciasPersonContact($event, paisPersonContact.value)">
               <mat-option *ngFor="let element of paises" [value]="element.value">
                 {{element.viewValue}}
               </mat-option>
@@ -86,18 +87,19 @@
           </mat-form-field>
           <mat-form-field>
             <mat-label>Provincia</mat-label>
-            <mat-select formControlName="provincia" (openedChange)="getMunicipios($event)"
-              [disabled]="!pais.value || provincias.length === 0">
-              <mat-option *ngFor="let element of provincias" [value]="element.value">
+            <mat-select formControlName="provinciaPersonContact"
+              (openedChange)="getMunicipiosPersonContact($event, provinciaPersonContact.value)"
+              [disabled]="!paisPersonContact.value || provinciaPersonContact.length === 0">
+              <mat-option *ngFor="let element of provinciasPersonContact" [value]="element.value">
                 {{element.viewValue}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Municipio</mat-label>
-            <mat-select formControlName="municipio"
-              [disabled]="!provincia.value || provincias.length === 0 || municipios.length === 0">
-              <mat-option *ngFor="let element of municipios" [value]="element.value">
+            <mat-select formControlName="municipioPersonContact"
+              [disabled]="!provinciaPersonContact.value || provinciaPersonContact.length === 0 || municipiosPersonContact.length === 0">
+              <mat-option *ngFor="let element of municipiosPersonContact" [value]="element.value">
                 {{element.viewValue}}
               </mat-option>
             </mat-select>
@@ -128,6 +130,127 @@
         <input matInput type="text" placeholder="Otro apoyo social" formControlName="otherSocialSupport">
         <mat-error *ngIf="otherSocialSupport?.invalid">El campo es obligatorio</mat-error>
       </mat-form-field>
+    </fieldset>
+  </div>
+  <div class="tiempoSinHogar">
+    <fieldset>
+      <legend>Tiempo sin hogar</legend>
+      <label>Tiempo sin hogar: </label>
+      <mat-radio-group aria-label="Selecciona una opción" formControlName="homelessTimeCheckbox"
+        (change)="homelessTimeCheckboxChange($event)">
+        <mat-radio-button value="1">Días</mat-radio-button>
+        <mat-radio-button value="2">Meses</mat-radio-button>
+        <mat-radio-button value="3">Años</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field>
+        <mat-label>Duración</mat-label>
+        <mat-select formControlName="homelessTimeSelect" [disabled]="valuesSelectHomelessTime.length === 0">
+          <mat-option *ngFor="let element of valuesSelectHomelessTime" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </fieldset>
+  </div>
+  <div class="procedenciaInmediata">
+    <fieldset>
+      <legend>Residencia</legend>
+      <mat-form-field>
+        <mat-label>País de procedencia</mat-label>
+        <mat-select formControlName="paisInmediateOrigin"
+          (openedChange)="getProvinciasInmediateOrigin($event, paisInmediateOrigin.value)">
+          <mat-option *ngFor="let element of paises" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Provincia</mat-label>
+        <mat-select formControlName="provinciaInmediateOrigin"
+          (openedChange)="getMunicipiosInmediateOrigin($event, provinciaInmediateOrigin.value)"
+          [disabled]="!paisInmediateOrigin.value || provinciasInmediateOrigin.length === 0">
+          <mat-option *ngFor="let element of provinciasInmediateOrigin" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Municipio</mat-label>
+        <mat-select formControlName="municipioInmediateOrigin"
+          [disabled]="!provinciaInmediateOrigin.value || provinciasInmediateOrigin.length === 0 || municipiosInmediateOrigin.length === 0">
+          <mat-option *ngFor="let element of municipiosInmediateOrigin" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </fieldset>
+  </div>
+  <div class="tiempoResidenciaCordoba">
+    <fieldset>
+      <legend>Tiempo de residencia en Córdoba</legend>
+      <label>Tiempo de residencia: </label>
+      <mat-radio-group aria-label="Selecciona una opción" formControlName="residenceTimeInCordobaCheckbox"
+        (change)="residenceTimeInCordobaCheckboxChange($event)">
+        <mat-radio-button value="1">Días</mat-radio-button>
+        <mat-radio-button value="2">Meses</mat-radio-button>
+        <mat-radio-button value="3">Años</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field>
+        <mat-label>Duración</mat-label>
+        <mat-select formControlName="residenceTimeInCordobaSelect"
+          [disabled]="valuesSelectResidenceTimeInCordoba.length === 0">
+          <mat-option *ngFor="let element of valuesSelectResidenceTimeInCordoba" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </fieldset>
+  </div>
+  <div class="motivoEstancia">
+    <fieldset>
+      <legend>Motivo de estancia en el centro</legend>
+      <igx-combo #combo class="combo" formControlName="comboBoxReasonForStay"
+        (onSelectionChange)="handleReasonForStay($event)" [itemsMaxHeight]="255" [data]="valuesComboboxReasonForStay"
+        [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Motivo(s)" searchPlaceholder="Buscar...">
+      </igx-combo>
+      <mat-form-field [hidden]="!showOtherReasonForStay">
+        <input matInput type="text" placeholder="Otro motivo de estancia" formControlName="otherReasonForStay">
+        <mat-error *ngIf="otherReasonForStay?.invalid">El campo es obligatorio</mat-error>
+      </mat-form-field>
+    </fieldset>
+  </div>
+  <div class="usoOtroTipoCentroSocial">
+    <fieldset>
+      <legend>Uso de otro tipo de centro social</legend>
+      <label>Uso de otro tipo: </label>
+      <mat-radio-group aria-label="Selecciona una opción" formControlName="otherSocialCenterCheckbox">
+        <mat-radio-button value="1" (click)="getOtherSocialCenter()">Si</mat-radio-button>
+        <mat-radio-button value="2">No</mat-radio-button>
+      </mat-radio-group>
+      <igx-combo #combo class="combo" formControlName="comboBoxOtherSocialCenter" [itemsMaxHeight]="255"
+        [data]="valuesComboboxOtherSocialCenter" [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Tipo(s)"
+        searchPlaceholder="Buscar..." (onSelectionChange)="handleOtherSocialsCenter($event)" [disabled]="otherSocialCenterCheckbox.value != 1">
+      </igx-combo>
+      <div class="usoOtroTipoCentroSocialPart2" *ngIf="otherSocialCenterCheckbox.value == 1">
+        <mat-form-field [hidden]="!showOtherTypeSocialCenter">
+          <input matInput type="text" placeholder="Otro centro social" formControlName="otherTypeSocialCenterCheckbox">
+          <mat-error *ngIf="otherTypeSocialCenterCheckbox?.invalid">El campo es obligatorio</mat-error>
+        </mat-form-field>
+        <label>¿Se encuentra el centro social en Córdoba capital?: </label>
+        <mat-radio-group aria-label="Selecciona una opción" formControlName="otherSocialCenterInCordobaCheckbox">
+          <mat-radio-button value="1">Si</mat-radio-button>
+          <mat-radio-button value="2">No</mat-radio-button>
+        </mat-radio-group><br>
+        <label>¿Ha sido usuario de la red Cohabita?: </label>
+        <mat-radio-group aria-label="Selecciona una opción" formControlName="hasBeenACohabitaUserCheckbox">
+          <mat-radio-button value="1" (click)="getOtherTypeCenterCohabita()">Si</mat-radio-button>
+          <mat-radio-button value="2">No</mat-radio-button>
+        </mat-radio-group>
+        <igx-combo #combo class="combo" formControlName="comboBoxTypeCenterCohabita" [itemsMaxHeight]="255"
+        [data]="valuesComboboxTypeCenterCohabita" [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Centro(s) de la red Cohabita"
+        searchPlaceholder="Buscar..." (onSelectionChange)="handleOtherSocialsCenter($event)" [hidden]="hasBeenACohabitaUserCheckbox.value != 1">
+      </igx-combo>
+      </div>
     </fieldset>
   </div>
   <br>

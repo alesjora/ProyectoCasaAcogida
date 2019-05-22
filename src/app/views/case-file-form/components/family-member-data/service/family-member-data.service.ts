@@ -19,4 +19,13 @@ export class FamilyMemberDataService {
   getApoyosSociales(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerApoyosSociales');
   }
+  getMotivosEstanciaCentro(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerMotivosDeEstanciaCentro');
+  }
+  getSocialCenters(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerCentrosSociales');
+  }
+  getOtherTypeCenterCohabita(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerCentrosSociales');
+  }
 }
