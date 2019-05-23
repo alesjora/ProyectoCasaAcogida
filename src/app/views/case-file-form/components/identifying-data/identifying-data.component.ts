@@ -271,6 +271,7 @@ export class IdentifyingDataComponent implements OnInit {
       residancePermitDate: ['']
     });
   }
+
   /**
    * Recibe una parámetro, si es nulo devuelve un string vacío, si no devueve el mismo parámetro.
    * @param toTransform string que vamos a devolver si no es nulo, en caso de que lo sea vamos a enviar una cadena vacía
@@ -279,6 +280,7 @@ export class IdentifyingDataComponent implements OnInit {
   transformsNullsIntoEmptyStrings(toTransform) {
     return toTransform ? toTransform : '';
   }
+
   /**
    * Maneja la petición http
    * @param response que contiene la respuesta de la petición a la api. Debe tener la forma:

@@ -81,7 +81,7 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="documentationType.value !== (-2)"  class="containerInputs">
-            <input matInput type="text" formControlName="documentationNumber" placeholder="Documentación">
+            <input matInput type="text" formControlName="documentationNumber" placeholder="Nº documentación">
         </mat-form-field>
         <div class="multiSelect">
             <igx-combo #combo class="combo" (onSelectionChange)='createMotivosAusenciaInputs($event)' formControlName="lackDocumentation" [itemsMaxHeight]="155" [data]="ausenciaDocumento"

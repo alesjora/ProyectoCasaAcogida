@@ -102,3 +102,6 @@ form{
     "estadoCivilContainer permisoResidenciaContainer";
   }
 }
+.mat-input-placeholder-wrapper::after{
+  content: '\00a0';
+}

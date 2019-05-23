@@ -14,6 +14,7 @@ import { EconomicComponent } from './components/economic/economic.component';
 import { HealthComponent } from './components/health/health.component';
 import { LegalLegalComponent } from './components/legal-legal/legal-legal.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
+import { HeaderInfoComponent } from './components/header-info/header-info.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
     LaborTrainingComponent,
     EconomicComponent,
     HealthComponent,
-    LegalLegalComponent
+    LegalLegalComponent,
+    HeaderInfoComponent
   ],
   imports: [
     CommonModule,

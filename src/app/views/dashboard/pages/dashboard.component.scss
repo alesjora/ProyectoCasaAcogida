@@ -32,7 +32,7 @@
 }
 
 // CSS Reset, comment out if not required or using a different module
-// @import '~minireset.css/minireset';
+//@import '~minireset.css/minireset';
 @import '~igniteui-angular/lib/core/styles/themes/index';
 @include igx-core();
 @include igx-theme($default-palette);
@@ -199,3 +199,4 @@ nav a {
     transform: translateY(-500deg)
   }
 }
+

@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { IgxTabComponent } from 'igniteui-angular';
+import { StayService } from 'src/app/shared/services/stay.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-case-file-form',
@@ -8,12 +10,18 @@ import { IgxTabComponent } from 'igniteui-angular';
 })
 export class CaseFileFormComponent implements OnInit{
 
-  constructor(private ref: ChangeDetectorRef) {
+  constructor(private ref: ChangeDetectorRef,
+              private stayService: StayService,
+              private router: ActivatedRoute) {
   }
   ngOnInit() {
+    const serv = this.stayService;
+    serv.getCaseFileInformation({id: this.router.snapshot.params.id}).subscribe(this.getDatosExpediente.bind(this));
   }
-
-  goTo(tab: IgxTabComponent){
+  getDatosExpediente(response) {
+    console.log('response', response);
+  }
+  goTo(tab: IgxTabComponent) {
     tab.select();
   }
   checkPreviousForm(array: Array<any>) {
@@ -21,4 +29,5 @@ export class CaseFileFormComponent implements OnInit{
       return element.formIsValid() ? false : true;
     });
   }
+
 }
