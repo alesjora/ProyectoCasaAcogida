@@ -10,6 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CaseFileFormComponent implements OnInit{
 
+  nombre;
+  apellido;
   constructor(private ref: ChangeDetectorRef,
               private stayService: StayService,
               private router: ActivatedRoute) {
@@ -19,6 +21,7 @@ export class CaseFileFormComponent implements OnInit{
     serv.getCaseFileInformation({id: this.router.snapshot.params.id}).subscribe(this.getDatosExpediente.bind(this));
   }
   getDatosExpediente(response) {
+    this.nombre = response.data.mainData[0].nombre;
     console.log('response', response);
   }
   goTo(tab: IgxTabComponent) {

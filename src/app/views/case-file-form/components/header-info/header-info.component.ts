@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header-info',
@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderInfoComponent implements OnInit {
 
   constructor() { }
-
+  @Input ('nombre') nombre;
   ngOnInit() {
   }
 

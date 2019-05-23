@@ -1,5 +1,6 @@
 <igx-tabs>
     <igx-tabs-group label="Datos identificativos" icon="face">
+        <app-header-info [nombre]= 'nombre'></app-header-info>
         <app-identifying-data #identifyingData></app-identifying-data>
         <button mat-raised-button color="primary" (click)='goTo(socioFamiliares)'
         [disabled]="checkPreviousForm([identifyingData])">Siguiente</button>
