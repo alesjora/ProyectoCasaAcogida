@@ -15,6 +15,7 @@ import { HealthComponent } from './components/health/health.component';
 import { LegalLegalComponent } from './components/legal-legal/legal-legal.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { HeaderInfoComponent } from './components/header-info/header-info.component';
+import { MAT_DATE_LOCALE } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,9 @@ import { HeaderInfoComponent } from './components/header-info/header-info.compon
     ReactiveFormsModule,
     MaterialModule,
     FormsModule
+  ],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
   ]
 })
 export class CaseFileFormModule { }

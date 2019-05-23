@@ -124,7 +124,7 @@ export class FamilyMemberDataComponent implements OnInit {
       provinciaOfHousing: ['', Validators.required],
       municipioOfHousing: ['', Validators.required],
       VIMApplicant: ['', Validators.required],
-      VIMApplicantDate: ['', Validators.required],
+      VIMApplicantDate: [{value: '', disabled: true}, Validators.required],
     });
   }
   public formIsValid() {
@@ -254,7 +254,7 @@ export class FamilyMemberDataComponent implements OnInit {
   get VIMApplicantDate() {
     return this.familyMemberDataForm.get('VIMApplicantDate');
   }
-  
+
   getOtherTypeCenterCohabita(){
     this.familiaMemberDataService.getOtherTypeCenterCohabita().subscribe(this.getOtherTypeCenterCohabitaSuccess.bind(this));
   }
