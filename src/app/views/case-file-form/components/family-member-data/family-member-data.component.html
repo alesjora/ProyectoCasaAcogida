@@ -229,7 +229,8 @@
       </mat-radio-group>
       <igx-combo #combo class="combo" formControlName="comboBoxOtherSocialCenter" [itemsMaxHeight]="255"
         [data]="valuesComboboxOtherSocialCenter" [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Tipo(s)"
-        searchPlaceholder="Buscar..." (onSelectionChange)="handleOtherSocialsCenter($event)" [disabled]="otherSocialCenterCheckbox.value != 1">
+        searchPlaceholder="Buscar..." (onSelectionChange)="handleOtherSocialsCenter($event)"
+        [disabled]="otherSocialCenterCheckbox.value != 1">
       </igx-combo>
       <div class="usoOtroTipoCentroSocialPart2" *ngIf="otherSocialCenterCheckbox.value == 1">
         <mat-form-field [hidden]="!showOtherTypeSocialCenter">
@@ -247,10 +248,53 @@
           <mat-radio-button value="2">No</mat-radio-button>
         </mat-radio-group>
         <igx-combo #combo class="combo" formControlName="comboBoxTypeCenterCohabita" [itemsMaxHeight]="255"
-        [data]="valuesComboboxTypeCenterCohabita" [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Centro(s) de la red Cohabita"
-        searchPlaceholder="Buscar..." (onSelectionChange)="handleOtherSocialsCenter($event)" [hidden]="hasBeenACohabitaUserCheckbox.value != 1">
-      </igx-combo>
+          [data]="valuesComboboxTypeCenterCohabita" [displayKey]="'viewValue'" [valueKey]="'value'"
+          placeholder="Centro(s) de la red Cohabita" searchPlaceholder="Buscar..."
+          (onSelectionChange)="handleOtherSocialsCenter($event)" [hidden]="hasBeenACohabitaUserCheckbox.value != 1">
+        </igx-combo>
       </div>
+    </fieldset>
+  </div>
+  <div class="usoOtroTipoCentroSocial">
+    <fieldset>
+      <legend>Vivienda</legend>
+      <label>Posee vivienda: </label>
+      <mat-radio-group aria-label="Selecciona una opción" formControlName="ownHomeCheckbox">
+        <mat-radio-button value="1" (click)="getProvinciasOfHousing()">Si</mat-radio-button>
+        <mat-radio-button value="2">No</mat-radio-button>
+      </mat-radio-group>
+      <div *ngIf="ownHomeCheckbox.value == 1">
+        <mat-form-field>
+          <input matInput type="text" placeholder="Tipo de vivienda" formControlName="typeOfHousing">
+          <mat-error *ngIf="typeOfHousing?.invalid">El campo es obligatorio</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Provincia</mat-label>
+          <mat-select formControlName="provinciaOfHousing"
+            (openedChange)="getMunicipiosOfHousing($event, provinciaOfHousing.value)">
+            <mat-option *ngFor="let element of provinciasOfHousing" [value]="element.value">
+              {{element.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Municipio</mat-label>
+          <mat-select formControlName="municipioOfHousing"
+            [disabled]="!provinciaOfHousing.value || provinciaOfHousing.length === 0 || municipiosOfHousing.length === 0">
+            <mat-option *ngFor="let element of municipiosOfHousing" [value]="element.value">
+              {{element.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <br>
+      <label>Solicitante vivienda de VIMCORSA: </label>
+      <mat-radio-group aria-label="Selecciona una opción" formControlName="VIMApplicant">
+        <mat-radio-button value="1">Si</mat-radio-button>
+        <mat-radio-button value="2">No</mat-radio-button>
+      </mat-radio-group>
+      <igx-date-picker class="datePicker" formControlName="VIMApplicantDate" [formatter]="formatter"
+        label="Fecha de solicitud" [hidden]="VIMApplicant.value != 1" mode="dropdown"></igx-date-picker>
     </fieldset>
   </div>
   <br>

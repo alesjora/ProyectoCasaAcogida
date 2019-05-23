@@ -3,7 +3,6 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { FamilyMemberDataService } from './service/family-member-data.service';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
-import { IgxComboComponent } from 'igniteui-angular';
 import { StayService } from 'src/app/shared/services/stay.service';
 
 @Component({
@@ -18,6 +17,7 @@ export class FamilyMemberDataComponent implements OnInit {
     private snackBarService: SnackBarService,
     private stayService: StayService) { }
   @ViewChild('familyMemberData') familyMemberData;
+  monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
   familyMemberDataForm;
   dataFamily = [];
   paises = [];
@@ -25,6 +25,8 @@ export class FamilyMemberDataComponent implements OnInit {
   municipiosPersonContact = [];
   provinciasInmediateOrigin = [];
   municipiosInmediateOrigin = [];
+  provinciasOfHousing = [];
+  municipiosOfHousing = [];
   valuesComboboxDataFamily = [];
   valuesComboboxTypeSocialSupport = [];
   valuesComboboxSocialSupport = [];
@@ -117,6 +119,12 @@ export class FamilyMemberDataComponent implements OnInit {
       hasBeenACohabitaUserCheckbox: ['', Validators.required],
       otherTypeSocialCenterCheckbox: ['', Validators.required],
       comboBoxTypeCenterCohabita: ['', Validators.required],
+      ownHomeCheckbox: ['', Validators.required],
+      typeOfHousing: ['', Validators.required],
+      provinciaOfHousing: ['', Validators.required],
+      municipioOfHousing: ['', Validators.required],
+      VIMApplicant: ['', Validators.required],
+      VIMApplicantDate: ['', Validators.required],
     });
   }
   public formIsValid() {
@@ -228,6 +236,24 @@ export class FamilyMemberDataComponent implements OnInit {
   get comboBoxTypeCenterCohabita() {
     return this.familyMemberDataForm.get('comboBoxTypeCenterCohabita');
   }
+  get ownHomeCheckbox() {
+    return this.familyMemberDataForm.get('ownHomeCheckbox');
+  }
+  get typeOfHousing() {
+    return this.familyMemberDataForm.get('typeOfHousing');
+  }
+  get provinciaOfHousing() {
+    return this.familyMemberDataForm.get('provinciaOfHousing');
+  }
+  get municipioOfHousing() {
+    return this.familyMemberDataForm.get('municipioOfHousing');
+  }
+  get VIMApplicant() {
+    return this.familyMemberDataForm.get('VIMApplicant');
+  }
+  get VIMApplicantDate() {
+    return this.familyMemberDataForm.get('VIMApplicantDate');
+  }
   
   getOtherTypeCenterCohabita(){
     this.familiaMemberDataService.getOtherTypeCenterCohabita().subscribe(this.getOtherTypeCenterCohabitaSuccess.bind(this));
@@ -332,6 +358,33 @@ export class FamilyMemberDataComponent implements OnInit {
         break;
     }
   }
+  getMunicipiosOfHousing(opened: boolean, idProvincia) {
+    if (opened) {
+      return;
+    }
+    this.limpiarMunicipioOfHousing();
+    this.stayService.getMunicipios({ idProvincia }).subscribe(
+      this.getMunicipiosOfHousingSuccess.bind(this));
+  }
+  getMunicipiosOfHousingSuccess(response) {
+    this.municipiosPersonContact = [];
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        response.data.forEach(element => {
+          this.municipiosOfHousing.push({ value: element.id, viewValue: element.poblacion });
+        });
+        break;
+      case 'DATA_EMPTY':
+        this.snackBarService.showSnackbar('No se han encontrado municipios para la provincia seleccionada', 1000, 'bottom', 'warning');
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al obtener los parentescos.', 1000, 'bottom', 'error');
+        break;
+    }
+  }
   getMunicipiosPersonContact(opened: boolean, idProvincia) {
     if (opened) {
       return;
@@ -363,6 +416,31 @@ export class FamilyMemberDataComponent implements OnInit {
     this.municipiosInmediateOrigin = [];
     this.provinciaInmediateOrigin.value = '';
     this.municipioInmediateOrigin.value = '';
+  }
+  limpiarMunicipioOfHousing() {
+    this.municipiosOfHousing = [];
+    this.municipioOfHousing.value = '';
+  }
+  getProvinciasOfHousing(idPais = 1) {
+    this.stayService.getProvincias({ idPais }).subscribe(this.getProvinciasOfHousingSucess.bind(this));
+  }
+  getProvinciasOfHousingSucess(response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        response.data.forEach(element => {
+          this.provinciasOfHousing.push({ value: element.id, viewValue: element.provincia });
+        });
+        break;
+      case 'DATA_EMPTY':
+        this.snackBarService.showSnackbar('No se han encontrado provincias para el país seleccionado', 1000, 'bottom', 'warning');
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al obtener las provincias.', 1000, 'bottom', 'error');
+        break;
+    }
   }
   getProvinciasInmediateOrigin(opened: boolean, idPais) {
     if (opened) {
@@ -548,5 +626,11 @@ export class FamilyMemberDataComponent implements OnInit {
       provincia: this.provinciaPersonContact.value
     };
     console.log(data);
+  }
+  /**
+   * Formato para la fecha de las datepicker
+   */
+  public formatter = (date: Date) => {
+    return `${date.getDate()} ${this.monthFormatter.format(date)}, ${date.getFullYear()}`;
   }
 }
