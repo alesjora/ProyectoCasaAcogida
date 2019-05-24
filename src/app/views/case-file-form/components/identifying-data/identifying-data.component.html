@@ -52,13 +52,13 @@
 
 
           <ng-container *ngFor='let item of documentationType.value; let i= index'>
-            <fieldset *ngIf="item.value == 99; else noOtros">
+            <fieldset *ngIf="item.value == 99; else noOtros" class='otherDocumentationContainer'>
             <legend *ngIf="item.value == 99">Otra Documentación</legend>
               <mat-form-field *ngIf="item.value == 99" class="containerInputs">
-                  <input matInput type="text" formControlName="documentationOtherType" placeholder="Otro tipo de documentación">
+                  <input matInput type="text" formControlName="documentationOtherType" placeholder="Tipo de documento">
               </mat-form-field>
               <mat-form-field  class="containerInputs" formArrayName="documentationNumber">
-                  <input matInput type="text" placeholder="Número {{item.viewValue}}" [formControlName]="i" >
+                  <input matInput type="text" placeholder="Número documento" [formControlName]="i" >
               </mat-form-field>
             </fieldset>
             <ng-template #noOtros>
