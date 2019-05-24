@@ -13,7 +13,8 @@
         <button mat-raised-button color="primary" (click)='goTo(delitosOdio)'
         [disabled]="checkPreviousForm([identifyingData, familyMemberData])">Siguiente</button>
     </igx-tabs-group>
-    <igx-tabs-group label="Delitos de odio (violencia contra PSH)" icon="record_voice_over" #delitosOdio [disabled]="checkPreviousForm([identifyingData, familyMemberData])">
+    <!-- <igx-tabs-group label="Delitos de odio (violencia contra PSH)" icon="record_voice_over" #delitosOdio [disabled]="checkPreviousForm([identifyingData, familyMemberData])"> -->
+    <igx-tabs-group label="Delitos de odio (violencia contra PSH)" icon="record_voice_over" #delitosOdio >
       <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
       <app-hate-crimes #hateCrimes ></app-hate-crimes>
       <button mat-raised-button color="primary" (click)='goTo(violenciaGenero)'

@@ -44,53 +44,33 @@
     <legend>Documentación</legend>
     <div class="documentationContainer">
       <div class="documentationThatHas">
-        <button type='button' mat-raised-button color="accent" class='addDocumentation' (click)="addDocument()">Añadir documento</button>
-        <div *ngFor="let loquesea of documentation.controls; let j=index" formArrayName="documentation">
-          <div [formGroupName]="j">
-              <mat-form-field class="containerInputs">
-                  <input matInput type="text" formControlName="documentationOtherType" placeholder="Otro Tipo Documento">
-              </mat-form-field>
-              <mat-form-field class="containerInputs">
-                  <input matInput type="text" formControlName="documentionNumber" placeholder="Numero Documento">
-              </mat-form-field>
-              <mat-form-field class="containerInputs">
-                  <input matInput type="text" formControlName="documentionType" placeholder="Tipo Documento">
-              </mat-form-field>
-            <!-- <mat-form-field class="containerInputs">
-                <mat-label>Tipo de documentación </mat-label>
-                <mat-select formControlName="documentionType" (openedChange)='createLackDocumentation()' >
-                  <mat-option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.value" >
-                    {{tipoDocumento.viewValue}}
-                  </mat-option>
-                  <mat-option [value]="-1" >
-                      Otro
-                    </mat-option>
-                    <mat-option [value]="-2" >
-                      Sin Documentación
-                    </mat-option>
-                </mat-select>
-                <mat-form-field *ngIf="documentationType.value === (-1)"  class="containerInputs">
-                    <input matInput type="text" formControlName="documentationOtherType" placeholder="Tipo Documento">
-                </mat-form-field>
-                <mat-form-field *ngIf="documentationType.value !== (-2)"  class="containerInputs">
-                    <input matInput type="text" formControlName="documentationNumber" placeholder="Nº documentación">
-                </mat-form-field>
-            </mat-form-field> -->
-        </div>
-      </div>
+          <div class="multiSelect">
+              <igx-combo #combo class="combo" (onSelectionChange)='createDocumentationInputs($event, combo1)' formControlName="documentationType" [itemsMaxHeight]="155" [data]="tiposDocumento"
+              [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Documentación" searchPlaceholder="Buscar...">
+            </igx-combo>
+          </div>
 
-        <!-- <mat-form-field *ngIf="documentationType.value === (-1)"  class="containerInputs">
-            <input matInput type="text" formControlName="documentationOtherType" placeholder="Tipo Documento">
-        </mat-form-field>
-        <mat-form-field *ngIf="documentationType.value !== (-2)"  class="containerInputs">
-            <input matInput type="text" formControlName="documentationNumber" placeholder="Nº documentación">
-        </mat-form-field> -->
 
+          <ng-container *ngFor='let item of documentationType.value; let i= index'>
+            <fieldset *ngIf="item.value == 99; else noOtros">
+            <legend *ngIf="item.value == 99">Otra Documentación</legend>
+              <mat-form-field *ngIf="item.value == 99" class="containerInputs">
+                  <input matInput type="text" formControlName="documentationOtherType" placeholder="Otro tipo de documentación">
+              </mat-form-field>
+              <mat-form-field  class="containerInputs" formArrayName="documentationNumber">
+                  <input matInput type="text" placeholder="Número {{item.viewValue}}" [formControlName]="i" >
+              </mat-form-field>
+            </fieldset>
+            <ng-template #noOtros>
+                <mat-form-field  class="containerInputs" formArrayName="documentationNumber">
+                    <input matInput type="text" placeholder="Número {{item.viewValue}}" [formControlName]="i" >
+                </mat-form-field>
+            </ng-template>
+          </ng-container>
       </div>
       <div class="documentationThatDoesNotHave">
-
         <div class="multiSelect">
-            <igx-combo #combo class="combo" (onSelectionChange)='createMotivosAusenciaInputs($event)' formControlName="lackDocumentation" [itemsMaxHeight]="155" [data]="ausenciaDocumento"
+            <igx-combo #combo1 class="combo" (onSelectionChange)='createMotivosAusenciaInputs($event)' formControlName="lackDocumentation" [itemsMaxHeight]="155" [data]="ausenciaDocumento"
             [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Falta de documentación" searchPlaceholder="Buscar...">
           </igx-combo>
         </div>
