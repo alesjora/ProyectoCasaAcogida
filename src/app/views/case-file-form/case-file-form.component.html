@@ -1,44 +1,52 @@
+<!-- <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info> -->
 <igx-tabs>
     <igx-tabs-group label="Datos identificativos" icon="face">
-        <app-header-info [nombre]= 'nombre'></app-header-info>
+        <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
         <app-identifying-data #identifyingData></app-identifying-data>
         <button mat-raised-button color="primary" (click)='goTo(socioFamiliares)'
         [disabled]="checkPreviousForm([identifyingData])">Siguiente</button>
     </igx-tabs-group>
     <!-- <igx-tabs-group label="Datos sociofamiliares" icon="group" #socioFamiliares [disabled]="checkPreviousForm([identifyingData])"> -->
-        <igx-tabs-group label="Datos sociofamiliares" icon="group" #socioFamiliares>
+    <igx-tabs-group label="Datos sociofamiliares" icon="group" #socioFamiliares>
+        <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
         <app-family-member-data #familyMemberData></app-family-member-data>
         <button mat-raised-button color="primary" (click)='goTo(delitosOdio)'
         [disabled]="checkPreviousForm([identifyingData, familyMemberData])">Siguiente</button>
     </igx-tabs-group>
     <igx-tabs-group label="Delitos de odio (violencia contra PSH)" icon="record_voice_over" #delitosOdio [disabled]="checkPreviousForm([identifyingData, familyMemberData])">
+      <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
       <app-hate-crimes #hateCrimes ></app-hate-crimes>
       <button mat-raised-button color="primary" (click)='goTo(violenciaGenero)'
       [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes])">Siguiente</button>
     </igx-tabs-group>
     <igx-tabs-group label="Violencia de género" icon="pan_tool" #violenciaGenero [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes])'>
-        <app-gender-violence #genderViolence></app-gender-violence>
-        <button mat-raised-button color="primary" (click)='goTo(formativoLaborales)'
-        [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence])">Siguiente</button>
+      <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
+      <app-gender-violence #genderViolence></app-gender-violence>
+      <button mat-raised-button color="primary" (click)='goTo(formativoLaborales)'
+      [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence])">Siguiente</button>
     </igx-tabs-group>
     <igx-tabs-group label="Datos formativo-laborales" icon="work" #formativoLaborales [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence])'>
+      <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
       <app-labor-training #laborTraining></app-labor-training>
       <button mat-raised-button color="primary" (click)='goTo(economicos)'
       [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining])">Siguiente</button>
     </igx-tabs-group>
     <igx-tabs-group label="Datos económicos" icon="euro_symbol" #economicos [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining])'>
+      <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
       <app-economic #economic></app-economic>
       <button mat-raised-button color="primary" (click)='goTo(sanitarios)'
       [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic])">Siguiente</button>
     </igx-tabs-group>
     <igx-tabs-group label="Datos sanitarios" icon="healing" #sanitarios [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic])'>
+      <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
       <app-health #health></app-health>
       <button mat-raised-button color="primary" (click)='goTo(juridicoLegales)'
       [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic, health])">Siguiente</button>
     </igx-tabs-group>
     <igx-tabs-group label="Datos jurídicos/ legales" icon="gavel" #juridicoLegales [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic, health])'>
-       <app-legal-legal #legalLegal></app-legal-legal>
-       <button mat-raised-button color="primary" (click)='goTo(hateCrimes)'
-       [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic, health, legalLegal])">Enviar </button>
+      <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
+      <app-legal-legal #legalLegal></app-legal-legal>
+      <button mat-raised-button color="primary" (click)='goTo(hateCrimes)'
+      [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining, economic, health, legalLegal])">Enviar </button>
     </igx-tabs-group>
 </igx-tabs>

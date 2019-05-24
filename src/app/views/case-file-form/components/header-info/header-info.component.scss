@@ -1,0 +1,27 @@
+.headerComponentContainer{
+  ul{
+    padding: 0;
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    @media (min-width: 800px) {
+      grid-template-columns: repeat(3,1fr);
+    }
+
+    li{
+      list-style: none;
+      display: flex;
+      flex-flow: column;
+      color: grey;
+      font-size: 1em;
+      justify-content: flex-end;
+      span{
+        margin-top: -3px;
+        margin-left: 10px;
+        font-size:1.5em;
+        color: black;
+      }
+    }
+  }
+}

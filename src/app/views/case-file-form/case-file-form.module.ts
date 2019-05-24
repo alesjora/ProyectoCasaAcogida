@@ -16,6 +16,7 @@ import { LegalLegalComponent } from './components/legal-legal/legal-legal.compon
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { HeaderInfoComponent } from './components/header-info/header-info.component';
 import { MAT_DATE_LOCALE } from '@angular/material';
+import { SharedModule } from 'src/app/shared/module/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -36,10 +37,11 @@ import { MAT_DATE_LOCALE } from '@angular/material';
     IgniteModule,
     ReactiveFormsModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'}
   ]
 })
 export class CaseFileFormModule { }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { StayService } from 'src/app/shared/services/stay.service';
@@ -109,7 +109,10 @@ export class IdentifyingDataComponent implements OnInit {
     return this.identifyingDataForm.get('apellido2');
   }
   get documentationType() {
-    return this.identifyingDataForm.get('documentationType');
+    return this.identifyingDataForm.get('documentationType') as FormArray;
+  }
+  get documentationNumber() {
+    return this.identifyingDataForm.get('documentationNumber') as FormArray;
   }
   get documentation() {
     return this.identifyingDataForm.get('documentation');
@@ -242,9 +245,15 @@ export class IdentifyingDataComponent implements OnInit {
       name : [RESPUESTA_BD.nombre, Validators.required],
       apellido1 : [RESPUESTA_BD.apellido1, Validators.required],
       apellido2: [RESPUESTA_BD.apellido2],
-      documentationType: [''],
+      documentation: this.fb.array([
+        this.fb.group({
+          documentionType: new FormControl(''),
+          documentationOtherType: new FormControl(''),
+          documentionNumber: new FormControl('')
+        })
+      ]),
       documentationOtherType: [''],
-      documentationNumber: [''],
+      documentationNumber: this.fb.array([]),
       lackDocumentation: [''],
       tiposAusenciaDocumento: this.fb.array([]),
       telefono: [RESPUESTA_BD.telefono],
@@ -405,6 +414,15 @@ export class IdentifyingDataComponent implements OnInit {
       .subscribe(this.peticionHandleMejorada.bind(this, this.municipiosEmpadronamiento, 'id', 'poblacion'));
   }
 
+  addDocument() {
+    this.documentation.push(this.fb.group({
+      documentionType: '',
+      documentationOtherType: '',
+      documentionNumber: ''
+    }));
+    // this.documentationType.push(this.fb.control(''));
+    // this.documentationNumber.push(this.fb.control(''));
+  }
   sendDatos() {
     console.log(this.identifyingDataForm);
   }

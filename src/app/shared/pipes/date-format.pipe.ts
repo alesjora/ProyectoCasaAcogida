@@ -10,6 +10,9 @@ export class DateFormatPipe implements PipeTransform {
       return '';
     }
     let fecha;
+    if(/:/.test(value)){
+      value = value.split(' ')[0];
+    }
     if (/\//.test(value)) {
       fecha = value.split('/');
     }
