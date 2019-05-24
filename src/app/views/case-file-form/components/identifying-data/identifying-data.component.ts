@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { StayService } from 'src/app/shared/services/stay.service';
 import { ActivatedRoute } from '@angular/router';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-identifying-data',
@@ -50,45 +51,6 @@ export class IdentifyingDataComponent implements OnInit {
     this.getDatos();
   }
 
-  createForm(that) {
-    that.identifyingDataForm = that.fb.group({
-      entryDate : [''],
-      departureDate : [''],
-      evaluationDate : [''],
-      formaIngreso: [''],
-      origenIngreso: [''],
-      name : ['', Validators.required],
-      apellido1 : ['', Validators.required],
-      apellido2: [''],
-      documentationType: [''],
-      documentationOtherType: [''],
-      documentationNumber: [''],
-      lackDocumentation: [''],
-      tiposAusenciaDocumento: this.fb.array([]),
-      telefono: [''],
-      correo: [''],
-      bornDate: [''],
-      edad: [''],
-      paisNacimiento: [''],
-      provinciaNacimiento: [''],
-      municipioNacimiento: [''],
-      nacionalidad: [''],
-      provinciaEmpadronamiento: [''],
-      municipioEmpadronamiento: [''],
-      sexoEv: [''],
-      orientacionSexual: [''],
-      censusDate: [''],
-      sSNumber: [''],
-      asistenciaSanitaria: [''],
-      sNSNumber: [''],
-      targetaSanitaria: [''],
-      motivoAusenciaTargetaSanitaria: [''],
-      estadoCivil: [''],
-      permisoResidencia: [''],
-      tipoPermisoResidencia: [''],
-      residancePermitDate: ['']
-    });
-  }
 
   get formaIngreso() {
     return this.identifyingDataForm.get('formaIngreso');
@@ -111,8 +73,11 @@ export class IdentifyingDataComponent implements OnInit {
   get documentationType() {
     return this.identifyingDataForm.get('documentationType');
   }
+  get documentationNumber() {
+    return this.identifyingDataForm.get('documentationNumber') as FormArray;
+  }
   get documentation() {
-    return this.identifyingDataForm.get('documentation');
+    return this.identifyingDataForm.get('documentation') as FormArray;
   }
   get lackDocumentation() {
     return this.identifyingDataForm.get('lackDocumentation');
@@ -222,9 +187,10 @@ export class IdentifyingDataComponent implements OnInit {
       .bind(this, this.estadosCiviles, 'id', 'estado_civil'));
     serv.getResidencePermitType().subscribe(this.peticionHandleMejorada
       .bind(this, this.tipoPermisosResidencia, 'id', 'tipo'));
-    serv.getCaseFileInformation({id: this.router.snapshot.params.id}).subscribe(this.getDatosExpediente.bind(this));
     this.creacionAusenciaDocumento(this);
+    serv.getCaseFileInformation({id: this.router.snapshot.params.id}).subscribe(this.getDatosExpediente.bind(this));
     this.createEdad();
+
 
   }
 
@@ -244,7 +210,7 @@ export class IdentifyingDataComponent implements OnInit {
       apellido2: [RESPUESTA_BD.apellido2],
       documentationType: [''],
       documentationOtherType: [''],
-      documentationNumber: [''],
+      documentationNumber: this.fb.array([]),
       lackDocumentation: [''],
       tiposAusenciaDocumento: this.fb.array([]),
       telefono: [RESPUESTA_BD.telefono],
@@ -307,17 +273,42 @@ export class IdentifyingDataComponent implements OnInit {
 
   creacionAusenciaDocumento(that) {
     that.ausenciaDocumento = that.tiposDocumento;
+    setTimeout(() => that.tiposDocumento.push({value: '99', viewValue: 'Otros' }), 2000);
   }
 
   /**
    * Crea el array de la ausencia de documentos en base a los tipos de documento que existen menos los que tiene.
    */
   createLackDocumentation() {
-    this.ausenciaDocumento = this.tiposDocumento.filter(value => {
-      return value.value !== this.documentationType.value;
-    });
+    // this.ausenciaDocumento = this.tiposDocumento.filter(value => {
+    //   return value.value !== this.documentationType.value;
+    // });
   }
-
+  /**
+   * Rellena o vacia el array del formBuilder en función de los tipos de documento que faltan.
+   * @param event nos da información sobre las selección actual y la anterior
+   */
+  createDocumentationInputs(event,combo1) {
+    this.ausenciaDocumento = this.tiposDocumento.filter(
+      (element) => {
+        return event.newSelection.indexOf(element) === -1;
+    });
+    combo1.selectItems(combo1.selectedItems().filter(
+      (element) => {
+        return event.newSelection.indexOf(element) === -1;
+    }), true);
+    if (event.newSelection.length === 0) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let index = 0; index < this.documentationNumber.length; index++) {
+        this.documentationNumber.removeAt(this.documentationNumber.length - 1);
+      }
+    }
+    if (event.newSelection.length > event.oldSelection.length) {
+      this.documentationNumber.push(this.fb.control(''));
+    } else if (event.newSelection.length < event.oldSelection.length) {
+      this.documentationNumber.removeAt(this.documentationNumber.length - 1);
+    }
+  }
   /**
    * Rellena o vacia el array del formBuilder en función de los tipos de documento que faltan.
    * @param event nos da información sobre las selección actual y la anterior
@@ -405,6 +396,16 @@ export class IdentifyingDataComponent implements OnInit {
       .subscribe(this.peticionHandleMejorada.bind(this, this.municipiosEmpadronamiento, 'id', 'poblacion'));
   }
 
+  addDocument() {
+    this.documentation.push(this.fb.group({
+      documentionType: '',
+      documentationOtherType: '',
+      documentationNumber: ''
+    }));
+  }
+  deleteDocument() {
+    this.documentation.removeAt(this.documentation.length-1);
+  }
   sendDatos() {
     console.log(this.identifyingDataForm);
   }

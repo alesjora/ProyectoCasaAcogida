@@ -5,19 +5,20 @@ import { ShowPersonalFileRoutingModule } from './show-personal-file-routing.modu
 import { ShowPersonalFileComponent } from './pages/show-personal-file.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { IgniteModule } from 'src/app/shared/ignite/ignite.module';
-import { DateFormatPipe } from 'src/app/shared/pipes/date-format.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
+import { SharedModule } from 'src/app/shared/module/shared/shared.module';
 
 @NgModule({
-  declarations: [ShowPersonalFileComponent, DateFormatPipe],
+  declarations: [ShowPersonalFileComponent],
   imports: [
     CommonModule,
     ShowPersonalFileRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
     IgniteModule,
-    ComponentsModule
+    ComponentsModule,
+    SharedModule
   ]
 })
 export class ShowPersonalFileModule { }
