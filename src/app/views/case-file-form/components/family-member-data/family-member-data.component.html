@@ -152,39 +152,6 @@
       </mat-form-field>
     </fieldset>
   </div>
-  <div class="procedenciaInmediata">
-    <fieldset>
-      <legend>Residencia</legend>
-      <mat-form-field>
-        <mat-label>País de procedencia</mat-label>
-        <mat-select formControlName="paisInmediateOrigin"
-          (openedChange)="getProvinciasInmediateOrigin($event, paisInmediateOrigin.value)">
-          <mat-option *ngFor="let element of paises" [value]="element.value">
-            {{element.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Provincia</mat-label>
-        <mat-select formControlName="provinciaInmediateOrigin"
-          (openedChange)="getMunicipiosInmediateOrigin($event, provinciaInmediateOrigin.value)"
-          [disabled]="!paisInmediateOrigin.value || provinciasInmediateOrigin.length === 0">
-          <mat-option *ngFor="let element of provinciasInmediateOrigin" [value]="element.value">
-            {{element.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Municipio</mat-label>
-        <mat-select formControlName="municipioInmediateOrigin"
-          [disabled]="!provinciaInmediateOrigin.value || provinciasInmediateOrigin.length === 0 || municipiosInmediateOrigin.length === 0">
-          <mat-option *ngFor="let element of municipiosInmediateOrigin" [value]="element.value">
-            {{element.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </fieldset>
-  </div>
   <div class="tiempoResidenciaCordoba">
     <fieldset>
       <legend>Tiempo de residencia en Córdoba</legend>
@@ -203,19 +170,6 @@
             {{element.viewValue}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
-    </fieldset>
-  </div>
-  <div class="motivoEstancia">
-    <fieldset>
-      <legend>Motivo de estancia en el centro</legend>
-      <igx-combo #combo class="combo" formControlName="comboBoxReasonForStay"
-        (onSelectionChange)="handleReasonForStay($event)" [itemsMaxHeight]="255" [data]="valuesComboboxReasonForStay"
-        [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Motivo(s)" searchPlaceholder="Buscar...">
-      </igx-combo>
-      <mat-form-field [hidden]="!showOtherReasonForStay">
-        <input matInput type="text" placeholder="Otro motivo de estancia" formControlName="otherReasonForStay">
-        <mat-error *ngIf="otherReasonForStay?.invalid">El campo es obligatorio</mat-error>
       </mat-form-field>
     </fieldset>
   </div>
@@ -247,12 +201,58 @@
           <mat-radio-button value="1" (click)="getOtherTypeCenterCohabita()">Si</mat-radio-button>
           <mat-radio-button value="2">No</mat-radio-button>
         </mat-radio-group>
-        <igx-combo #combo class="combo" formControlName="comboBoxTypeCenterCohabita" [itemsMaxHeight]="255"
+        <igx-combo #combo class="combo" formControlName="comboBoxTypeCenterCohabita" [itemsMaxHeight]="200"
           [data]="valuesComboboxTypeCenterCohabita" [displayKey]="'viewValue'" [valueKey]="'value'"
           placeholder="Centro(s) de la red Cohabita" searchPlaceholder="Buscar..."
           (onSelectionChange)="handleOtherSocialsCenter($event)" [hidden]="hasBeenACohabitaUserCheckbox.value != 1">
         </igx-combo>
       </div>
+    </fieldset>
+  </div>
+  <div class="motivoEstancia">
+    <fieldset>
+      <legend>Motivo de estancia en el centro</legend>
+      <igx-combo #combo class="combo" formControlName="comboBoxReasonForStay"
+        (onSelectionChange)="handleReasonForStay($event)" [itemsMaxHeight]="255" [data]="valuesComboboxReasonForStay"
+        [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Motivo(s)" searchPlaceholder="Buscar...">
+      </igx-combo>
+      <mat-form-field [hidden]="!showOtherReasonForStay">
+        <input matInput type="text" placeholder="Otro motivo de estancia" formControlName="otherReasonForStay">
+        <mat-error *ngIf="otherReasonForStay?.invalid">El campo es obligatorio</mat-error>
+      </mat-form-field>
+    </fieldset>
+  </div>
+  <div class="procedenciaInmediata">
+    <fieldset>
+      <legend>Residencia</legend>
+      <mat-form-field>
+        <mat-label>País de procedencia</mat-label>
+        <mat-select formControlName="paisInmediateOrigin"
+          (openedChange)="getProvinciasInmediateOrigin($event, paisInmediateOrigin.value)">
+          <mat-option *ngFor="let element of paises" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Provincia</mat-label>
+        <mat-select formControlName="provinciaInmediateOrigin"
+          (openedChange)="getMunicipiosInmediateOrigin($event, provinciaInmediateOrigin.value)"
+          [disabled]="!paisInmediateOrigin.value || provinciasInmediateOrigin.length === 0">
+          <mat-option *ngFor="let element of provinciasInmediateOrigin" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Municipio</mat-label>
+        <mat-select formControlName="municipioInmediateOrigin"
+          [disabled]="!provinciaInmediateOrigin.value || provinciasInmediateOrigin.length === 0 || municipiosInmediateOrigin.length === 0">
+          <mat-option *ngFor="let element of municipiosInmediateOrigin" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </fieldset>
   </div>
   <div class="usoOtroTipoCentroSocial">
@@ -294,13 +294,13 @@
         <mat-radio-button value="2">No</mat-radio-button>
       </mat-radio-group>
       <mat-form-field [hidden]="VIMApplicant.value != 1">
-          <div (click)="picker.open()"  >
-            <input matInput disabled [matDatepicker]="picker" style='color: black' formControlName="VIMApplicantDate" placeholder="Fecha de solicitud">
-          </div>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker disabled='false'></mat-datepicker>
-        </mat-form-field>
-
+        <div (click)="picker.open()">
+          <input matInput disabled [matDatepicker]="picker" style='color: black' formControlName="VIMApplicantDate"
+            placeholder="Fecha de solicitud">
+        </div>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled='false'></mat-datepicker>
+      </mat-form-field>
     </fieldset>
   </div>
   <br>
