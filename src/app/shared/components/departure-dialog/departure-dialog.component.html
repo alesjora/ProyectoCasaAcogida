@@ -1,4 +1,4 @@
-<form [formGroup]="newDepartureForm" (ngSubmit)="submit()">
+<form [formGroup]="newDepartureForm">
   <igx-date-picker formControlName="departureDate" [value]="date" [(ngModel)]="date" [formatter]="formatter"
     label="Fecha de entrada"></igx-date-picker>
   <br>
