@@ -54,4 +54,22 @@ export class StayService {
   getResidencePermitType(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerPermisosResidencia');
   }
+  getViolenceTypes(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerTiposViolencia');
+  }
+  getAgressionPlaces(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerLugaresAgresion');
+  }
+  getAgressionMoments(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerMomentosAgresion');
+  }
+  getPhysicalAgressionConsequences(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerConsecuenciasAgresionFisicas');
+  }
+  getPsychologicalAgressionConsequences(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerConsecuenciasAgresionPsicologicas');
+  }
+  getSocioeconomicAgressionConsequences(): Observable<any> {
+    return this.httpClient.get(environment.urlAPI + 'obtenerConsecuenciasAgresionSocioEconomicas');
+  }
 }
