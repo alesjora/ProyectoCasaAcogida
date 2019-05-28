@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  urlAPI: 'http://localhost/api/public/api/v1/',
-  urlImage: 'http://localhost/api/public/image/',
-  //urlAPI: 'http://172.28.40.188/api/public/api/v1/'
+  //urlAPI: 'http://localhost/api/public/api/v1/',
+  urlImage: 'http://192.168.115.133/api/public/image/',
+  urlAPI: 'http://192.168.115.133/api/public/api/v1/'
 // urlAPI: 'http://192.168.0.165/api/public/api/v1/',
 };
 
