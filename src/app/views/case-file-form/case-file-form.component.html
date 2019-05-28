@@ -20,19 +20,22 @@
       <button mat-raised-button color="primary" (click)='goTo(violenciaGenero)'
       [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes])">Siguiente</button>
     </igx-tabs-group>
-    <igx-tabs-group label="Violencia de género" icon="pan_tool" #violenciaGenero [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes])'>
+    <!-- <igx-tabs-group label="Violencia de género" icon="pan_tool" #violenciaGenero [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes])'> -->
+    <igx-tabs-group label="Violencia de género" icon="pan_tool" #violenciaGenero>
       <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
       <app-gender-violence #genderViolence></app-gender-violence>
       <button mat-raised-button color="primary" (click)='goTo(formativoLaborales)'
       [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence])">Siguiente</button>
     </igx-tabs-group>
-    <igx-tabs-group label="Datos formativo-laborales" icon="work" #formativoLaborales [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence])'>
+    <!-- <igx-tabs-group label="Datos formativo-laborales" icon="work" #formativoLaborales [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence])'> -->
+      <igx-tabs-group label="Datos formativo-laborales" icon="work" #formativoLaborales>
       <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
       <app-labor-training #laborTraining></app-labor-training>
       <button mat-raised-button color="primary" (click)='goTo(economicos)'
       [disabled]="checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining])">Siguiente</button>
     </igx-tabs-group>
-    <igx-tabs-group label="Datos económicos" icon="euro_symbol" #economicos [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining])'>
+    <!-- <igx-tabs-group label="Datos económicos" icon="euro_symbol" #economicos [disabled]='checkPreviousForm([identifyingData, familyMemberData, hateCrimes, genderViolence, laborTraining])'> -->
+    <igx-tabs-group label="Datos económicos" icon="euro_symbol" #economicos>
       <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
       <app-economic #economic></app-economic>
       <button mat-raised-button color="primary" (click)='goTo(sanitarios)'
