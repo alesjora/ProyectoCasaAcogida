@@ -33,6 +33,10 @@ const routes: Routes = [
       loadChildren: './../search-personal-file/search-personal-file.module#SearchPersonalFileModule'
     },
     {
+      path: 'informes',
+      loadChildren: './../reports/reports.module#ReportsModule'
+    },
+    {
       path: 'ficha-personal/:id',
       loadChildren: './../show-personal-file/show-personal-file.module#ShowPersonalFileModule'
     },
