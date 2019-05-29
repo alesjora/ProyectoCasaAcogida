@@ -6,9 +6,12 @@ export const environment = {
   production: false,
   urlAPI: 'http://localhost/api/public/api/v1/',
   urlImage: 'http://localhost/api/public/image/',
+<<<<<<< HEAD
   // urlImage: 'http://192.168.115.133/api/public/image/',
   // urlAPI: 'http://192.168.115.133/api/public/api/v1/'
 // urlAPI: 'http://192.168.0.165/api/public/api/v1/',
+=======
+>>>>>>> c077ec583c53b6a0824783c1f1eff15b351f2177
 };
 
 /*

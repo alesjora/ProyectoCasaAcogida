@@ -1,0 +1,12 @@
+.mainContainer{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 8px;
+    scroll-snap-type: x mandatory;
+    div{
+        scroll-snap-align: center;
+    }
+    @media (min-width: 800px) {
+        grid-template-columns: 1fr 1fr;
+    }
+}

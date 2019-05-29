@@ -23,7 +23,8 @@ import {
   IgxDialogModule,
   IgxTabsModule,
   IgxComboModule
-} from "igniteui-angular";
+} from 'igniteui-angular';
+import { IgxCategoryChartModule } from 'igniteui-angular-charts/ES5/igx-category-chart-module';
 
 @NgModule({
   declarations: [],
@@ -51,6 +52,8 @@ import {
     IgxHierarchicalGridModule,
     IgxDialogModule,
     IgxTabsModule,
-    IgxComboModule]
+    IgxComboModule,
+    IgxCategoryChartModule
+  ]
 })
 export class IgniteModule { }
