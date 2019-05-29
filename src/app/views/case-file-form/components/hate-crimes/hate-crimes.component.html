@@ -1,53 +1,139 @@
 <form [formGroup]="hateCrimesForm">
-    <input formControlName="hola">
-
-
-<div class="documentationThatHas">
-    <button type='button' mat-raised-button color="accent" class='addDocumentation' (click)="addDocument()"><i class="material-icons">add_circle</i></button>
-    <button type='button' mat-raised-button color="accent" class='addDocumentation' (click)="deleteDocument()"><i class="material-icons">remove_circle</i></button>
-    <div *ngFor="let loquesea of documentation.controls; let j=index" formArrayName="documentation">
+  <fieldset class="sufridoViolencia">
+    <legend>¿Ha sufrido violencia?</legend>
+    <div class="containerRadios">
+      <igx-radio
+        *ngFor="let sufridoViolencia of afirmacionNegacion"
+        [value]="sufridoViolencia.value"
+        [(ngModel)]="selectedSufridoViolencia"
+        formControlName="sufridoViolencia"
+      >
+        {{ sufridoViolencia.viewValue }}
+      </igx-radio>
+    </div>
+  </fieldset>
+  <div class="agresionesContainer" *ngIf="sufridoViolencia.value == 1">
+    <div class="buttonsContainer">
+      <button
+        type="button"
+        mat-raised-button
+        color="accent"
+        class="addDocumentation"
+        (click)="addAgression()"
+      >
+        <i class="material-icons">add_circle</i>
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="accent"
+        class="addDocumentation"
+        (click)="deleteAgression()"
+      >
+        <i class="material-icons">remove_circle</i>
+      </button>
+    </div>
+    <div
+      *ngFor="let loquesea of detallesAgresion.controls; let j = index"
+      formArrayName="detallesAgresion"
+    >
       <div [formGroupName]="j">
+        <fieldset>
+          <legend>Datos Sobre la agresión</legend>
+
           <mat-form-field class="containerInputs">
-              <mat-label>Tipo de documentación </mat-label>
-              <mat-select formControlName="documentionType" >
-                <mat-option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.value" >
-                  {{tipoDocumento.viewValue}}
-                </mat-option>
-                <mat-option [value]="-1" >
-                  Otro
-                  </mat-option>
-                <mat-option [value]="-2" >
-                  Sin Documentación
-                </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field *ngIf="getDocumentation(j).documentionType === (-1)"  class="containerInputs">
-              <input matInput type="text" formControlName="documentationOtherType" placeholder="Tipo Documento">
-          </mat-form-field>
-          <mat-form-field *ngIf="getDocumentation(j).documentionType !== (-2)"  class="containerInputs">
-              <input matInput type="text" formControlName="documentationNumber" placeholder="Nº documentación">
-          </mat-form-field>
-        <!-- <mat-form-field class="containerInputs">
-            <mat-label>Tipo de documentación </mat-label>
-            <mat-select formControlName="documentionType" (openedChange)='createLackDocumentation()' >
-              <mat-option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.value" >
-                {{tipoDocumento.viewValue}}
+            <mat-label>Tipo Violencia</mat-label>
+            <mat-select formControlName="agressionType">
+              <mat-option
+                *ngFor="let tipoViolencia of tiposViolenciaSeleccionables"
+                [value]="tipoViolencia.value"
+              >
+                {{ tipoViolencia.viewValue }}
               </mat-option>
-              <mat-option [value]="-1" >
-                  Otro
-                </mat-option>
-                <mat-option [value]="-2" >
-                  Sin Documentación
-                </mat-option>
             </mat-select>
-            <mat-form-field *ngIf="documentationType.value === (-1)"  class="containerInputs">
-                <input matInput type="text" formControlName="documentationOtherType" placeholder="Tipo Documento">
+          </mat-form-field>
+          <fieldset>
+            <legend>Lugar Agresión</legend>
+            <mat-form-field class="containerInputs">
+              <mat-label>Lugar Agresión</mat-label>
+              <mat-select formControlName="agressionPlace">
+                <mat-option
+                  *ngFor="let lugarAgresion of lugaresAgresionSeleccionables"
+                  [value]="lugarAgresion.value"
+                >
+                  {{ lugarAgresion.viewValue }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-form-field *ngIf="documentationType.value !== (-2)"  class="containerInputs">
-                <input matInput type="text" formControlName="documentationNumber" placeholder="Nº documentación">
-            </mat-form-field>
-        </mat-form-field> -->
+
+            <ng-container *ngIf="getDetallesAgresion(j).agressionPlace">
+              <mat-form-field class="containerInputs">
+                <input matInput type="text" placeholder="Tipología del lugar agresión" formControlName="agresionPlaceTypology">
+              </mat-form-field>
+            </ng-container>
+          </fieldset>
+          <mat-form-field class="containerInputs">
+            <mat-label>Momento Agresión</mat-label>
+            <mat-select formControlName="agressionMoment">
+              <mat-option
+                *ngFor="let momentoAgresion of momentosAgresionSeleccionables"
+                [value]="momentoAgresion.value"
+              >
+                {{ momentoAgresion.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="buttonsContainer">
+              <button
+                type="button"
+                mat-raised-button
+                color="accent"
+                class="addDocumentation"
+                (click)="addAgresor(j)"
+              >
+                <i class="material-icons">add_circle</i>
+              </button>
+              <button
+                type="button"
+                mat-raised-button
+                color="accent"
+                class="addDocumentation"
+                (click)="deleteAgresor(j)"
+              >
+                <i class="material-icons">remove_circle</i>
+              </button>
+            </div>
+          <div *ngFor="let loquesea of getAgresores(j).controls; let i = index"
+            formArrayName="agresores">
+            <fieldset>
+              <legend>Agresor</legend>
+              <div [formGroupName]="i">
+                  <mat-form-field class="containerInputs">
+                      <mat-label>Género Agresor</mat-label>
+                      <mat-select formControlName="agressorGlender">
+                        <mat-option
+                          *ngFor="let generoAgresor of generoAgresorSeleccionable"
+                          [value]="generoAgresor.value"
+                        >
+                          {{ generoAgresor.viewValue }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  <mat-form-field class="containerInputs">
+                      <input matInput type="text" placeholder="Edad agresor" formControlName="agressorAge">
+                  </mat-form-field>
+                  <fieldset>
+                    <legend>¿Hubo elementos intimidatorios?</legend>
+                    <mat-form-field class="containerInputs">
+                        <input matInput type="text" placeholder="Tipogía elemento intimidatorio" formControlName="intimidatoryObjects">
+                    </mat-form-field>
+                  </fieldset>
+              </div>
+            </fieldset>
+          </div>
+        </fieldset>
+      </div>
     </div>
   </div>
-  </div>
 </form>
+<button (click)="sendDatos()">Enviar</button>

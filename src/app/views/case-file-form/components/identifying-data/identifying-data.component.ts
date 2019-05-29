@@ -272,31 +272,36 @@ export class IdentifyingDataComponent implements OnInit {
   }
 
   creacionAusenciaDocumento(that) {
-    that.ausenciaDocumento = that.tiposDocumento;
-    setTimeout(() => that.tiposDocumento.push({value: '99', viewValue: 'Otros' }), 2000);
+    setTimeout(() => {
+      that.tiposDocumento.push({value: '99', viewValue: 'Otros'});
+      that.ausenciaDocumento = that.tiposDocumento.filter(
+        (element) => {
+          if (element.value !== '99') {
+            return true;
+          }
+          return false;
+      });
+    }, 2000);
   }
 
-  /**
-   * Crea el array de la ausencia de documentos en base a los tipos de documento que existen menos los que tiene.
-   */
-  createLackDocumentation() {
-    // this.ausenciaDocumento = this.tiposDocumento.filter(value => {
-    //   return value.value !== this.documentationType.value;
-    // });
-  }
   /**
    * Rellena o vacia el array del formBuilder en función de los tipos de documento que faltan.
    * @param event nos da información sobre las selección actual y la anterior
    */
-  createDocumentationInputs(event,combo1) {
+  createDocumentationInputs(event, combo1) {
     this.ausenciaDocumento = this.tiposDocumento.filter(
       (element) => {
-        return event.newSelection.indexOf(element) === -1;
+        if (element.value !== '99') {
+          return event.newSelection.indexOf(element) === -1;
+        }
     });
     combo1.selectItems(combo1.selectedItems().filter(
       (element) => {
-        return event.newSelection.indexOf(element) === -1;
+        if (element.value !== '99') {
+          return event.newSelection.indexOf(element) === -1;
+        }
     }), true);
+
     if (event.newSelection.length === 0) {
       // tslint:disable-next-line: prefer-for-of
       for (let index = 0; index < this.documentationNumber.length; index++) {
