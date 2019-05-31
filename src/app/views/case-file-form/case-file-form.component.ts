@@ -38,9 +38,72 @@ export class CaseFileFormComponent implements OnInit{
 
     console.log('response', response);
   }
-  goTo(tab: IgxTabComponent) {
+  goTo(tab: IgxTabComponent, component) {
     tab.select();
+    const formulario = component.getForm().value;
+    console.log(formulario);
+    const documentacion =
+     this.buildDocumentation( formulario.documentationType,
+                              formulario.documentationOtherType,
+                              formulario.documentationNumber);
+    const documentacionPerdida =
+      this.buildLostDocumentation(formulario.lackDocumentation, formulario.tiposAusenciaDocumento);
+
+    let datosGuardar = {
+      nombre: formulario.name,
+      apellido1: formulario.apellido1,
+      apellido2: formulario.apellido2,
+      sexoEv: formulario.sexoEv,
+      orientacionSexual: formulario.orientacionSexual,
+      documentacion,
+      documentacionPerdida,
+      email: formulario.correo,
+      telefono: formulario.telefono,
+      fechaNacimiento: formulario.bornDate,
+      paisNacimiento: formulario.paisNacimiento,
+      provinciaNacimiento: formulario.provinciaNacimiento,
+      municipioNacimiento: formulario.municipioNacimiento,
+      formaIngreso: formulario.formaIngreso,
+      origenIngreso: formulario.origenIngreso,
+      nacionalidad: formulario.nacionalidad,
+      provinciaEmpadronamiento: formulario.provinciaEmpadronamiento,
+      municipioEmpadronamiento: formulario.municipioEmpadronamiento,
+      fechaEmpadronamiento: formulario.censusDate,
+      numeroSS: formulario.sSNumber,
+      asistenciaSanitaria: formulario.asistenciaSanitaria,
+      asistenciaSanitariaServicioNacionalSalud: formulario.sNSNumber,
+      targetaSanitaria: formulario.targetaSanitaria,
+      motivoAusenciaTargetaSanitaria: formulario.motivoAusenciaTargetaSanitaria,
+      estadoCivil: formulario.estadoCivil
+
+
+
+
+
+    }
+    console.log(datosGuardar);
   }
+  buildDocumentation(tipos, tipoOtro, numero) {
+    let documentacion = [];
+    let otro = null;
+    tipos ? tipos.forEach((tipo, index) => {
+      if (tipo.value !== '99') {
+        documentacion.push({tipo: tipo.value, numero: numero[index]});
+      } else {
+        otro = {tjhgipo: tipoOtro, numero: numero[index] };
+      }
+
+    }) : documentacion = null;
+    return {documentacion, otraDocumentacion: otro};
+  }
+  buildLostDocumentation(tipos, motivoDeLaPerdida){
+    let documentacionPerdida = []
+    tipos ? tipos.forEach((tipo, index) => {
+      documentacionPerdida.push({tipo: tipo.value, motivoPerdida: motivoDeLaPerdida[index]});
+    }) : documentacionPerdida = null;
+    return documentacionPerdida;
+  }
+
   checkPreviousForm(array: Array<any>) {
     return array.find(element => {
       return element.formIsValid() ? false : true;

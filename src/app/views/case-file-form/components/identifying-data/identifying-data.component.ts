@@ -414,5 +414,7 @@ export class IdentifyingDataComponent implements OnInit {
   sendDatos() {
     console.log(this.identifyingDataForm);
   }
-
+  getForm(){
+    return this.identifyingDataForm;
+  }
 }
