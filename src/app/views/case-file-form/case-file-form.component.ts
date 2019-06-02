@@ -71,15 +71,13 @@ export class CaseFileFormComponent implements OnInit{
       fechaEmpadronamiento: formulario.censusDate,
       numeroSS: formulario.sSNumber,
       asistenciaSanitaria: formulario.asistenciaSanitaria,
-      asistenciaSanitariaServicioNacionalSalud: formulario.sNSNumber,
+      nAsistenciaSanitariaServicioNacionalSalud: formulario.sNSNumber,
       targetaSanitaria: formulario.targetaSanitaria,
       motivoAusenciaTargetaSanitaria: formulario.motivoAusenciaTargetaSanitaria,
-      estadoCivil: formulario.estadoCivil
-
-
-
-
-
+      estadoCivil: formulario.estadoCivil,
+      permisoResidencia: formulario.permisoResidencia,
+      tipoPermisoResidencia: formulario.tipoPermisoResidencia,
+      renovacionPerisoResidencia: formulario.residancePermitDate
     }
     console.log(datosGuardar);
   }
