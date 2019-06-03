@@ -76,4 +76,24 @@ export class StayService {
   getSocioeconomicAgressionConsequences(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerConsecuenciasAgresionSocioEconomicas');
   }
+
+  formatoFecha(fecha) {
+    if (fecha === '' || fecha === undefined || fecha === null ) {
+      return '';
+    }
+    const mes = ((fecha.getMonth() + 1).toString().length === 1) ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1);
+    const dia =  fecha.getDate().toString().length === 1 ? '0' + fecha.getDate() : fecha.getDate();
+    fecha = new Date(fecha);
+    fecha = fecha.getFullYear() + '-' +
+            mes + '-' +
+            dia;
+    return fecha;
+  }
+  formatoString( string ) {
+    if (string === '' || string === undefined || string === null) {
+      return '';
+    }
+    string = string.trim();
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
 }

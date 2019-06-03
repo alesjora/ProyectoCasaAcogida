@@ -47,88 +47,8 @@ export class CaseFileFormComponent implements OnInit{
 
   goTo(tab: IgxTabComponent, component) {
     tab.select();
-    const formulario = component.getForm().value;
-    console.log(formulario);
-    const documentacion =
-     this.buildDocumentation( formulario.documentationType,
-                              formulario.documentationOtherType,
-                              formulario.documentationNumber);
-    const documentacionPerdida =
-      this.buildLostDocumentation(formulario.lackDocumentation, formulario.tiposAusenciaDocumento);
-    let datosGuardar = {
-      fechaExpediente: this.formatoFecha(formulario.evaluationDate),
-      nombre: this.formatoString(formulario.name),
-      apellido1: this.formatoString(formulario.apellido1),
-      apellido2: this.formatoString(formulario.apellido2),
-      sexoEv: formulario.sexoEv,
-      orientacionSexual: formulario.orientacionSexual,
-      documentacion,
-      documentacionPerdida,
-      email: formulario.correo,
-      telefono: formulario.telefono,
-      fechaNacimiento: this.formatoFecha(formulario.bornDate),
-      paisNacimiento: formulario.paisNacimiento,
-      provinciaNacimiento: formulario.provinciaNacimiento,
-      municipioNacimiento: formulario.municipioNacimiento,
-      formaIngreso: formulario.formaIngreso,
-      origenIngreso: formulario.origenIngreso,
-      nacionalidad: formulario.nacionalidad,
-      provinciaEmpadronamiento: formulario.provinciaEmpadronamiento,
-      municipioEmpadronamiento: formulario.municipioEmpadronamiento,
-      fechaEmpadronamiento: this.formatoFecha(formulario.censusDate),
-      numeroSS: formulario.sSNumber,
-      asistenciaSanitaria: formulario.asistenciaSanitaria,
-      nAsistenciaSanitariaServicioNacionalSalud: formulario.sNSNumber,
-      targetaSanitaria: formulario.targetaSanitaria,
-      motivoAusenciaTargetaSanitaria: formulario.motivoAusenciaTargetaSanitaria,
-      estadoCivil: formulario.estadoCivil,
-      permisoResidencia: formulario.permisoResidencia,
-      tipoPermisoResidencia: formulario.tipoPermisoResidencia,
-      renovacionPerisoResidencia: this.formatoFecha(formulario.residancePermitDate)
-    };
-    this.stayService.sendIdentifyingDataForm(datosGuardar).subscribe(res => {
-      console.log(res);
-    });
-  }
-  buildDocumentation(tipos, tipoOtro, numero) {
-    let documentacion = [];
-    let otro = null;
-    tipos ? tipos.forEach((tipo, index) => {
-      if (tipo.value !== '99') {
-        documentacion.push({tipo: tipo.value, numero: numero[index]});
-      } else {
-        otro = {tjhgipo: tipoOtro, numero: numero[index] };
-      }
-
-    }) : documentacion = null;
-    return {documentacion, otraDocumentacion: otro};
-  }
-  buildLostDocumentation(tipos, motivoDeLaPerdida){
-    let documentacionPerdida = []
-    tipos ? tipos.forEach((tipo, index) => {
-      documentacionPerdida.push({tipo: tipo.value, motivoPerdida: motivoDeLaPerdida[index]});
-    }) : documentacionPerdida = null;
-    return documentacionPerdida;
+    component.sendDatos();
   }
 
-  formatoFecha(fecha) {
-    if (fecha === '' || fecha === undefined || fecha === null ) {
-      return '';
-    }
-    const mes = ((fecha.getMonth() + 1).toString().length === 1) ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1);
-    const dia =  fecha.getDate().toString.length === 1 ? '0' + fecha.getDate() : fecha.getDate();
-    fecha = new Date(fecha);
-    fecha = fecha.getFullYear() + '-' +
-            mes + '-' +
-            dia;
-    return fecha;
-  }
-  formatoString( string ) {
-    if (string === '' || string === undefined || string === null) {
-      return '';
-    }
-    string = string.trim();
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-  }
 
 }

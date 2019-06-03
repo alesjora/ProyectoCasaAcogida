@@ -39,7 +39,7 @@ export class IdentifyingDataComponent implements OnInit {
   tipoPermisosResidencia = [];
 
   public selectedAsistenciaSanitaria: string;
-  public selectedTargetaSanitaria: string;
+  public selectedTarjetaSanitaria: string;
   public selectedPermisoResidencia: string;
 
   afirmacionNegacion = [{value: 1, viewValue: 'Si'}, {value: 2, viewValue: 'No'}];
@@ -124,11 +124,11 @@ export class IdentifyingDataComponent implements OnInit {
   get asistenciaSanitaria() {
     return this.identifyingDataForm.get('asistenciaSanitaria');
   }
-  get targetaSanitaria() {
-    return this.identifyingDataForm.get('targetaSanitaria');
+  get tarjetaSanitaria() {
+    return this.identifyingDataForm.get('tarjetaSanitaria');
   }
-  get motivoAusenciaTargetaSanitaria() {
-    return this.identifyingDataForm.get('motivoAusenciaTargetaSanitaria');
+  get motivoAusenciaTarjetaSanitaria() {
+    return this.identifyingDataForm.get('motivoAusenciaTarjetaSanitaria');
   }
   get sNSNumber() {
     return this.identifyingDataForm.get('sNSNumber');
@@ -150,7 +150,7 @@ export class IdentifyingDataComponent implements OnInit {
    * @return true cuando el formulario es valido, false en caso contrario.
    */
   public formIsValid() {
-    if(!this.identifyingDataForm){
+    if (!this.identifyingDataForm) {
       return false;
     }
     return this.identifyingDataForm.valid;
@@ -159,7 +159,7 @@ export class IdentifyingDataComponent implements OnInit {
   /**
    * Formato para la fecha de las datepicker
    */
-  public formatter = (date: Date) => {
+  public formatter = (date) => {
     return `${date.getDate()} ${this.monthFormatter.format(date)}, ${date.getFullYear()}`;
   }
 
@@ -229,22 +229,13 @@ export class IdentifyingDataComponent implements OnInit {
       sSNumber: [RESPUESTA_BD.numero_ss],
       asistenciaSanitaria: [''],
       sNSNumber: [''],
-      targetaSanitaria: [''],
-      motivoAusenciaTargetaSanitaria: [''],
+      tarjetaSanitaria: [''],
+      motivoAusenciaTarjetaSanitaria: [''],
       estadoCivil: [RESPUESTA_BD.idEstadoCivil],
       permisoResidencia: [''],
       tipoPermisoResidencia: [''],
       residancePermitDate: ['']
     });
-  }
-
-  /**
-   * Recibe una parámetro, si es nulo devuelve un string vacío, si no devueve el mismo parámetro.
-   * @param toTransform string que vamos a devolver si no es nulo, en caso de que lo sea vamos a enviar una cadena vacía
-   * @return el parametro o una cadena vacía en caso de que el parámetro sea nulo
-   */
-  transformsNullsIntoEmptyStrings(toTransform) {
-    return toTransform ? toTransform : '';
   }
 
   /**
@@ -409,12 +400,74 @@ export class IdentifyingDataComponent implements OnInit {
     }));
   }
   deleteDocument() {
-    this.documentation.removeAt(this.documentation.length-1);
+    this.documentation.removeAt(this.documentation.length - 1);
   }
   sendDatos() {
-    console.log(this.identifyingDataForm);
+    const formulario = this.identifyingDataForm.value;
+    const documentacion =
+     this.buildDocumentation( formulario.documentationType,
+                              formulario.documentationOtherType,
+                              formulario.documentationNumber);
+    const documentacionPerdida =
+      this.buildLostDocumentation(formulario.lackDocumentation, formulario.tiposAusenciaDocumento);
+
+    const datosGuardar = {
+      id_expediente: this.router.snapshot.params.id,
+      fechaExpediente: this.stayService.formatoFecha(formulario.evaluationDate),
+      nombre: this.stayService.formatoString(formulario.name),
+      apellido1: this.stayService.formatoString(formulario.apellido1),
+      apellido2: this.stayService.formatoString(formulario.apellido2),
+      sexoEv: formulario.sexoEv,
+      orientacionSexual: formulario.orientacionSexual,
+      documentacion,
+      documentacionPerdida,
+      email: formulario.correo,
+      telefono: formulario.telefono,
+      fechaNacimiento: this.stayService.formatoFecha(formulario.bornDate),
+      paisNacimiento: formulario.paisNacimiento,
+      provinciaNacimiento: this.provinciaNacimiento.value,
+      municipioNacimiento: this.municipioNacimiento.value,
+      formaIngreso: formulario.formaIngreso,
+      origenIngreso: formulario.origenIngreso,
+      nacionalidad: formulario.nacionalidad,
+      provinciaEmpadronamiento: this.provinciaEmpadronamiento.value,
+      municipioEmpadronamiento: this.municipioEmpadronamiento.value,
+      fechaEmpadronamiento: this.stayService.formatoFecha(formulario.censusDate),
+      numeroSS: formulario.sSNumber,
+      asistenciaSanitaria: formulario.asistenciaSanitaria,
+      nAsistenciaSanitariaServicioNacionalSalud: formulario.sNSNumber,
+      tarjetaSanitaria: formulario.tarjetaSanitaria,
+      motivoAusenciaTarjetaSanitaria: formulario.motivoAusenciaTarjetaSanitaria,
+      estadoCivil: formulario.estadoCivil,
+      permisoResidencia: formulario.permisoResidencia,
+      tipoPermisoResidencia: formulario.tipoPermisoResidencia,
+      renovacionPerisoResidencia: this.stayService.formatoFecha(formulario.residancePermitDate)
+    };
+    this.stayService.sendIdentifyingDataForm(datosGuardar).subscribe(res => {
+      console.log('respuesta del servidor', res);
+    });
   }
   getForm(){
     return this.identifyingDataForm;
+  }
+  buildDocumentation(tipos, tipoOtro, numero) {
+    let documentacion = [];
+    let otro = null;
+    tipos ? tipos.forEach((tipo, index) => {
+      if (tipo.value !== '99') {
+        documentacion.push({tipo: tipo.value, numero: numero[index]});
+      } else {
+        otro = {tipo: tipoOtro, numero: numero[index] };
+      }
+
+    }) : documentacion = null;
+    return {documentacion, otraDocumentacion: otro};
+  }
+  buildLostDocumentation(tipos, motivoDeLaPerdida){
+    let documentacionPerdida = []
+    tipos ? tipos.forEach((tipo, index) => {
+      documentacionPerdida.push({tipo: tipo.value, motivoPerdida: motivoDeLaPerdida[index]});
+    }) : documentacionPerdida = null;
+    return documentacionPerdida;
   }
 }

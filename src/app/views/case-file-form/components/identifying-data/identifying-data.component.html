@@ -219,13 +219,13 @@
     <fieldset>
       <legend>Tarjeta Sanitaria</legend>
       <div class='containerRadios'>
-        <igx-radio *ngFor="let targetaSanitaria of afirmacionNegacion"  [value]="targetaSanitaria.value" [(ngModel)]="selectedTargetaSanitaria" formControlName="targetaSanitaria">
-          {{targetaSanitaria.viewValue}}
+        <igx-radio *ngFor="let tarjetaSanitaria of afirmacionNegacion"  [value]="tarjetaSanitaria.value" [(ngModel)]="selectedTarjetaSanitaria" formControlName="tarjetaSanitaria">
+          {{tarjetaSanitaria.viewValue}}
         </igx-radio>
       </div>
-      <mat-form-field *ngIf='targetaSanitaria.value==2' class="containerInputs" >
+      <mat-form-field *ngIf='tarjetaSanitaria.value==2' class="containerInputs" >
         <mat-label>Motivo ausencia de Tarjeta Sanitaria </mat-label>
-        <mat-select formControlName="motivoAusenciaTargetaSanitaria" >
+        <mat-select formControlName="motivoAusenciaTarjetaSanitaria" >
           <mat-option *ngFor="let tipoAusenciaDocumento of tiposAusenciaDocumento" [value]="tipoAusenciaDocumento.value" >
             {{tipoAusenciaDocumento.viewValue}}
           </mat-option>
