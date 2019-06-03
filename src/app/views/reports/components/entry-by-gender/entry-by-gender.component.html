@@ -8,7 +8,7 @@
 </mat-form-field>
 <mat-form-field [hidden]="valueSelectFilter == 1">
   <mat-label>Selecciona el año:</mat-label>
-  <mat-select [(ngModel)]="valueSelectYear">
+  <mat-select [(ngModel)]="valueSelectYear" (openedChange)="changeYear($event)">
     <mat-option *ngFor="let element of valuesSelectYear" [value]="element.value">
       {{element.viewValue}}
     </mat-option>
