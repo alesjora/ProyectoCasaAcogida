@@ -399,19 +399,21 @@ export class IdentifyingDataComponent implements OnInit {
       documentationNumber: ''
     }));
   }
+
   deleteDocument() {
     this.documentation.removeAt(this.documentation.length - 1);
   }
+
   sendDatos() {
     const formulario = this.identifyingDataForm.value;
-    const documentacion =
-     this.buildDocumentation( formulario.documentationType,
-                              formulario.documentationOtherType,
-                              formulario.documentationNumber);
-    const documentacionPerdida =
-      this.buildLostDocumentation(formulario.lackDocumentation, formulario.tiposAusenciaDocumento);
+    console.log(formulario);
+    const documentacion = this.buildDocumentation( formulario.documentationType,
+                                                    formulario.documentationOtherType,
+                                                    formulario.documentationNumber);
+    const documentacionPerdida = this.buildLostDocumentation(formulario.lackDocumentation,
+                                                             formulario.tiposAusenciaDocumento);
 
-    const datosGuardar = {
+    const envioDatosPost = {
       id_expediente: this.router.snapshot.params.id,
       fechaExpediente: this.stayService.formatoFecha(formulario.evaluationDate),
       nombre: this.stayService.formatoString(formulario.name),
@@ -434,22 +436,24 @@ export class IdentifyingDataComponent implements OnInit {
       municipioEmpadronamiento: this.municipioEmpadronamiento.value,
       fechaEmpadronamiento: this.stayService.formatoFecha(formulario.censusDate),
       numeroSS: formulario.sSNumber,
-      asistenciaSanitaria: formulario.asistenciaSanitaria,
+      asistenciaSanitaria: (formulario.asistenciaSanitaria) ? formulario.asistenciaSanitaria : null,
       nAsistenciaSanitariaServicioNacionalSalud: formulario.sNSNumber,
-      tarjetaSanitaria: formulario.tarjetaSanitaria,
+      tarjetaSanitaria: (formulario.tarjetaSanitaria) ? formulario.tarjetaSanitaria : null,
       motivoAusenciaTarjetaSanitaria: formulario.motivoAusenciaTarjetaSanitaria,
       estadoCivil: formulario.estadoCivil,
-      permisoResidencia: formulario.permisoResidencia,
+      permisoResidencia: (formulario.permisoResidencia) ? formulario.permisoResidencia : null,
       tipoPermisoResidencia: formulario.tipoPermisoResidencia,
       renovacionPerisoResidencia: this.stayService.formatoFecha(formulario.residancePermitDate)
     };
-    this.stayService.sendIdentifyingDataForm(datosGuardar).subscribe(res => {
+    this.stayService.sendIdentifyingDataForm(envioDatosPost).subscribe(res => {
       console.log('respuesta del servidor', res);
     });
   }
+
   getForm(){
     return this.identifyingDataForm;
   }
+
   buildDocumentation(tipos, tipoOtro, numero) {
     let documentacion = [];
     let otro = null;
@@ -463,8 +467,9 @@ export class IdentifyingDataComponent implements OnInit {
     }) : documentacion = null;
     return {documentacion, otraDocumentacion: otro};
   }
+
   buildLostDocumentation(tipos, motivoDeLaPerdida){
-    let documentacionPerdida = []
+    let documentacionPerdida = [];
     tipos ? tipos.forEach((tipo, index) => {
       documentacionPerdida.push({tipo: tipo.value, motivoPerdida: motivoDeLaPerdida[index]});
     }) : documentacionPerdida = null;
