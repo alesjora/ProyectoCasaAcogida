@@ -38,6 +38,13 @@ export class CaseFileFormComponent implements OnInit{
 
     console.log('response', response);
   }
+
+  checkPreviousForm(array: Array<any>) {
+    return array.find(element => {
+      return element.formIsValid() ? false : true;
+    });
+  }
+
   goTo(tab: IgxTabComponent, component) {
     tab.select();
     const formulario = component.getForm().value;
@@ -48,18 +55,18 @@ export class CaseFileFormComponent implements OnInit{
                               formulario.documentationNumber);
     const documentacionPerdida =
       this.buildLostDocumentation(formulario.lackDocumentation, formulario.tiposAusenciaDocumento);
-
     let datosGuardar = {
-      nombre: formulario.name,
-      apellido1: formulario.apellido1,
-      apellido2: formulario.apellido2,
+      fechaExpediente: this.formatoFecha(formulario.evaluationDate),
+      nombre: this.formatoString(formulario.name),
+      apellido1: this.formatoString(formulario.apellido1),
+      apellido2: this.formatoString(formulario.apellido2),
       sexoEv: formulario.sexoEv,
       orientacionSexual: formulario.orientacionSexual,
       documentacion,
       documentacionPerdida,
       email: formulario.correo,
       telefono: formulario.telefono,
-      fechaNacimiento: formulario.bornDate,
+      fechaNacimiento: this.formatoFecha(formulario.bornDate),
       paisNacimiento: formulario.paisNacimiento,
       provinciaNacimiento: formulario.provinciaNacimiento,
       municipioNacimiento: formulario.municipioNacimiento,
@@ -68,7 +75,7 @@ export class CaseFileFormComponent implements OnInit{
       nacionalidad: formulario.nacionalidad,
       provinciaEmpadronamiento: formulario.provinciaEmpadronamiento,
       municipioEmpadronamiento: formulario.municipioEmpadronamiento,
-      fechaEmpadronamiento: formulario.censusDate,
+      fechaEmpadronamiento: this.formatoFecha(formulario.censusDate),
       numeroSS: formulario.sSNumber,
       asistenciaSanitaria: formulario.asistenciaSanitaria,
       nAsistenciaSanitariaServicioNacionalSalud: formulario.sNSNumber,
@@ -77,9 +84,11 @@ export class CaseFileFormComponent implements OnInit{
       estadoCivil: formulario.estadoCivil,
       permisoResidencia: formulario.permisoResidencia,
       tipoPermisoResidencia: formulario.tipoPermisoResidencia,
-      renovacionPerisoResidencia: formulario.residancePermitDate
-    }
-    console.log(datosGuardar);
+      renovacionPerisoResidencia: this.formatoFecha(formulario.residancePermitDate)
+    };
+    this.stayService.sendIdentifyingDataForm(datosGuardar).subscribe(res => {
+      console.log(res);
+    });
   }
   buildDocumentation(tipos, tipoOtro, numero) {
     let documentacion = [];
@@ -102,10 +111,24 @@ export class CaseFileFormComponent implements OnInit{
     return documentacionPerdida;
   }
 
-  checkPreviousForm(array: Array<any>) {
-    return array.find(element => {
-      return element.formIsValid() ? false : true;
-    });
+  formatoFecha(fecha) {
+    if (fecha === '' || fecha === undefined || fecha === null ) {
+      return '';
+    }
+    const mes = ((fecha.getMonth() + 1).toString().length === 1) ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1);
+    const dia =  fecha.getDate().toString.length === 1 ? '0' + fecha.getDate() : fecha.getDate();
+    fecha = new Date(fecha);
+    fecha = fecha.getFullYear() + '-' +
+            mes + '-' +
+            dia;
+    return fecha;
+  }
+  formatoString( string ) {
+    if (string === '' || string === undefined || string === null) {
+      return '';
+    }
+    string = string.trim();
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   }
 
 }
