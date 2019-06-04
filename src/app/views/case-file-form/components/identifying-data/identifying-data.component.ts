@@ -194,11 +194,13 @@ export class IdentifyingDataComponent implements OnInit {
 
   }
 
-  getDatosExpediente(response){
-    console.log(response);
+  getDatosExpediente(response) {
+
+
     const RESPUESTA_BD = response.data.mainData[0];
     this.numeroExpedienteCentro = RESPUESTA_BD.numero_expediente_centro;
     this.numeroExpedienteTecnico = RESPUESTA_BD.numero_expediente_tecnico;
+
     this.identifyingDataForm = this.fb.group({
       entryDate : [RESPUESTA_BD.fecha_ingreso ? new Date(RESPUESTA_BD.fecha_ingreso) : ''],
       departureDate : [RESPUESTA_BD.fecha_salida ? new Date(RESPUESTA_BD.fecha_salida) : ''],
@@ -236,6 +238,11 @@ export class IdentifyingDataComponent implements OnInit {
       tipoPermisoResidencia: [''],
       residancePermitDate: ['']
     });
+
+    this.getMunicipios(false);
+    this.getMunicipiosEmpadronamiento(false);
+    this.getProvincias(false);
+    this.getProvinciasEmpadronamiento(false);
   }
 
   /**
@@ -468,7 +475,7 @@ export class IdentifyingDataComponent implements OnInit {
     return {documentacion, otraDocumentacion: otro};
   }
 
-  buildLostDocumentation(tipos, motivoDeLaPerdida){
+  buildLostDocumentation(tipos, motivoDeLaPerdida) {
     let documentacionPerdida = [];
     tipos ? tipos.forEach((tipo, index) => {
       documentacionPerdida.push({tipo: tipo.value, motivoPerdida: motivoDeLaPerdida[index]});
