@@ -10,3 +10,15 @@
         grid-template-columns: 1fr 1fr;
     }
 }
+.conteiner-card {
+   display: grid;
+   grid-template-columns: 1fr;
+   *grid-template-rows: 320px;
+   grid-gap: 8px; 
+   @media (min-width: 656px) {
+    grid-template-columns: 1fr 1fr;
+   }
+   @media (min-width: 986px) {
+    grid-template-columns: 1fr 1fr 1fr;
+   }
+}
