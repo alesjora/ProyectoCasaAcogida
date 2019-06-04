@@ -38,13 +38,17 @@ export class CaseFileFormComponent implements OnInit{
 
     console.log('response', response);
   }
-  goTo(tab: IgxTabComponent) {
-    tab.select();
-  }
+
   checkPreviousForm(array: Array<any>) {
     return array.find(element => {
       return element.formIsValid() ? false : true;
     });
   }
+
+  goTo(tab: IgxTabComponent, component) {
+    tab.select();
+    component.sendDatos();
+  }
+
 
 }

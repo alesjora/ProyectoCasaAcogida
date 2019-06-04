@@ -3,7 +3,7 @@
     <igx-tabs-group label="Datos identificativos" icon="face">
         <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
         <app-identifying-data #identifyingData></app-identifying-data>
-        <button mat-raised-button color="primary" (click)='goTo(socioFamiliares)'
+        <button mat-raised-button color="primary" (click)='goTo(socioFamiliares, identifyingData)'
         [disabled]="checkPreviousForm([identifyingData])">Siguiente</button>
     </igx-tabs-group>
     <!-- <igx-tabs-group label="Datos sociofamiliares" icon="group" #socioFamiliares [disabled]="checkPreviousForm([identifyingData])"> -->
