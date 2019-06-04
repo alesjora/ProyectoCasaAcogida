@@ -22,7 +22,8 @@ import {
   IgxHierarchicalGridModule,
   IgxDialogModule,
   IgxTabsModule,
-  IgxComboModule
+  IgxComboModule,
+	IgxCardModule
 } from 'igniteui-angular';
 import { IgxCategoryChartModule } from 'igniteui-angular-charts/ES5/igx-category-chart-module';
 
@@ -53,7 +54,8 @@ import { IgxCategoryChartModule } from 'igniteui-angular-charts/ES5/igx-category
     IgxDialogModule,
     IgxTabsModule,
     IgxComboModule,
-    IgxCategoryChartModule
+    IgxCategoryChartModule,
+    IgxCardModule
   ]
 })
 export class IgniteModule { }

@@ -9,6 +9,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ConexionInterceptorService } from './shared/interceptors/conexion-interceptor.service';
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 import { CaseFileFormComponent } from './views/case-file-form/case-file-form.component';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { CaseFileFormComponent } from './views/case-file-form/case-file-form.com
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    LoginModule
+    LoginModule,
+    PDFExportModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

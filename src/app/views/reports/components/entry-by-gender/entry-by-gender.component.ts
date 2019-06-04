@@ -13,13 +13,14 @@ export class EntryByGenderComponent implements OnInit {
   data = [];
   subtitle = 'Filtro registros totales';
   valueSelectFilter = 1;
-  valueSelectYear;
+  valueSelectYear = '';
   valuesSelectFilter = [
     { value: 1, viewValue: 'Todos' },
     { value: 2, viewValue: 'Año' },
     { value: 3, viewValue: 'Año/mes' }
   ];
   valuesSelectYear = [];
+  scale = 0.3;
   constructor(private reportsService: ReportsService, private logoutService: LogoutService, private snackBarService: SnackBarService) {
   }
   ngOnInit(): void {
@@ -94,14 +95,14 @@ export class EntryByGenderComponent implements OnInit {
         this.reportsService.getReportEntryByGender().subscribe(this.getReportEntryByGenderSuccess.bind(this));
         break;
       case 2:
-        this.subtitle = 'Filtro por año';
+        this.subtitle = 'Filtro por año (' + (this.valueSelectYear) + ')';
         if (this.valueSelectYear) {
           this.reportsService.getReportEntryByGenderYear({ annio: this.valueSelectYear })
             .subscribe(this.getReportEntryByGenderSuccess.bind(this));
         }
         break;
       case 3:
-        this.subtitle = 'Filtro por año y meses';
+        this.subtitle = 'Filtro por año y meses (' + (this.valueSelectYear) + ')';
         if (this.valueSelectYear) {
           this.reportsService.getReportEntryByGenderYearMonth({ annio: this.valueSelectYear })
             .subscribe(this.getReportEntryByGenderYearMonthSuccess.bind(this));
@@ -115,10 +116,12 @@ export class EntryByGenderComponent implements OnInit {
     }
     switch (this.valueSelectFilter) {
       case 2:
+        this.subtitle = 'Filtro por año (' + (this.valueSelectYear) + ')';
         this.reportsService.getReportEntryByGenderYear({ annio: this.valueSelectYear })
           .subscribe(this.getReportEntryByGenderSuccess.bind(this));
         break;
       case 3:
+        this.subtitle = 'Filtro por año y meses';
         this.reportsService.getReportEntryByGenderYearMonth({ annio: this.valueSelectYear })
           .subscribe(this.getReportEntryByGenderYearMonthSuccess.bind(this));
         break;
