@@ -261,7 +261,7 @@ export class IdentifyingDataComponent implements OnInit {
         });
         break;
       case 'DATA_EMPTY':
-        this.snackBarService.showSnackbar('No se han encontrado ' + viewValue, 1000, 'bottom', 'warning');
+         this.snackBarService.showSnackbar('No se han encontrado ' + viewValue, 1000, 'bottom', 'warning');
         break;
       default:
         this.snackBarService.showSnackbar('Error al obtener ' + viewValue, 1000, 'bottom', 'error');
@@ -413,7 +413,7 @@ export class IdentifyingDataComponent implements OnInit {
 
   sendDatos() {
     const formulario = this.identifyingDataForm.value;
-    console.log(formulario);
+
     const documentacion = this.buildDocumentation( formulario.documentationType,
                                                     formulario.documentationOtherType,
                                                     formulario.documentationNumber);
@@ -433,14 +433,14 @@ export class IdentifyingDataComponent implements OnInit {
       email: formulario.correo,
       telefono: formulario.telefono,
       fechaNacimiento: this.stayService.formatoFecha(formulario.bornDate),
-      paisNacimiento: formulario.paisNacimiento,
-      provinciaNacimiento: this.provinciaNacimiento.value,
-      municipioNacimiento: this.municipioNacimiento.value,
+      paisNacimiento: (formulario.paisNacimiento) ? formulario.paisNacimiento : null,
+      provinciaNacimiento: (this.provinciaNacimiento.value) ? this.provinciaNacimiento.value : null,
+      municipioNacimiento: (this.municipioNacimiento.value) ? this.municipioNacimiento.value : null,
       formaIngreso: formulario.formaIngreso,
       origenIngreso: formulario.origenIngreso,
-      nacionalidad: formulario.nacionalidad,
-      provinciaEmpadronamiento: this.provinciaEmpadronamiento.value,
-      municipioEmpadronamiento: this.municipioEmpadronamiento.value,
+      nacionalidad: (formulario.nacionalidad) ? formulario.nacionalidad : null,
+      provinciaEmpadronamiento: (this.provinciaEmpadronamiento.value) ? this.provinciaEmpadronamiento.value : null,
+      municipioEmpadronamiento: (this.municipioEmpadronamiento.value) ? this.municipioEmpadronamiento.value : null,
       fechaEmpadronamiento: this.stayService.formatoFecha(formulario.censusDate),
       numeroSS: formulario.sSNumber,
       asistenciaSanitaria: (formulario.asistenciaSanitaria) ? formulario.asistenciaSanitaria : null,
@@ -452,6 +452,7 @@ export class IdentifyingDataComponent implements OnInit {
       tipoPermisoResidencia: formulario.tipoPermisoResidencia,
       renovacionPerisoResidencia: this.stayService.formatoFecha(formulario.residancePermitDate)
     };
+    console.log('envio al servidor', envioDatosPost);
     this.stayService.sendIdentifyingDataForm(envioDatosPost).subscribe(res => {
       console.log('respuesta del servidor', res);
     });
@@ -472,7 +473,7 @@ export class IdentifyingDataComponent implements OnInit {
       }
 
     }) : documentacion = null;
-    return {documentacion, otraDocumentacion: otro};
+    return { documentacion, otraDocumentacion: otro };
   }
 
   buildLostDocumentation(tipos, motivoDeLaPerdida) {
