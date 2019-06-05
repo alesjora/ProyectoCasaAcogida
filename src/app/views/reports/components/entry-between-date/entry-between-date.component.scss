@@ -1,0 +1,70 @@
+igx-date-picker{
+    width: 100%;
+   
+    @media (min-width: 600px) {
+        margin-left: 8px;
+    }
+}
+.header{
+    text-align: right;
+    @media (min-width: 768px) {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
+    .headerFilter form{
+        text-align: justify;
+        button{
+            width: 100%;
+            @media (min-width: 768px) {
+                width: 50%;
+                margin-left: 8px;
+            }
+        }
+        @media (min-width: 768px) {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+.mat-table {
+    width: 100%;
+    max-width: 100%;
+    display: table;
+    border-collapse: collapse;
+    margin: 0 auto;
+  }
+  
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  
+  .mat-cell,
+  .mat-header-cell {
+    @media (max-width: 800px) {
+      word-wrap: initial;
+      display: table-cell;
+      padding: 0px 5px;
+      line-break: unset;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: middle;
+    }
+  }
+
+  .title{
+      text-align: center;
+      margin-bottom: 8px;
+  }
+  .table-container {
+    height: 75vh;
+    width: 100%;
+    overflow: auto;
+    margin: 0 auto;
+    @media (min-width: 800px) {
+        width: 70%;
+      }
+  }
+

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReportsService } from '../../service/reports.service';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { StoreService } from 'src/app/shared/services/store.service';
 
 @Component({
   selector: 'app-entry-by-gender',
@@ -21,7 +22,9 @@ export class EntryByGenderComponent implements OnInit {
   ];
   valuesSelectYear = [];
   scale = 0.3;
-  constructor(private reportsService: ReportsService, private logoutService: LogoutService, private snackBarService: SnackBarService) {
+  constructor(private storeService: StoreService, private reportsService: ReportsService, private logoutService: LogoutService, private snackBarService: SnackBarService) {
+      this.storeService.sendCurrentRoute('Informes');
+      this.storeService.checkPermission('tecnico');
   }
   ngOnInit(): void {
     console.log(this.data);

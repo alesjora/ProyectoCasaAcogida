@@ -1,29 +1,31 @@
-<div>
+<div class="header">
   <button mat-raised-button color="primary" (click)="pdf.saveAs('informePorSexo.pdf')">
     Exportar a PDF
   </button>
+  <div class="headerFilter">
+    <mat-form-field>
+      <mat-label>Filtrar por:</mat-label>
+      <mat-select [(value)]="valueSelectFilter" (openedChange)="changeFilter($event)">
+        <mat-option *ngFor="let element of valuesSelectFilter" [value]="element.value" selected>
+          {{element.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field [hidden]="valueSelectFilter == 1">
+      <mat-label>Selecciona el año:</mat-label>
+      <mat-select [(ngModel)]="valueSelectYear" (openedChange)="changeYear($event)">
+        <mat-option *ngFor="let element of valuesSelectYear" [value]="element.value">
+          {{element.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 </div>
 <br>
-<mat-form-field>
-  <mat-label>Filtrar por:</mat-label>
-  <mat-select [(value)]="valueSelectFilter" (openedChange)="changeFilter($event)">
-    <mat-option *ngFor="let element of valuesSelectFilter" [value]="element.value" selected>
-      {{element.viewValue}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field [hidden]="valueSelectFilter == 1">
-  <mat-label>Selecciona el año:</mat-label>
-  <mat-select [(ngModel)]="valueSelectYear" (openedChange)="changeYear($event)">
-    <mat-option *ngFor="let element of valuesSelectYear" [value]="element.value">
-      {{element.viewValue}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
 <kendo-pdf-export #pdf paperSize="auto" margin="2cm" [scale]="scale">
   <igx-category-chart height="450px" width="100%" [dataSource]="data" [chartType]="'column'"
-    chartTitle="Ingresos por género" [subtitle]="subtitle" [yAxisMinimumValue]="0" xAxisOverlap="0"
-    negativeBrushes="Red" negativeOutlines="Red" brushes="#4286f4, #e8b220" outlines="#4286f4, #e8b220"
+    chartTitle="Ingresos por género" [subtitle]="subtitle" [yAxisMinimumValue]="0" xAxisGap="1"
+    negativeBrushes="Red" negativeOutlines="Red" brushes="#4286f4, #e8b220" outlines="#4286f4, #e8b220" isSeriesHighlightingEnabled="true"
     markerOutlines="#4286f4, #e8b220" markerBrushes="White" markerTypes="Circle" thickness="2"
     isTransitionInEnabled="true" transitionInDuration="1500" transitionInMode="AccordionFromBottom">
   </igx-category-chart>

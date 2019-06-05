@@ -11,10 +11,17 @@ export class ReportsComponent implements OnInit {
   public dataCards = [
     {
       imageUrl: '../../../assets/photos/grafico.png',
-      title: 'Informe registros por sexo',
+      title: 'Nº de registros por sexo',
       subtitle: 'Tipo gráfico',
       content: 'Informe en el que se muestra el número de registros por sexo pudiendo filtrar por año, por año y meses e incluso mostrar un histórico del número de registros globales.',
       route: 'registrosPorSexo'
+    },
+    {
+      imageUrl: '../../../assets/photos/grafico.png',
+      title: 'Registros entre dos fechas',
+      subtitle: 'Tipo tabla',
+      content: 'Informe en el que se muestra las personas que han entrado a la casa entre una fecha de entrada y una fecha de salida.',
+      route: 'registrosEntreFechas'
     }
   ];
   @ViewChild(MatSort) sort: MatSort;

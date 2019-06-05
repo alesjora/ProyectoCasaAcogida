@@ -22,4 +22,7 @@ export class ReportsService {
   getReportEntryByGenderYearMonth(data): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'obtenerInformeIngresosPorSexoAnnioMes', data);
   }
+  getReportEntryBetweenDate(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerInformeRegistrosEntreFechas', data);
+  }
 }
