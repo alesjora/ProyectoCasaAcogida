@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatSort } from '@angular/material';
 import { ReportsService } from '../../service/reports.service';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { defineFont } from '@progress/kendo-drawing/pdf';
 import { StoreService } from 'src/app/shared/services/store.service';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -23,10 +24,13 @@ export class EntryBetweenDateComponent implements OnInit {
     date1: ['', Validators.required],
     date2: ['', Validators.required],
   });
-  tableTitle = '';
+  tableTitle = ''
+  @ViewChild(MatSort) sort: MatSort;
+  private pipe: DatePipe;
   constructor(private storeService: StoreService, private fb: FormBuilder, private reportsService: ReportsService, private logoutService: LogoutService, private snackBarService: SnackBarService) { 
     this.storeService.sendCurrentRoute('Informes');
       this.storeService.checkPermission('tecnico');
+      this.pipe = new DatePipe('en');
   }
 
   ngOnInit() {
@@ -59,12 +63,14 @@ export class EntryBetweenDateComponent implements OnInit {
 
   }
   submitDataSuccess(response) {
+    this.dataSource = new MatTableDataSource([]);
     switch (response.status) {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
       case 'OPERATION_SUCCESS':
         this.dataSource = new MatTableDataSource(this.generarData(response.data));
+        this.dataSource.sort = this.sort;
         break;
       default:
         this.snackBarService.showSnackbar('No se encontraron datos', 1500, 'bottom', 'warning');

@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
       password : this.password.value
     };
     this.loginService.login(data).subscribe(this.loginSuccess.bind(this),
-    this.snackBarService.showSnackbar.bind(this, 'Error al conectar con el servidor', 1000, 'bottom', 'error'));
+    response => {this.snackBarService.showSnackbar('Error al conectar con el servidor', 1000, 'bottom', 'error')});
   }
 
   loginSuccess(response) {
@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  goToDashboard(){
+  goToDashboard() {
     this.router.navigate(['dashboard']);
   }
 }
