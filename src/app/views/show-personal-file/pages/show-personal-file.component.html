@@ -1,7 +1,7 @@
-<h2>Ficha Personal.</h2>
+<h2>Ficha Personal</h2>
 <div class='topContainer'>
   <div class='photoContainer'>
-    <img [src]="srcImagen" alt="">
+    <img [src]="srcImagen" alt="imagen de perfil">
   </div>
   <div class='basicDescriptionContainer'>
     <ul>
@@ -10,28 +10,22 @@
       <li *ngIf="nacionalidad">Nacionalidad: <span>{{nacionalidad}}</span></li>
       <li *ngIf="paisNacimiento">País Nacimiento: <span>{{paisNacimiento}}</span></li>
       <li *ngIf="fechaNacimiento">Fecha Nacimiento <span>{{fechaNacimiento | dateFormat}}</span></li>
+      <li *ngIf="sexo">Sexo <span>{{sexo}}</span></li>
+      <ng-container *ngFor="let item of documentation">
+        <li>{{item.type}}<span>{{item.value}}</span></li>
+      </ng-container>
     </ul>
   </div>
-</div>
 
-<div class='mainContainer'>
-<div  class='documetationContainer'>
-  <ng-container *ngIf="documentation">
+    <div class='roomsInfoContainer'>
       <ul>
-          <ng-container *ngFor="let item of documentation">
-            <li>{{item.type}}<span>{{item.value}}</span></li>
-          </ng-container>
+        <li><i class="material-icons">meeting_room</i> {{nHabitacion}}</li>
+        <li><i class="material-icons">airline_seat_individual_suite</i> {{nCama}}</li>
       </ul>
-  </ng-container>
-</div>
-<div class='roomsInfoContainer'>
-  <ul>
-    <li><i class="material-icons">meeting_room</i> {{nHabitacion}}</li>
-    <li><i class="material-icons">airline_seat_individual_suite</i> {{nCama}}</li>
-  </ul>
-  <button *ngIf="idRegistroCama" mat-raised-button color="accent" (click)="dialogCama.open()">Cambiar Cama</button>
-</div>
-</div>
+      <button *ngIf="idRegistroCama" mat-raised-button color="accent" (click)="dialogCama.open()">Cambiar Cama</button>
+    </div>
+  </div>
+
 <igx-hierarchical-grid class="hierarchicalGrid" [data]="fechasTabla" (onColumnResized)="onResize($event)" [autoGenerate]="false"
 [height]="'500px'" [width]="'100%'" [allowFiltering]="true" #hierarchicalGrid>
     <igx-column field="Número Registro"  [sortable]='true' [resizable]="true" [filterable]="true"></igx-column>

@@ -33,6 +33,7 @@ export class ShowPersonalFileComponent implements OnInit {
   nacionalidad: string;
   paisNacimiento: string;
   fechaNacimiento: string;
+  sexo: string;
 
   nHabitacion: string;
   nCama: string;
@@ -99,16 +100,18 @@ export class ShowPersonalFileComponent implements OnInit {
   }
 
   datosObtenidosCorrectamente(response) {
-    this.srcImagen = response.data.mainData[0].image;
-    if (response.data.mainData[0].image === '') {
+    const DATOS_BD = response.data.mainData[0];
+    this.srcImagen = DATOS_BD.image;
+    if (DATOS_BD.image === '') {
       this.srcImagen = environment.urlImage + 'StandarProfile.png';
     }
-    this.nombre = response.data.mainData[0].nombre;
-    this.apellido1 = response.data.mainData[0].apellido1 ? response.data.mainData[0].apellido1 : null;
-    this.apellido2 = response.data.mainData[0].apellido2 ? response.data.mainData[0].apellido2 : null;
-    this.nacionalidad = response.data.mainData[0].nacionalidad ? response.data.mainData[0].nacionalidad : null;
-    this.paisNacimiento = response.data.mainData[0].lugarNacimiento ? response.data.mainData[0].lugarNacimiento : null;
-    this.fechaNacimiento = response.data.mainData[0].fecha_nacimiento ? response.data.mainData[0].fecha_nacimiento : null;
+    this.nombre = DATOS_BD.nombre;
+    this.apellido1 = DATOS_BD.apellido1 ? DATOS_BD.apellido1 : null;
+    this.apellido2 = DATOS_BD.apellido2 ? DATOS_BD.apellido2 : null;
+    this.nacionalidad = DATOS_BD.nacionalidad ? DATOS_BD.nacionalidad : null;
+    this.paisNacimiento = DATOS_BD.lugarNacimiento ? DATOS_BD.lugarNacimiento : null;
+    this.sexo = DATOS_BD.sexo ? DATOS_BD.sexo : null;
+    this.fechaNacimiento = DATOS_BD.fecha_nacimiento ? DATOS_BD.fecha_nacimiento : null;
 
     this.nHabitacion = response.data.habitacionActual ? response.data.habitacionActual : '-';
     this.nCama = response.data.camaActual ? response.data.camaActual : '-';
@@ -158,7 +161,7 @@ export class ShowPersonalFileComponent implements OnInit {
   }
 
   async changeBed(event, changeRoomDialogComponent: ChangeRoomDialogComponent) {
-    if(await changeRoomDialogComponent.sendData(this.idRegistro, this.idRegistroCama)) {
+    if (await changeRoomDialogComponent.sendData(this.idRegistro, this.idRegistroCama)) {
       this.snackBarService.showSnackbar('Cama cambiada correctamente.', 1500, 'bottom', 'success');
       event.dialog.close();
     } else {
