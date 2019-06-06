@@ -1,43 +1,43 @@
 .header {
     text-align: right;
-  
+
     igx-input-group {
       @media (min-width: 712px) {
         flex-basis: 60%;
       }
     }
-  
+
     button {
       margin-bottom: 16px;
     }
-  
+
     @media (min-width: 712px) {
       display: flex;
       justify-content: space-between;
     }
   }
-  
+
   .name_avatar:hover {
     cursor: pointer;
   }
-  
+
   .search {
     margin-bottom: 16px;
   }
-  
+
   table {
     width: 100%;
   }
-  
+
   .table-container {
     height: 75vh;
     overflow: auto;
   }
-  
+
   .igx-avatar {
     margin-right: 8px;
   }
-  
+
   .mat-table {
     width: 100%;
     max-width: 100%;
@@ -46,12 +46,12 @@
     border-collapse: collapse;
     margin: 0px;
   }
-  
+
   .mat-row,
   .mat-header-row {
     display: table-row;
   }
-  
+
   .mat-cell,
   .mat-header-cell {
     @media (max-width: 800px) {
@@ -68,3 +68,4 @@
   .button_expedient{
       min-width: 170px;
   }
+

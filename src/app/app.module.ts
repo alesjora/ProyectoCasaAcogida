@@ -7,9 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginModule } from './views/login/login.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ConexionInterceptorService } from './shared/interceptors/conexion-interceptor.service';
-import { DateFormatPipe } from './shared/pipes/date-format.pipe';
-import { CaseFileFormComponent } from './views/case-file-form/case-file-form.component';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import { ComponentsModule } from './shared/components/components.module';
 
 
 @NgModule({
@@ -21,7 +20,8 @@ import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
     AppRoutingModule,
     BrowserAnimationsModule,
     LoginModule,
-    PDFExportModule
+    PDFExportModule,
+    ComponentsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
