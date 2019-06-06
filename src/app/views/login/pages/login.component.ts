@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { LoginService } from '../service/login.service';
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css', './login.component.scss']
 })
 export class LoginComponent implements OnInit {
   hide = true;
@@ -17,7 +17,11 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required]],
   });
 
-  constructor(private fb: FormBuilder, private snackBarService: SnackBarService, private loginService: LoginService, private router: Router) { }
+  constructor(private fb: FormBuilder,
+              private snackBarService: SnackBarService,
+              private loginService: LoginService,
+              private router: Router,
+              private renderer: Renderer2) { }
 
   get email() {
     return this.loginForm.get('email');
@@ -52,17 +56,23 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  login() {
+  login(progressSpinner) {
+    console.log(progressSpinner);
+    this.renderer.addClass(progressSpinner, 'visible');
     const data = {
       email : this.email.value,
       password : this.password.value
     };
-    this.loginService.login(data).subscribe(this.loginSuccess.bind(this),
-    this.snackBarService.showSnackbar.bind(this, 'Error al conectar con el servidor', 1000, 'bottom', 'error'));
+    this.loginService.login(data).subscribe(this.loginSuccess.bind(this, progressSpinner),
+    () => {
+      this.renderer.removeClass(progressSpinner, 'visible');
+      this.snackBarService.showSnackbar('Error al conectar con el servidor', 1000, 'bottom', 'error');
+    });
   }
 
-  loginSuccess(response) {
+  loginSuccess(progressSpinner, response) {
     if (!response) {
+      this.renderer.removeClass(progressSpinner, 'visible');
       this.snackBarService.showSnackbar('Email o contraseña incorrectos', 1500, 'bottom', 'error');
     } else {
       sessionStorage.setItem('token', response);
@@ -70,7 +80,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  goToDashboard(){
+  goToDashboard() {
     this.router.navigate(['dashboard']);
   }
 }

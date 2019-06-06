@@ -264,6 +264,7 @@ export class IdentifyingDataComponent implements OnInit {
     }
   }
 
+
   creacionAusenciaDocumento(that) {
     setTimeout(() => {
       that.tiposDocumento.push({value: '99', viewValue: 'Otros'});
@@ -447,11 +448,9 @@ export class IdentifyingDataComponent implements OnInit {
       numeroSS: formulario.sSNumber,
       asistenciaSanitaria: (formulario.asistenciaSanitaria) ? formulario.asistenciaSanitaria : null,
       nAsistenciaSanitariaServicioNacionalSalud: formulario.sNSNumber,
-      tarjetaSanitaria: (formulario.tarjetaSanitaria) ? formulario.tarjetaSanitaria : null,
-      motivoAusenciaTarjetaSanitaria: formulario.motivoAusenciaTarjetaSanitaria,
       estadoCivil: formulario.estadoCivil,
       permisoResidencia: (formulario.permisoResidencia) ? formulario.permisoResidencia : null,
-      tipoPermisoResidencia: formulario.tipoPermisoResidencia,
+      tipoPermisoResidencia: (formulario.tipoPermisoResidencia !== '') ? formulario.tipoPermisoResidencia : null,
       renovacionPermisoResidencia: this.stayService.formatoFecha(formulario.residancePermitDate)
     };
     console.log('envio al servidor', envioDatosPost);
