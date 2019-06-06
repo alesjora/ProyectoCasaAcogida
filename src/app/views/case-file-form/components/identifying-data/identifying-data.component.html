@@ -100,14 +100,9 @@
     <legend>Nacimiento</legend>
     <div class="bornDate">
       <igx-date-picker class="datePicker" formControlName="bornDate" [formatter]="formatter"
-                    label="Fecha Nacimiento"></igx-date-picker>
-      <mat-form-field class="containerInputs" >
-        <mat-label>Edad</mat-label>
-        <mat-select formControlName="edad" >
-          <mat-option *ngFor="let anio of edad" [value]="anio" >
-            {{anio}}
-          </mat-option>
-        </mat-select>
+                    label="Fecha Nacimiento" (onClose)="calculaEdad($event)"></igx-date-picker>
+      <mat-form-field class="containerInputs">
+          <input matInput type="text" placeholder="Edad" formControlName="edad">
       </mat-form-field>
     </div>
   </fieldset>
@@ -216,22 +211,6 @@
     <mat-form-field  class="containerInputs">
       <input matInput type="text"  placeholder="Nº de asistencia sanitaria en Servicio Nacional de Salud" formControlName="sNSNumber">
     </mat-form-field>
-    <fieldset>
-      <legend>Tarjeta Sanitaria</legend>
-      <div class='containerRadios'>
-        <igx-radio *ngFor="let tarjetaSanitaria of afirmacionNegacion"  [value]="tarjetaSanitaria.value" [(ngModel)]="selectedTarjetaSanitaria" formControlName="tarjetaSanitaria">
-          {{tarjetaSanitaria.viewValue}}
-        </igx-radio>
-      </div>
-      <mat-form-field *ngIf='tarjetaSanitaria.value==2' class="containerInputs" >
-        <mat-label>Motivo ausencia de Tarjeta Sanitaria </mat-label>
-        <mat-select formControlName="motivoAusenciaTarjetaSanitaria" >
-          <mat-option *ngFor="let tipoAusenciaDocumento of tiposAusenciaDocumento" [value]="tipoAusenciaDocumento.value" >
-            {{tipoAusenciaDocumento.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </fieldset>
   </fieldset>
 
   <fieldset class='estadoCivilContainer'>

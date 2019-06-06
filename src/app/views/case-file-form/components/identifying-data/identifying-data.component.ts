@@ -91,6 +91,9 @@ export class IdentifyingDataComponent implements OnInit {
   get correo() {
     return this.identifyingDataForm.get('correo');
   }
+  get bornDate(){
+    return this.identifyingDataForm.get('bornDate');
+  }
   get paisNacimiento() {
     return this.identifyingDataForm.get('paisNacimiento');
   }
@@ -123,12 +126,6 @@ export class IdentifyingDataComponent implements OnInit {
   }
   get asistenciaSanitaria() {
     return this.identifyingDataForm.get('asistenciaSanitaria');
-  }
-  get tarjetaSanitaria() {
-    return this.identifyingDataForm.get('tarjetaSanitaria');
-  }
-  get motivoAusenciaTarjetaSanitaria() {
-    return this.identifyingDataForm.get('motivoAusenciaTarjetaSanitaria');
   }
   get sNSNumber() {
     return this.identifyingDataForm.get('sNSNumber');
@@ -196,8 +193,8 @@ export class IdentifyingDataComponent implements OnInit {
 
   getDatosExpediente(response) {
 
-
     const RESPUESTA_BD = response.data.mainData[0];
+    console.log('obtencion de datos',RESPUESTA_BD);
     this.numeroExpedienteCentro = RESPUESTA_BD.numero_expediente_centro;
     this.numeroExpedienteTecnico = RESPUESTA_BD.numero_expediente_tecnico;
 
@@ -231,8 +228,6 @@ export class IdentifyingDataComponent implements OnInit {
       sSNumber: [RESPUESTA_BD.numero_ss],
       asistenciaSanitaria: [''],
       sNSNumber: [''],
-      tarjetaSanitaria: [''],
-      motivoAusenciaTarjetaSanitaria: [''],
       estadoCivil: [RESPUESTA_BD.idEstadoCivil],
       permisoResidencia: [''],
       tipoPermisoResidencia: [''],
@@ -338,6 +333,12 @@ export class IdentifyingDataComponent implements OnInit {
       this.edad[i] = i;
     }
   }
+  calculaEdad(event){
+    const fechaNacimiento = new Date(this.bornDate.value).getTime();
+    const hoy = Date.now();
+    const edad = new Date(hoy - fechaNacimiento).getFullYear() - 1970;
+    this.identifyingDataForm.controls.edad.setValue(edad);
+  }
 
   /**
    * Envia una petición a la base de datos para traerse las provincias de un país ya seleccionado
@@ -433,6 +434,7 @@ export class IdentifyingDataComponent implements OnInit {
       email: formulario.correo,
       telefono: formulario.telefono,
       fechaNacimiento: this.stayService.formatoFecha(formulario.bornDate),
+      edad: formulario.edad,
       paisNacimiento: (formulario.paisNacimiento) ? formulario.paisNacimiento : null,
       provinciaNacimiento: (this.provinciaNacimiento.value) ? this.provinciaNacimiento.value : null,
       municipioNacimiento: (this.municipioNacimiento.value) ? this.municipioNacimiento.value : null,
@@ -450,7 +452,7 @@ export class IdentifyingDataComponent implements OnInit {
       estadoCivil: formulario.estadoCivil,
       permisoResidencia: (formulario.permisoResidencia) ? formulario.permisoResidencia : null,
       tipoPermisoResidencia: formulario.tipoPermisoResidencia,
-      renovacionPerisoResidencia: this.stayService.formatoFecha(formulario.residancePermitDate)
+      renovacionPermisoResidencia: this.stayService.formatoFecha(formulario.residancePermitDate)
     };
     console.log('envio al servidor', envioDatosPost);
     this.stayService.sendIdentifyingDataForm(envioDatosPost).subscribe(res => {
