@@ -10,6 +10,8 @@ import { ConexionInterceptorService } from './shared/interceptors/conexion-inter
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 import { CaseFileFormComponent } from './views/case-file-form/case-file-form.component';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -21,7 +23,8 @@ import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
     AppRoutingModule,
     BrowserAnimationsModule,
     LoginModule,
-    PDFExportModule
+    PDFExportModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
