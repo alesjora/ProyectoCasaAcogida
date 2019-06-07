@@ -3,6 +3,7 @@ import { IgxTabComponent } from 'igniteui-angular';
 import { StayService } from 'src/app/shared/services/stay.service';
 import { ActivatedRoute } from '@angular/router';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { ProgressSpinnerService } from 'src/app/shared/services/progress-spinner.service';
 
 @Component({
   selector: 'app-case-file-form',
@@ -18,15 +19,22 @@ export class CaseFileFormComponent implements OnInit{
   nIngreso;
   fechaIngreso;
   fechaExpediente;
+
   constructor(private ref: ChangeDetectorRef,
               private stayService: StayService,
-              private router: ActivatedRoute) {
+              private router: ActivatedRoute,
+              private progressSpinnerServ: ProgressSpinnerService) {
   }
   ngOnInit() {
+    this.peticionBD();
+  }
+  peticionBD() {
     const serv = this.stayService;
     serv.getCaseFileInformation({id: this.router.snapshot.params.id}).subscribe(this.getDatosExpediente.bind(this));
   }
+
   getDatosExpediente(response) {
+    this.progressSpinnerServ.progresSpinner.invisible();
     const SERVER_RESPONSE = response.data.mainData[0];
     this.nombre = SERVER_RESPONSE.nombre;
     this.apellido1 = SERVER_RESPONSE.apellido1;
@@ -35,8 +43,6 @@ export class CaseFileFormComponent implements OnInit{
     this.nIngreso = SERVER_RESPONSE.numero_ingreso;
     this.fechaExpediente = SERVER_RESPONSE.fecha_evaluacion;
     this.fechaIngreso = SERVER_RESPONSE.fecha_ingreso;
-
-    console.log('response', response);
   }
 
   checkPreviousForm(array: Array<any>) {
@@ -45,10 +51,12 @@ export class CaseFileFormComponent implements OnInit{
     });
   }
 
-  goTo(tab: IgxTabComponent, component) {
+  async goTo(tab: IgxTabComponent, component) {
+    await component.sendDatos();
+    this.peticionBD();
     tab.select();
-    component.sendDatos();
   }
+
 
 
 }

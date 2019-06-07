@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { StayService } from 'src/app/shared/services/stay.service';
 import { ActivatedRoute } from '@angular/router';
 import { element } from '@angular/core/src/render3';
+import { reject, isPromiseAlike } from 'q';
 
 @Component({
   selector: 'app-identifying-data',
@@ -47,6 +48,9 @@ export class IdentifyingDataComponent implements OnInit {
 
   @ViewChild('identifyingData') identifyingData;
   @ViewChild('familyMemberData') familyMemberData;
+  @ViewChild('radioAsistenciaSanitaria') radioAsistenciaSanitaria;
+  @ViewChild('formulario') formulario;
+
   ngOnInit() {
     this.getDatos();
   }
@@ -186,15 +190,12 @@ export class IdentifyingDataComponent implements OnInit {
       .bind(this, this.tipoPermisosResidencia, 'id', 'tipo'));
     this.creacionAusenciaDocumento(this);
     serv.getCaseFileInformation({id: this.router.snapshot.params.id}).subscribe(this.getDatosExpediente.bind(this));
-    this.createEdad();
-
-
   }
 
   getDatosExpediente(response) {
 
     const RESPUESTA_BD = response.data.mainData[0];
-    console.log('obtencion de datos',RESPUESTA_BD);
+    console.log('obtencion de datos', RESPUESTA_BD);
     this.numeroExpedienteCentro = RESPUESTA_BD.numero_expediente_centro;
     this.numeroExpedienteTecnico = RESPUESTA_BD.numero_expediente_tecnico;
 
@@ -219,20 +220,42 @@ export class IdentifyingDataComponent implements OnInit {
       paisNacimiento: [RESPUESTA_BD.idPaisNacimiento],
       provinciaNacimiento: [RESPUESTA_BD.idProvinciaNacimiento],
       municipioNacimiento: [RESPUESTA_BD.idPoblacionNacimiento],
-      nacionalidad: [RESPUESTA_BD.nacionalidad],
+      nacionalidad: [RESPUESTA_BD.idNacionalidad],
       provinciaEmpadronamiento: [''],
       municipioEmpadronamiento: [RESPUESTA_BD.idPoblacionEmpadronamiento],
       sexoEv: [RESPUESTA_BD.idSexoEv],
       orientacionSexual: [RESPUESTA_BD.idOrientacionSexual],
-      censusDate: [''],
+      censusDate: [RESPUESTA_BD.fecha_empadronamiento ? new Date(RESPUESTA_BD.fecha_empadronamiento) : ''],
       sSNumber: [RESPUESTA_BD.numero_ss],
       asistenciaSanitaria: [''],
-      sNSNumber: [''],
+      sNSNumber: [RESPUESTA_BD.numero_asSNS],
       estadoCivil: [RESPUESTA_BD.idEstadoCivil],
       permisoResidencia: [''],
-      tipoPermisoResidencia: [''],
-      residancePermitDate: ['']
+      tipoPermisoResidencia: [RESPUESTA_BD.idPermisoResidencia],
+      residancePermitDate: [RESPUESTA_BD.renovacionPermisoPermanencia ? new Date(RESPUESTA_BD.renovacionPermisoPermanencia) : '']
     });
+
+    let creacionFormulario = new Promise ((resolve, reject) => {
+      let contador = 1;
+      setInterval(() => {
+        contador++;
+        if (this.formulario) {
+          resolve();
+          clearInterval();
+        }
+        if (contador > 10) {
+          reject('No se ha cargado ningún formulario');
+        }
+      }, 10);
+    });
+    creacionFormulario.then(() => {
+      const setForm = this.identifyingDataForm.controls;
+      setForm.asistenciaSanitaria.setValue(parseInt(RESPUESTA_BD.asistenciaSanitaria));
+      (RESPUESTA_BD.idPermisoResidencia) ? setForm.permisoResidencia.setValue(1)
+                                         : setForm.permisoResidencia.setValue(2);
+      setForm.nacionalidad.setValue(RESPUESTA_BD.idNacionalidad);
+    }).catch(error => console.error('Error al cargar Formulario', error)
+    );
 
     this.getMunicipios(false);
     this.getMunicipiosEmpadronamiento(false);
@@ -246,6 +269,29 @@ export class IdentifyingDataComponent implements OnInit {
    *                  {status: estado respuesta , data: datos obtenidos };
    */
   peticionHandleMejorada(array: Array<any>, value: string, viewValue: string, response) {
+    switch (response.status) {
+      case 'SESSION_EXPIRED':
+        this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
+        break;
+      case 'OPERATION_SUCCESS':
+        response.data.forEach(element => {
+          array.push({value: element[value], viewValue: element[viewValue]});
+        });
+        break;
+      case 'DATA_EMPTY':
+         this.snackBarService.showSnackbar('No se han encontrado ' + viewValue, 1000, 'bottom', 'warning');
+        break;
+      default:
+        this.snackBarService.showSnackbar('Error al obtener ' + viewValue, 1000, 'bottom', 'error');
+        break;
+    }
+  }
+  /**
+   * Maneja la petición http
+   * @param response que contiene la respuesta de la petición a la api. Debe tener la forma:
+   *                  {status: estado respuesta , data: datos obtenidos };
+   */
+  peticionHandleCargaGeografica(array: Array<any>, value: string, viewValue: string, response, ) {
     switch (response.status) {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
@@ -326,14 +372,7 @@ export class IdentifyingDataComponent implements OnInit {
     }
   }
 
-  /**
-   * Rellena el array para saber la edad.
-   */
-  createEdad() {
-    for (let i = 0; i < 101; i++) {
-      this.edad[i] = i;
-    }
-  }
+
   calculaEdad(event){
     const fechaNacimiento = new Date(this.bornDate.value).getTime();
     const hoy = Date.now();
@@ -413,7 +452,11 @@ export class IdentifyingDataComponent implements OnInit {
     this.documentation.removeAt(this.documentation.length - 1);
   }
 
-  sendDatos() {
+  async sendDatos() {
+    console.log('radioButton', this.radioAsistenciaSanitaria);
+    console.log('formulario',this.identifyingDataForm);
+    // this.selectedAsistenciaSanitaria = '1';
+    this.asistenciaSanitaria.setValue(1);
     const formulario = this.identifyingDataForm.value;
 
     const documentacion = this.buildDocumentation( formulario.documentationType,
@@ -454,7 +497,7 @@ export class IdentifyingDataComponent implements OnInit {
       renovacionPermisoResidencia: this.stayService.formatoFecha(formulario.residancePermitDate)
     };
     console.log('envio al servidor', envioDatosPost);
-    this.stayService.sendIdentifyingDataForm(envioDatosPost).subscribe(res => {
+    await this.stayService.sendIdentifyingDataForm(envioDatosPost).toPromise().then(res => {
       console.log('respuesta del servidor', res);
     });
   }

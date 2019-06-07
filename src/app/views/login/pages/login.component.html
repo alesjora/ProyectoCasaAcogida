@@ -7,7 +7,7 @@
     <h2 class="card-heading">
       Panel de acceso
     </h2>
-    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="loginForm.valid ? login(progresSpinner): null">
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="loginForm.valid ? login(): null">
       <mat-form-field>
         <input matInput placeholder="Email" formControlName="email" required>
         <mat-error *ngIf="email?.hasError('required')">El email es obligatorio</mat-error>
@@ -32,13 +32,4 @@
     </div>
   </div>
 </div>
-<div class="cargaContainer none" #progresSpinner>
-  <div class="load-container">
-    <div class="load">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </div>
-</div>
+

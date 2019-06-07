@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { LoginService } from '../service/login.service';
 import { Router } from '@angular/router';
+import { ProgressSpinnerService } from 'src/app/shared/services/progress-spinner.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
               private snackBarService: SnackBarService,
               private loginService: LoginService,
               private router: Router,
-              private renderer: Renderer2) { }
+              private progressSpinnerServ: ProgressSpinnerService) { }
 
   get email() {
     return this.loginForm.get('email');
@@ -56,23 +57,22 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  login(progressSpinner) {
-    console.log(progressSpinner);
-    this.renderer.addClass(progressSpinner, 'visible');
+  login() {
+    this.progressSpinnerServ.progresSpinner.visible();
     const data = {
       email : this.email.value,
       password : this.password.value
     };
-    this.loginService.login(data).subscribe(this.loginSuccess.bind(this, progressSpinner),
+    this.loginService.login(data).subscribe(this.loginSuccess.bind(this),
     () => {
-      this.renderer.removeClass(progressSpinner, 'visible');
+      this.progressSpinnerServ.progresSpinner.invisible();
       this.snackBarService.showSnackbar('Error al conectar con el servidor', 1000, 'bottom', 'error');
     });
   }
 
-  loginSuccess(progressSpinner, response) {
+  loginSuccess(response) {
+    this.progressSpinnerServ.progresSpinner.invisible();
     if (!response) {
-      this.renderer.removeClass(progressSpinner, 'visible');
       this.snackBarService.showSnackbar('Email o contraseña incorrectos', 1500, 'bottom', 'error');
     } else {
       sessionStorage.setItem('token', response);

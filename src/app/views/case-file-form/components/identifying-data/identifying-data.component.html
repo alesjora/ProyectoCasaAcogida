@@ -1,4 +1,4 @@
-<form [formGroup]="identifyingDataForm" *ngIf="identifyingDataForm">
+<form #formulario [formGroup]="identifyingDataForm" *ngIf="identifyingDataForm">
 
   <fieldset class="formaIngresoContainer">
     <legend>Forma Ingreso</legend>
@@ -203,7 +203,7 @@
     <fieldset>
       <legend>Asistencia Sanitaria</legend>
       <div class='containerRadios'>
-        <igx-radio *ngFor="let asistenciaSanitaria of afirmacionNegacion"  [value]="asistenciaSanitaria.value" [(ngModel)]="selectedAsistenciaSanitaria" formControlName="asistenciaSanitaria">
+        <igx-radio #radioAsistenciaSanitaria *ngFor="let asistenciaSanitaria of afirmacionNegacion"  [(value)]="asistenciaSanitaria.value" [(ngModel)]="selectedAsistenciaSanitaria" formControlName="asistenciaSanitaria">
           {{asistenciaSanitaria.viewValue}}
         </igx-radio>
       </div>
