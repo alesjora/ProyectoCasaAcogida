@@ -23,11 +23,8 @@ import { environment } from '../environments/environment';
     BrowserAnimationsModule,
     LoginModule,
     PDFExportModule,
-<<<<<<< HEAD
-    ComponentsModule
-=======
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
->>>>>>> 0b535a7224eae1fca3284a47d6dd800e5738bb42
+    ComponentsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
