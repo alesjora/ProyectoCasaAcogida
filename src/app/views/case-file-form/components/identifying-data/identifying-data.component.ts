@@ -249,6 +249,7 @@ export class IdentifyingDataComponent implements OnInit {
     creacionFormulario.then(() => {
       const setForm = this.identifyingDataForm.controls;
 
+      // tslint:disable-next-line: radix
       setForm.asistenciaSanitaria.setValue(parseInt(RESPUESTA_BD.asistenciaSanitaria));
       (RESPUESTA_BD.idPermisoResidencia) ? setForm.permisoResidencia.setValue(1)
                                          : setForm.permisoResidencia.setValue(2);
@@ -311,7 +312,7 @@ export class IdentifyingDataComponent implements OnInit {
     setForm.provinciaNacimiento.setValue(RESPUESTA_BD.idProvinciaNacimiento);
     this.insertarProvincias(this, RESPUESTA_BD, setForm);
   }
-  insertarDocumentacion(RESPUESTA_BD, setForm){
+  insertarDocumentacion(RESPUESTA_BD, setForm) {
     console.log('obtencion de datos Documentacion', RESPUESTA_BD);
     console.log('Formulario', setForm);
     setForm.documentationNumber.setValue(['321654987', '321654987']);
