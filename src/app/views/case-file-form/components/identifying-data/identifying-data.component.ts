@@ -4,8 +4,6 @@ import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { StayService } from 'src/app/shared/services/stay.service';
 import { ActivatedRoute } from '@angular/router';
-import { element } from '@angular/core/src/render3';
-import { reject, isPromiseAlike } from 'q';
 
 @Component({
   selector: 'app-identifying-data',
@@ -193,9 +191,9 @@ export class IdentifyingDataComponent implements OnInit {
   }
 
   getDatosExpediente(response) {
-
     const RESPUESTA_BD = response.data.mainData[0];
-    console.log('obtencion de datos', RESPUESTA_BD);
+    console.log('obtencion de datos Main', RESPUESTA_BD);
+
     this.numeroExpedienteCentro = RESPUESTA_BD.numero_expediente_centro;
     this.numeroExpedienteTecnico = RESPUESTA_BD.numero_expediente_tecnico;
 
@@ -250,17 +248,15 @@ export class IdentifyingDataComponent implements OnInit {
     });
     creacionFormulario.then(() => {
       const setForm = this.identifyingDataForm.controls;
+
       setForm.asistenciaSanitaria.setValue(parseInt(RESPUESTA_BD.asistenciaSanitaria));
       (RESPUESTA_BD.idPermisoResidencia) ? setForm.permisoResidencia.setValue(1)
                                          : setForm.permisoResidencia.setValue(2);
       setForm.nacionalidad.setValue(RESPUESTA_BD.idNacionalidad);
+      this.insertarPaises(RESPUESTA_BD, setForm);
+      //this.insertarDocumentacion(response.data.documentacion, setForm);
     }).catch(error => console.error('Error al cargar Formulario', error)
     );
-
-    this.getMunicipios(false);
-    this.getMunicipiosEmpadronamiento(false);
-    this.getProvincias(false);
-    this.getProvinciasEmpadronamiento(false);
   }
 
   /**
@@ -291,7 +287,7 @@ export class IdentifyingDataComponent implements OnInit {
    * @param response que contiene la respuesta de la petición a la api. Debe tener la forma:
    *                  {status: estado respuesta , data: datos obtenidos };
    */
-  peticionHandleCargaGeografica(array: Array<any>, value: string, viewValue: string, response, ) {
+  peticionHandleCargaGeografica(array: Array<any>, value: string, viewValue: string, funcion, RESPUESTA_BD, setForm, response ) {
     switch (response.status) {
       case 'SESSION_EXPIRED':
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
@@ -300,9 +296,9 @@ export class IdentifyingDataComponent implements OnInit {
         response.data.forEach(element => {
           array.push({value: element[value], viewValue: element[viewValue]});
         });
+        funcion(this, RESPUESTA_BD, setForm);
         break;
       case 'DATA_EMPTY':
-         this.snackBarService.showSnackbar('No se han encontrado ' + viewValue, 1000, 'bottom', 'warning');
         break;
       default:
         this.snackBarService.showSnackbar('Error al obtener ' + viewValue, 1000, 'bottom', 'error');
@@ -310,6 +306,43 @@ export class IdentifyingDataComponent implements OnInit {
     }
   }
 
+  insertarPaises(RESPUESTA_BD, setForm) {
+    setForm.nacionalidad.setValue(RESPUESTA_BD.idNacionalidad);
+    setForm.provinciaNacimiento.setValue(RESPUESTA_BD.idProvinciaNacimiento);
+    this.insertarProvincias(this, RESPUESTA_BD, setForm);
+  }
+  insertarDocumentacion(RESPUESTA_BD, setForm){
+    console.log('obtencion de datos Documentacion', RESPUESTA_BD);
+    console.log('Formulario', setForm);
+    setForm.documentationNumber.setValue(['321654987', '321654987']);
+    setForm.documentationType.setValue([{value: 1 , viewValue: 'DNI'} , { value: 2 , viewValue: 'TIE'}]);
+  }
+
+  insertarProvincias(that, RESPUESTA_BD, setForm) {
+    that.stayService.getProvincias({idPais: that.paisNacimiento.value})
+      .subscribe(that.peticionHandleCargaGeografica.bind(
+        that, that.provincias, 'id', 'provincia', that.insertarMunicipios, RESPUESTA_BD, setForm));
+    that.stayService.getProvincias({idPais: that.nacionalidad.value})
+      .subscribe(that.peticionHandleCargaGeografica.bind(
+        that, that.provinciasEmpadronamiento, 'id', 'provincia', that.insertarMunicipios, RESPUESTA_BD, setForm));
+
+  }
+
+  insertarMunicipios(that, RESPUESTA_BD, setForm) {
+    setForm.provinciaEmpadronamiento.setValue(RESPUESTA_BD.idProvinciaNacimiento);
+    setForm.provinciaNacimiento.setValue(RESPUESTA_BD.idProvinciaNacimiento);
+    that.stayService.getMunicipios({idProvincia: that.provinciaNacimiento.value})
+      .subscribe(that.peticionHandleCargaGeografica.bind(
+        that, that.municipios, 'id', 'poblacion', that.insertarPoblaciones, RESPUESTA_BD, setForm));
+    that.stayService.getMunicipios({idProvincia: that.provinciaEmpadronamiento.value})
+      .subscribe(that.peticionHandleCargaGeografica.bind(
+        that, that.municipiosEmpadronamiento, 'id', 'poblacion', that.insertarPoblaciones, RESPUESTA_BD, setForm));
+  }
+
+  insertarPoblaciones(that, RESPUESTA_BD, setForm) {
+    setForm.municipioEmpadronamiento.setValue(RESPUESTA_BD.idPoblacionEmpadronamiento);
+    setForm.municipioNacimiento.setValue(RESPUESTA_BD.idPoblacionNacimiento);
+  }
 
   creacionAusenciaDocumento(that) {
     setTimeout(() => {
@@ -453,10 +486,7 @@ export class IdentifyingDataComponent implements OnInit {
   }
 
   async sendDatos() {
-    console.log('radioButton', this.radioAsistenciaSanitaria);
-    console.log('formulario',this.identifyingDataForm);
-    // this.selectedAsistenciaSanitaria = '1';
-    this.asistenciaSanitaria.setValue(1);
+    console.log('formulario', this.identifyingDataForm);
     const formulario = this.identifyingDataForm.value;
 
     const documentacion = this.buildDocumentation( formulario.documentationType,
