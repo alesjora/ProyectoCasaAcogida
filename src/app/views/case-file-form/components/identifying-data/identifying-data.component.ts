@@ -233,7 +233,7 @@ export class IdentifyingDataComponent implements OnInit {
       residancePermitDate: [RESPUESTA_BD.renovacionPermisoPermanencia ? new Date(RESPUESTA_BD.renovacionPermisoPermanencia) : '']
     });
 
-    let creacionFormulario = new Promise ((resolve, reject) => {
+    const creacionFormulario = new Promise ((resolve, reject) => {
       let contador = 1;
       setInterval(() => {
         contador++;
