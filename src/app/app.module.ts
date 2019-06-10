@@ -9,6 +9,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ConexionInterceptorService } from './shared/interceptors/conexion-interceptor.service';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import { ComponentsModule } from './shared/components/components.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -21,7 +23,11 @@ import { ComponentsModule } from './shared/components/components.module';
     BrowserAnimationsModule,
     LoginModule,
     PDFExportModule,
+<<<<<<< HEAD
     ComponentsModule
+=======
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+>>>>>>> 0b535a7224eae1fca3284a47d6dd800e5738bb42
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

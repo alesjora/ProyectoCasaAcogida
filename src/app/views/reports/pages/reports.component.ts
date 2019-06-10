@@ -12,14 +12,15 @@ export class ReportsComponent implements OnInit {
     {
       imageUrl: '../../../assets/photos/grafico.png',
       title: 'Nº de registros por sexo',
-      subtitle: 'Tipo gráfico',
-      content: 'Informe en el que se muestra el número de registros por sexo pudiendo filtrar por año, por año y meses e incluso mostrar un histórico del número de registros globales.',
+      subtitle: 'Tipo: Gráfico de barras',
+      content: `Informe en el que se muestra el número de registros por sexo pudiendo filtrar por año,
+      por año y meses e incluso mostrar un histórico del número de registros globales.`,
       route: 'registrosPorSexo'
     },
     {
-      imageUrl: '../../../assets/photos/grafico.png',
+      imageUrl: '../../../assets/photos/tabla.png',
       title: 'Registros entre dos fechas',
-      subtitle: 'Tipo tabla',
+      subtitle: 'Tipo: Tabla de datos',
       content: 'Informe en el que se muestra las personas que han entrado a la casa entre una fecha de entrada y una fecha de salida.',
       route: 'registrosEntreFechas'
     }
