@@ -36,7 +36,7 @@ export class HateCrimesComponent implements OnInit {
 
   createForm() {
     this.hateCrimesForm = this.fb.group({
-      sufridoViolencia: [''],
+      sufridoViolencia: ['', Validators.required],
       detallesAgresion: this.fb.array([
         this.fb.group({
           agressionType: new FormControl(''),
@@ -131,8 +131,8 @@ export class HateCrimesComponent implements OnInit {
   }
 
 
-  sendDatos(){
-    console.log("resultado",this.hateCrimesForm.value);
+  sendDatos() {
+    console.log('resultado', this.hateCrimesForm.value);
   }
   /**
    * Maneja la petición http
