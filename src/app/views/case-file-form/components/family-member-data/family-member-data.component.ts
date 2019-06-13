@@ -523,7 +523,6 @@ export class FamilyMemberDataComponent implements OnInit {
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
       case 'OPERATION_SUCCESS':
-        console.log(response.data);
         response.data.forEach(element => {
           this.valuesComboboxSocialSupportHidden.push({
             value: element.id,
@@ -625,7 +624,6 @@ export class FamilyMemberDataComponent implements OnInit {
       comboBoxDataFamily: this.comboBoxDataFamily.value,
       provincia: this.provinciaPersonContact.value
     };
-    console.log(data);
   }
   /**
    * Formato para la fecha de las datepicker

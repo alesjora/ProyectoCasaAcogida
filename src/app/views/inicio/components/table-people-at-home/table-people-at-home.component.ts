@@ -30,7 +30,6 @@ export class TablePeopleAtHomeComponent implements OnInit {
               private inicioService: InicioService,
               private snackBarService: SnackBarService) {
     this.pipe = new DatePipe('en');
-    console.log('hi',this.dataSource.filterPredicate);
     this.dataSource.filterPredicate = (data: PersonElement, filter) => {
       const dataStr = data.search;
       return dataStr.indexOf(filter) !== -1;

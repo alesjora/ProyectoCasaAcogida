@@ -28,11 +28,10 @@ export class EntryByGenderComponent implements OnInit {
       this.storeService.checkPermission('tecnico');
   }
   ngOnInit(): void {
-    console.log(this.data);
     this.reportsService.getYearReports().subscribe(this.handleSuccess.bind(this, this.valuesSelectYear, 'Error al obtener los años'));
     this.reportsService.getReportEntryByGender().subscribe(this.getReportEntryByGenderSuccess.bind(this));
   }
-  
+
   getReportEntryByGenderSuccess(response) {
     switch (response.status) {
       case 'SESSION_EXPIRED':

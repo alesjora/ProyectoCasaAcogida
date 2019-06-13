@@ -123,11 +123,9 @@ export class HateCrimesComponent implements OnInit {
   }
 
   getDetallesAgresion(index) {
-    // console.log(this.hateCrimesForm.get('detallesAgresion').value[index]);
     return this.hateCrimesForm.get('detallesAgresion').value[index];
   }
   getAgresores(index){
-    // console.log(this.hateCrimesForm.get('detallesAgresion').value[index].agresores);
     const formulario = this.detallesAgresion.controls[index] as FormGroup;
     return formulario.controls.agresores as FormArray;
   }
