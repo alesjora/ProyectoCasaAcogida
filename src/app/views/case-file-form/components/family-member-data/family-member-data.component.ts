@@ -12,10 +12,10 @@ import { StayService } from 'src/app/shared/services/stay.service';
 })
 export class FamilyMemberDataComponent implements OnInit {
   constructor(private fb: FormBuilder,
-    private familiaMemberDataService: FamilyMemberDataService,
-    private logoutService: LogoutService,
-    private snackBarService: SnackBarService,
-    private stayService: StayService) { }
+              private familiaMemberDataService: FamilyMemberDataService,
+              private logoutService: LogoutService,
+              private snackBarService: SnackBarService,
+              private stayService: StayService) { }
   @ViewChild('familyMemberData') familyMemberData;
   monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
   familyMemberDataForm;
@@ -255,7 +255,7 @@ export class FamilyMemberDataComponent implements OnInit {
     return this.familyMemberDataForm.get('VIMApplicantDate');
   }
 
-  getOtherTypeCenterCohabita(){
+  getOtherTypeCenterCohabita() {
     this.familiaMemberDataService.getOtherTypeCenterCohabita().subscribe(this.getOtherTypeCenterCohabitaSuccess.bind(this));
   }
   getOtherTypeCenterCohabitaSuccess(response) {
@@ -274,8 +274,8 @@ export class FamilyMemberDataComponent implements OnInit {
         break;
     }
   }
-  getOtherSocialCenter(){
-    this.familiaMemberDataService.getSocialCenters().subscribe(this.getOtherSocialCenterSucess.bind(this))
+  getOtherSocialCenter() {
+    this.familiaMemberDataService.getSocialCenters().subscribe(this.getOtherSocialCenterSucess.bind(this));
   }
   getOtherSocialCenterSucess(response) {
     this.valuesComboboxOtherSocialCenter = [];
@@ -295,7 +295,7 @@ export class FamilyMemberDataComponent implements OnInit {
     }
   }
   getDataFamily() {
-    this.familiaMemberDataService.getDataFamily().subscribe(this.getDataFamilySuccess.bind(this))
+    this.familiaMemberDataService.getDataFamily().subscribe(this.getDataFamilySuccess.bind(this));
   }
   getDataFamilySuccess(response) {
     switch (response.status) {
@@ -318,11 +318,13 @@ export class FamilyMemberDataComponent implements OnInit {
   enableInputDataFamily(name, id) {
     const array = (name === 'family') ? this.comboBoxDataFamily.value : this.comboBoxDataFamilyRelationship.value;
     const checkbox = (name === 'family') ? this.familyCheckbox.value : this.familyRelationshipCheckbox.value;
+    // tslint:disable-next-line: triple-equals
     if (checkbox == 2) {
       return false;
     }
     if (array) {
       return array.find(value => {
+    // tslint:disable-next-line: triple-equals
         return value.value == id;
       });
     }

@@ -63,7 +63,7 @@ export class HateCrimesComponent implements OnInit {
     return this.hateCrimesForm.get('detallesAgresion') as FormArray;
   }
 
-  get sufridoViolencia(){
+  get sufridoViolencia() {
     return this.hateCrimesForm.get('sufridoViolencia');
   }
 
@@ -115,7 +115,7 @@ export class HateCrimesComponent implements OnInit {
   deleteAgression() {
     this.detallesAgresion.removeAt(this.detallesAgresion.length - 1);
   }
-  deleteAgresor(index){
+  deleteAgresor(index) {
     const formulario = this.detallesAgresion.controls[index] as FormGroup;
     const agresores = formulario.controls.agresores as FormArray;
     agresores.removeAt(
@@ -125,7 +125,7 @@ export class HateCrimesComponent implements OnInit {
   getDetallesAgresion(index) {
     return this.hateCrimesForm.get('detallesAgresion').value[index];
   }
-  getAgresores(index){
+  getAgresores(index) {
     const formulario = this.detallesAgresion.controls[index] as FormGroup;
     return formulario.controls.agresores as FormArray;
   }
