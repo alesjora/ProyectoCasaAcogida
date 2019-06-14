@@ -111,22 +111,6 @@ export class DashboardComponent implements OnInit, OnDestroy,AfterContentInit {
         break;
     }
   }
-  // ocultaMenu() {
-  //   if (!this.resolucionMovil()) {
-  //     return;
-  //   }
-  //   // console.log(document.getElementsByTagName('aside')[0])
-  //   // console.log(window.innerWidth + "px");
-  //   if ( document.getElementById('navigation').style.display !== 'none') {
-  //     document.getElementById('navigation').style.display = 'none';
-  //   } else {
-  //     document.getElementById('navigation').style.display = 'block';
-  //   }
-  //   document.getElementsByClassName('igx-nav-drawer__overlay')[0].addEventListener('click', this.ocultaMenuClick);
-  // }
-  // ocultaMenuClick() {
-  //   document.getElementById('navigation').style.display = 'none';
-  // }
   resolucionMovil(){
     const resolucionMovil = window.matchMedia('(max-width: 900px)');
     return resolucionMovil.matches;

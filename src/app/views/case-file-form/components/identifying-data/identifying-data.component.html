@@ -50,7 +50,6 @@
             </igx-combo>
           </div>
 
-
           <ng-container *ngFor='let item of documentationType.value; let i= index'>
             <fieldset *ngIf="item.value == 99; else noOtros" class='otherDocumentationContainer'>
             <legend *ngIf="item.value == 99">Otra Documentación</legend>
@@ -74,14 +73,14 @@
             [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Falta de documentación" searchPlaceholder="Buscar...">
           </igx-combo>
         </div>
-        <mat-form-field *ngFor='let item of lackDocumentation.value; let i= index' class="containerInputs" formArrayName="tiposAusenciaDocumento">
-          <mat-label>Motivo ausencia de {{item.viewValue}}</mat-label>
-          <mat-select [formControlName]="i" >
-            <mat-option *ngFor="let tipoAusenciaDocumento of tiposAusenciaDocumento" [value]="tipoAusenciaDocumento.value" >
-              {{tipoAusenciaDocumento.viewValue}}
-            </mat-option>
-        </mat-select>
-      </mat-form-field>
+          <mat-form-field  *ngFor='let item of lackDocumentation.value; let i= index' class="containerInputs" formArrayName="tiposAusenciaDocumento">
+            <mat-label>Motivo ausencia de {{item.viewValue}}</mat-label>
+            <mat-select [formControlName]="i" >
+              <mat-option *ngFor="let tipoAusenciaDocumento of tiposAusenciaDocumento" [value]="tipoAusenciaDocumento.value" >
+                {{tipoAusenciaDocumento.viewValue}}
+              </mat-option>
+          </mat-select>
+          </mat-form-field>
     </div>
     </div>
   </fieldset>
@@ -200,7 +199,7 @@
     <mat-form-field class="containerInputs">
       <input matInput type="text" placeholder="Nº Afiliación SS" formControlName="sSNumber">
     </mat-form-field>
-    <fieldset>
+    <fieldset class='radioButomMarginBottom'>
       <legend>Asistencia Sanitaria</legend>
       <div class='containerRadios'>
         <igx-radio #radioAsistenciaSanitaria *ngFor="let asistenciaSanitaria of afirmacionNegacion"  [(value)]="asistenciaSanitaria.value" [(ngModel)]="selectedAsistenciaSanitaria" formControlName="asistenciaSanitaria">
@@ -227,7 +226,7 @@
 
   <fieldset class='permisoResidenciaContainer'>
     <legend>Permiso Residencia</legend>
-    <div class='containerRadios'>
+    <div class='containerRadios radioButomMarginBottom'>
       <igx-radio *ngFor="let permisoResidencia of afirmacionNegacion"  [value]="permisoResidencia.value" [(ngModel)]="selectedPermisoResidencia" formControlName="permisoResidencia">
         {{permisoResidencia.viewValue}}
       </igx-radio>
@@ -240,8 +239,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <igx-date-picker class="datePicker" formControlName="residancePermitDate" [formatter]="formatter"
+    <igx-date-picker *ngIf='permisoResidencia.value==1' class="datePicker" formControlName="residancePermitDate" [formatter]="formatter"
       label="Renovación permiso residencia"></igx-date-picker>
   </fieldset>
-  <button (click)='sendDatos()'>Enviar</button>
 </form>

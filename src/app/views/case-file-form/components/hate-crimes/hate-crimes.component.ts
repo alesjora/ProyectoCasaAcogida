@@ -36,7 +36,7 @@ export class HateCrimesComponent implements OnInit {
 
   createForm() {
     this.hateCrimesForm = this.fb.group({
-      sufridoViolencia: [''],
+      sufridoViolencia: ['', Validators.required],
       detallesAgresion: this.fb.array([
         this.fb.group({
           agressionType: new FormControl(''),
@@ -63,7 +63,7 @@ export class HateCrimesComponent implements OnInit {
     return this.hateCrimesForm.get('detallesAgresion') as FormArray;
   }
 
-  get sufridoViolencia(){
+  get sufridoViolencia() {
     return this.hateCrimesForm.get('sufridoViolencia');
   }
 
@@ -115,7 +115,7 @@ export class HateCrimesComponent implements OnInit {
   deleteAgression() {
     this.detallesAgresion.removeAt(this.detallesAgresion.length - 1);
   }
-  deleteAgresor(index){
+  deleteAgresor(index) {
     const formulario = this.detallesAgresion.controls[index] as FormGroup;
     const agresores = formulario.controls.agresores as FormArray;
     agresores.removeAt(
@@ -123,18 +123,16 @@ export class HateCrimesComponent implements OnInit {
   }
 
   getDetallesAgresion(index) {
-    // console.log(this.hateCrimesForm.get('detallesAgresion').value[index]);
     return this.hateCrimesForm.get('detallesAgresion').value[index];
   }
-  getAgresores(index){
-    // console.log(this.hateCrimesForm.get('detallesAgresion').value[index].agresores);
+  getAgresores(index) {
     const formulario = this.detallesAgresion.controls[index] as FormGroup;
     return formulario.controls.agresores as FormArray;
   }
 
 
-  sendDatos(){
-    console.log("resultado",this.hateCrimesForm.value);
+  sendDatos() {
+    console.log('resultado', this.hateCrimesForm.value);
   }
   /**
    * Maneja la petición http

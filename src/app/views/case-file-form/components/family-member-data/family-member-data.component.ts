@@ -12,10 +12,10 @@ import { StayService } from 'src/app/shared/services/stay.service';
 })
 export class FamilyMemberDataComponent implements OnInit {
   constructor(private fb: FormBuilder,
-    private familiaMemberDataService: FamilyMemberDataService,
-    private logoutService: LogoutService,
-    private snackBarService: SnackBarService,
-    private stayService: StayService) { }
+              private familiaMemberDataService: FamilyMemberDataService,
+              private logoutService: LogoutService,
+              private snackBarService: SnackBarService,
+              private stayService: StayService) { }
   @ViewChild('familyMemberData') familyMemberData;
   monthFormatter = new Intl.DateTimeFormat('es', { month: 'long' });
   familyMemberDataForm;
@@ -86,45 +86,45 @@ export class FamilyMemberDataComponent implements OnInit {
     this.familyMemberDataForm = this.fb.group({
       familyCheckbox: ['', Validators.required],
       comboBoxDataFamily: [''],
-      nHermanosFamily: ['', Validators.required],
-      nHijosFamily: ['', Validators.required],
+      nHermanosFamily: [''],
+      nHijosFamily: [''],
       familyRelationshipCheckbox: ['', Validators.required],
       comboBoxDataFamilyRelationship: [''],
-      nHermanosFamilyRelationship: ['', Validators.required],
-      nHijosFamilyRelationship: ['', Validators.required],
+      nHermanosFamilyRelationship: [''],
+      nHijosFamilyRelationship: [''],
       personContactCheckbox: ['', Validators.required],
       comboBoxPersonContact: [''],
-      typePersonContact: ['', Validators.required],
-      infoPersonContact: ['', Validators.required],
-      telephonePersonContact: ['', Validators.required],
-      paisPersonContact: ['', Validators.required],
-      provinciaPersonContact: ['', Validators.required],
-      municipioPersonContact: ['', Validators.required],
+      typePersonContact: [''],
+      infoPersonContact: [''],
+      telephonePersonContact: [''],
+      paisPersonContact: [''],
+      provinciaPersonContact: [''],
+      municipioPersonContact: [''],
       socialSupportCheckbox: ['', Validators.required],
-      comboBoxTypeSocialSupport: ['', Validators.required],
-      comboBoxSocialSupport: ['', Validators.required],
-      otherSocialSupport: ['', Validators.required],
+      comboBoxTypeSocialSupport: [''],
+      comboBoxSocialSupport: [''],
+      otherSocialSupport: [''],
       homelessTimeCheckbox: ['', Validators.required],
-      homelessTimeSelect: ['', Validators.required],
-      paisInmediateOrigin: ['', Validators.required],
-      provinciaInmediateOrigin: ['', Validators.required],
-      municipioInmediateOrigin: ['', Validators.required],
+      homelessTimeSelect: [''],
+      paisInmediateOrigin: [''],
+      provinciaInmediateOrigin: [''],
+      municipioInmediateOrigin: [''],
       residenceTimeInCordobaCheckbox: ['', Validators.required],
-      residenceTimeInCordobaSelect: ['', Validators.required],
-      comboBoxReasonForStay: ['', Validators.required],
-      otherReasonForStay: ['', Validators.required],
+      residenceTimeInCordobaSelect: [''],
+      comboBoxReasonForStay: [''],
+      otherReasonForStay: [''],
       otherSocialCenterCheckbox: ['', Validators.required],
-      comboBoxOtherSocialCenter: ['', Validators.required],
-      otherSocialCenterInCordobaCheckbox: ['', Validators.required],
-      hasBeenACohabitaUserCheckbox: ['', Validators.required],
-      otherTypeSocialCenterCheckbox: ['', Validators.required],
-      comboBoxTypeCenterCohabita: ['', Validators.required],
-      ownHomeCheckbox: ['', Validators.required],
-      typeOfHousing: ['', Validators.required],
-      provinciaOfHousing: ['', Validators.required],
-      municipioOfHousing: ['', Validators.required],
-      VIMApplicant: ['', Validators.required],
-      VIMApplicantDate: [{value: '', disabled: true}, Validators.required],
+      comboBoxOtherSocialCenter: [''],
+      otherSocialCenterInCordobaCheckbox: [''],
+      hasBeenACohabitaUserCheckbox: [''],
+      otherTypeSocialCenterCheckbox: [''],
+      comboBoxTypeCenterCohabita: [''],
+      ownHomeCheckbox: [''],
+      typeOfHousing: [''],
+      provinciaOfHousing: [''],
+      municipioOfHousing: [''],
+      VIMApplicant: [''],
+      VIMApplicantDate: [{value: '', disabled: true}],
     });
   }
   public formIsValid() {
@@ -255,7 +255,7 @@ export class FamilyMemberDataComponent implements OnInit {
     return this.familyMemberDataForm.get('VIMApplicantDate');
   }
 
-  getOtherTypeCenterCohabita(){
+  getOtherTypeCenterCohabita() {
     this.familiaMemberDataService.getOtherTypeCenterCohabita().subscribe(this.getOtherTypeCenterCohabitaSuccess.bind(this));
   }
   getOtherTypeCenterCohabitaSuccess(response) {
@@ -274,8 +274,8 @@ export class FamilyMemberDataComponent implements OnInit {
         break;
     }
   }
-  getOtherSocialCenter(){
-    this.familiaMemberDataService.getSocialCenters().subscribe(this.getOtherSocialCenterSucess.bind(this))
+  getOtherSocialCenter() {
+    this.familiaMemberDataService.getSocialCenters().subscribe(this.getOtherSocialCenterSucess.bind(this));
   }
   getOtherSocialCenterSucess(response) {
     this.valuesComboboxOtherSocialCenter = [];
@@ -295,7 +295,7 @@ export class FamilyMemberDataComponent implements OnInit {
     }
   }
   getDataFamily() {
-    this.familiaMemberDataService.getDataFamily().subscribe(this.getDataFamilySuccess.bind(this))
+    this.familiaMemberDataService.getDataFamily().subscribe(this.getDataFamilySuccess.bind(this));
   }
   getDataFamilySuccess(response) {
     switch (response.status) {
@@ -318,11 +318,13 @@ export class FamilyMemberDataComponent implements OnInit {
   enableInputDataFamily(name, id) {
     const array = (name === 'family') ? this.comboBoxDataFamily.value : this.comboBoxDataFamilyRelationship.value;
     const checkbox = (name === 'family') ? this.familyCheckbox.value : this.familyRelationshipCheckbox.value;
+    // tslint:disable-next-line: triple-equals
     if (checkbox == 2) {
       return false;
     }
     if (array) {
       return array.find(value => {
+    // tslint:disable-next-line: triple-equals
         return value.value == id;
       });
     }
@@ -523,7 +525,6 @@ export class FamilyMemberDataComponent implements OnInit {
         this.logoutService.goToLoginWithMessage('SESSION_EXPIRED');
         break;
       case 'OPERATION_SUCCESS':
-        console.log(response.data);
         response.data.forEach(element => {
           this.valuesComboboxSocialSupportHidden.push({
             value: element.id,
@@ -625,12 +626,14 @@ export class FamilyMemberDataComponent implements OnInit {
       comboBoxDataFamily: this.comboBoxDataFamily.value,
       provincia: this.provinciaPersonContact.value
     };
-    console.log(data);
   }
   /**
    * Formato para la fecha de las datepicker
    */
   public formatter = (date: Date) => {
     return `${date.getDate()} ${this.monthFormatter.format(date)}, ${date.getFullYear()}`;
+  }
+  async sendDatos() {
+
   }
 }
