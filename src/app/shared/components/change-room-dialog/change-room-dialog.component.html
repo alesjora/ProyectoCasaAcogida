@@ -4,7 +4,7 @@
         <mat-label>Selecciona una habitación</mat-label>
         <mat-select formControlName="room" (valueChange)='cambio()' required>
           <mat-option *ngFor="let room of rooms" [value]="room.id">
-            Habitación {{room.number}}
+            Habitación {{room.number}} ({{room.type}})
           </mat-option>
         </mat-select>
       </mat-form-field><br>

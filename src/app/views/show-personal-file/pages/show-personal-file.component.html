@@ -46,6 +46,13 @@
         </div>
       </ng-template>
     </igx-column>
+    <igx-column field="Expediente" [sortable]='true' [resizable]="true">
+      <ng-template igxCell let-cell="cell">
+        <div class="cell__inner_2">
+          <button class="button_expedient" [disabled]="storeService.getUserProfile() != 'tecnico'" routerLink="/dashboard/ver-expediente/{{cell.value}}" mat-raised-button color="accent" (click)="progressSpinner()">Ver expediente</button>
+        </div>
+      </ng-template>
+    </igx-column>
 
     <igx-row-island [key]="'Estancia'" [autoGenerate]="false">
       <igx-column field="Número Habitación" [sortable]='true' [resizable]="true"></igx-column>

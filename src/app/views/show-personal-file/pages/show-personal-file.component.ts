@@ -47,7 +47,7 @@ export class ShowPersonalFileComponent implements OnInit {
               private fb: FormBuilder,
               private snackBarService: SnackBarService,
               private renderer: Renderer2,
-              private storeService: StoreService) {
+              public storeService: StoreService) {
                 this.storeService.sendCurrentRoute('Fichas personales');
   }
 
@@ -133,10 +133,12 @@ export class ShowPersonalFileComponent implements OnInit {
             'Fecha abandono': this.formatoFecha(est.fechaFinalCama),
           });
       });
+      console.log(element.idExpediente);
       fechas.push({
           'Número Registro': element.nRegistro,
           'Fecha Entrada': this.formatoFecha(element.fechaEntrada),
           'Fecha Salida': this.formatoFecha(element.fechaSalida),
+          'Expediente': element.idExpediente,
           Estancia: estancia
       });
     });

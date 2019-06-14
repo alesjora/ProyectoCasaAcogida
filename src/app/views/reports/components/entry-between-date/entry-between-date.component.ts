@@ -58,6 +58,7 @@ export class EntryBetweenDateComponent implements OnInit {
       date1: this.getDate(this.date1.value),
       date2: this.getDate(this.date2.value),
     };
+    console.log(data);
     this.tableTitle = 'Registros desde el ' + this.formatter(this.date1.value) + ' hasta el ' + this.formatter(this.date2.value);
     this.reportsService.getReportEntryBetweenDate(data).subscribe(this.submitDataSuccess.bind(this));
 
