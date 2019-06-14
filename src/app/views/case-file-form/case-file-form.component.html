@@ -1,14 +1,9 @@
 <!-- <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info> -->
-<button mat-raised-button color="primary" (click)="pdf.saveAs('expediente.pdf')">
-  Exportar a PDF
-</button>
 
 <igx-tabs>
     <igx-tabs-group label="Datos identificativos" icon="face">
-        <kendo-pdf-export #pdf paperSize="auto" margin="2cm" scale="1">
         <app-header-info [nombre]= 'nombre' [apellidos1]='apellido1' [apellidos2]='apellido2' [nExpediente]='nExpediente' [nIngreso]='nIngreso' [fechaExpediente]='fechaExpediente' [fechaIngreso]='fechaIngreso'></app-header-info>
         <app-identifying-data #identifyingData></app-identifying-data>
-        </kendo-pdf-export>
         <button mat-raised-button color="primary" (click)='goTo(socioFamiliares, identifyingData)'
         [disabled]="checkPreviousForm([identifyingData])">Siguiente</button>
     </igx-tabs-group>

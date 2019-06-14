@@ -1,0 +1,28 @@
+<button mat-raised-button color="primary" (click)="[pdf.saveAs(nombrePdf)]">
+    Exportar a PDF
+</button>
+<kendo-pdf-export #pdf paperSize="auto" margin="2cm">
+  <div class='header'>
+    <h6>Expediente Técnico de {{nombre}} {{apellido}} para la fecha {{fecha_entrada}}</h6>
+  </div>
+  <div class="containerLista">
+    <ul>
+      <fieldset>
+        <legend>Información Usuario</legend>
+        <div class='containerDatos'>
+          <ng-container *ngFor="let item of datosExpediente">
+            <li>{{item.value}}<span>{{item.viewValue}}</span></li>
+          </ng-container>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Documentación</legend>
+        <div class='containerDatos'>
+          <ng-container *ngFor="let item of documentacion">
+            <li *ngIf="item.numero_documento">{{item.documento}}<span>{{item.numero_documento}}</span></li>
+          </ng-container>
+        </div>
+      </fieldset>
+    </ul>
+  </div>
+</kendo-pdf-export>

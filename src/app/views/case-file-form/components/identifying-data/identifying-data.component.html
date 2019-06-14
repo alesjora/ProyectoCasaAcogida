@@ -1,5 +1,4 @@
 <form #formulario [formGroup]="identifyingDataForm" *ngIf="identifyingDataForm">
-
   <fieldset class="formaIngresoContainer">
     <legend>Forma Ingreso</legend>
     <div class="formaIngresoContainer">
@@ -242,5 +241,4 @@
     <igx-date-picker *ngIf='permisoResidencia.value==1' class="datePicker" formControlName="residancePermitDate" [formatter]="formatter"
       label="Renovación permiso residencia"></igx-date-picker>
   </fieldset>
-  <button (click)='generapdf()'>Generar Pdf</button>
 </form>

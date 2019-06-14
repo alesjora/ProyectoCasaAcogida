@@ -9,6 +9,7 @@ import { ChangeRoomDialogComponent } from 'src/app/shared/components/change-room
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { DepartureDialogComponent } from 'src/app/shared/components/departure-dialog/departure-dialog.component';
 import { StoreService } from 'src/app/shared/services/store.service';
+import { ProgressSpinnerService } from 'src/app/shared/services/progress-spinner.service';
 
 @Component({
   selector: 'app-show-personal-file',
@@ -47,7 +48,8 @@ export class ShowPersonalFileComponent implements OnInit {
               private fb: FormBuilder,
               private snackBarService: SnackBarService,
               private renderer: Renderer2,
-              public storeService: StoreService) {
+              public storeService: StoreService,
+              private progressSpinnerService: ProgressSpinnerService) {
                 this.storeService.sendCurrentRoute('Fichas personales');
   }
 
@@ -180,5 +182,7 @@ export class ShowPersonalFileComponent implements OnInit {
     }
     this.getDatos();
   }
-
+  progressSpinner() {
+    this.progressSpinnerService.progresSpinner.visible();
+  }
 }

@@ -45,6 +45,10 @@ const routes: Routes = [
       loadChildren: './../case-file-form/case-file-form.module#CaseFileFormModule'
     },
     {
+      path: 'ver-expediente/:id',
+      loadChildren: './../show-case-file/show-case-file.module#ShowCaseFileModule'
+    },
+    {
       path: 'logout',
       component: LogoutComponent
     },

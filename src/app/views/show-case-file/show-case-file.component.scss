@@ -1,0 +1,40 @@
+.containerLista{
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+  ul{
+    margin:0;
+    margin-bottom: 5px;
+    padding-left:20px;
+    width: 100%;
+    @media (min-width: 800px) {
+      padding: 0;
+    }
+    .containerDatos{
+      @media (min-width: 800px) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 5px;
+      }
+    }
+    li{
+      list-style: none;
+      display: flex;
+      flex-flow: column;
+      color: grey;
+      font-size: 1em;
+      justify-content: flex-end;
+      span{
+        margin-top: -3px;
+        margin-left: 10px;
+        font-size:1.5em;
+        color: black;
+      }
+    }
+  }
+}
+.header{
+  h6{
+    text-align: center;
+  }
+}

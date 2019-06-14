@@ -12,12 +12,20 @@ export class StayService {
   sendDepartureDate(data): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'agregarNuevaSalida', data);
   }
-
+  getInformacionExpedienteSinParametrizar(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerInformacionExpedienteSinParametrizar', data);
+  }
   sendChangeRoom(data): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'cambiarCama', data);
   }
   sendIdentifyingDataForm(data): Observable<any>{
     return this.httpClient.post(environment.urlAPI + 'agregarIdentifyingDataForm', data);
+  }
+  getMunicipios(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerMunicipios', data);
+  }
+  getCaseFileInformation(data): Observable<any> {
+    return this.httpClient.post(environment.urlAPI + 'obtenerInformacionExpediente', data);
   }
   getRoomsAndBedsAvailable(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerCamasLibres');
@@ -36,12 +44,6 @@ export class StayService {
   }
   getProvincias(data): Observable<any> {
     return this.httpClient.post(environment.urlAPI + 'obtenerProvincias', data);
-  }
-  getMunicipios(data): Observable<any> {
-    return this.httpClient.post(environment.urlAPI + 'obtenerMunicipios', data);
-  }
-  getCaseFileInformation(data): Observable<any> {
-    return this.httpClient.post(environment.urlAPI + 'obtenerInformacionExpediente', data);
   }
   getFormasIngreso(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerFormasIngreso');
@@ -76,6 +78,7 @@ export class StayService {
   getSocioeconomicAgressionConsequences(): Observable<any> {
     return this.httpClient.get(environment.urlAPI + 'obtenerConsecuenciasAgresionSocioEconomicas');
   }
+
 
   formatoFecha(fecha) {
     if (fecha === '' || fecha === undefined || fecha === null ) {

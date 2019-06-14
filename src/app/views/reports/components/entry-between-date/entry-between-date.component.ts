@@ -24,11 +24,15 @@ export class EntryBetweenDateComponent implements OnInit {
     date1: ['', Validators.required],
     date2: ['', Validators.required],
   });
-  tableTitle = ''
+  tableTitle = '';
   @ViewChild(MatSort) sort: MatSort;
   private pipe: DatePipe;
-  constructor(private storeService: StoreService, private fb: FormBuilder, private reportsService: ReportsService, private logoutService: LogoutService, private snackBarService: SnackBarService) { 
-    this.storeService.sendCurrentRoute('Informes');
+  constructor(private storeService: StoreService,
+              private fb: FormBuilder,
+              private reportsService: ReportsService,
+              private logoutService: LogoutService,
+              private snackBarService: SnackBarService) {
+      this.storeService.sendCurrentRoute('Informes');
       this.storeService.checkPermission('tecnico');
       this.pipe = new DatePipe('en');
   }
