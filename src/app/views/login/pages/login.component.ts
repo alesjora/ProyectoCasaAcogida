@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     };
     this.loginService.login(data).subscribe(this.loginSuccess.bind(this),
     response => {this.snackBarService.showSnackbar('Error al conectar con el servidor', 1000, 'bottom', 'error')});
-    this.loginService.login(data).subscribe(this.loginSuccess.bind(this, progressSpinner),
+    this.loginService.login(data).subscribe(this.loginSuccess.bind(this),
     () => {
       this.progressSpinnerServ.progresSpinner.invisible();
       this.snackBarService.showSnackbar('Error al conectar con el servidor', 1000, 'bottom', 'error');
