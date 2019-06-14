@@ -17,6 +17,7 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
 import { HeaderInfoComponent } from './components/header-info/header-info.component';
 import { MAT_DATE_LOCALE } from '@angular/material';
 import { SharedModule } from 'src/app/shared/module/shared/shared.module';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { SharedModule } from 'src/app/shared/module/shared/shared.module';
     ReactiveFormsModule,
     MaterialModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    PDFExportModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'}
