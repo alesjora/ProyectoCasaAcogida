@@ -22,6 +22,7 @@ export class EntryByGenderComponent implements OnInit {
   ];
   valuesSelectYear = [];
   scale = 0.3;
+  yAxisMaximumValue = 0;
   constructor(private storeService: StoreService, private reportsService: ReportsService, private logoutService: LogoutService, private snackBarService: SnackBarService) {
       this.storeService.sendCurrentRoute('Informes');
       this.storeService.checkPermission('tecnico');
@@ -31,6 +32,7 @@ export class EntryByGenderComponent implements OnInit {
     this.reportsService.getYearReports().subscribe(this.handleSuccess.bind(this, this.valuesSelectYear, 'Error al obtener los años'));
     this.reportsService.getReportEntryByGender().subscribe(this.getReportEntryByGenderSuccess.bind(this));
   }
+  
   getReportEntryByGenderSuccess(response) {
     switch (response.status) {
       case 'SESSION_EXPIRED':
@@ -39,10 +41,13 @@ export class EntryByGenderComponent implements OnInit {
       case 'OPERATION_SUCCESS':
         this.data = [];
         this.data.push(response.data.map(element => {
+          if (element.numero > this.yAxisMaximumValue) {
+            this.asignarYAxisMaximumValue(element.numero);
+          }
           if (element.sexo === 'Hombre') {
-            return { genero: 'Hombres', cantidad: parseInt(element.numero, 10) }
+            return { genero: 'Hombres', cantidad: parseInt(element.numero, 10) };
           } else {
-            return { genero: 'Mujeres', cantidad: parseInt(element.numero, 10) }
+            return { genero: 'Mujeres', cantidad: parseInt(element.numero, 10) };
           }
         }));
         break;
@@ -50,6 +55,9 @@ export class EntryByGenderComponent implements OnInit {
         this.snackBarService.showSnackbar('Error al obtener los datos por sexo', 1000, 'bottom', 'error');
         break;
     }
+  }
+  asignarYAxisMaximumValue(numero) {
+    this.yAxisMaximumValue = (10 - numero.charAt(numero.length - 1) + parseInt(numero, 10));
   }
   getReportEntryByGenderYearMonthSuccess(response) {
     switch (response.status) {
@@ -61,8 +69,14 @@ export class EntryByGenderComponent implements OnInit {
         this.data.forEach(element => {
           element.forEach(element2 => {
             if (element2.hombres) {
+              if (element2.hombres > this.yAxisMaximumValue) {
+                this.asignarYAxisMaximumValue(element2.hombres);
+              }
               element2.hombres = parseInt(element2.hombres, 10);
             } else {
+              if (element2.mujeres > this.yAxisMaximumValue) {
+                this.asignarYAxisMaximumValue(element2.mujeres);
+              }
               element2.mujeres = parseInt(element2.mujeres, 10);
             }
           });

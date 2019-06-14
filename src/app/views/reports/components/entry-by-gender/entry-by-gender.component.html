@@ -24,7 +24,7 @@
 <br>
 <kendo-pdf-export #pdf paperSize="auto" margin="2cm" [scale]="scale">
   <igx-category-chart height="450px" width="100%" [dataSource]="data" [chartType]="'column'"
-    chartTitle="Ingresos por género" [subtitle]="subtitle" [yAxisMinimumValue]="0" xAxisGap="1"
+    chartTitle="Ingresos por género" [subtitle]="subtitle" [yAxisMinimumValue]="'0'" [yAxisMaximumValue]="yAxisMaximumValue" 
     negativeBrushes="Red" negativeOutlines="Red" brushes="#4286f4, #e8b220" outlines="#4286f4, #e8b220" isSeriesHighlightingEnabled="true"
     markerOutlines="#4286f4, #e8b220" markerBrushes="White" markerTypes="Circle" thickness="2"
     isTransitionInEnabled="true" transitionInDuration="1500" transitionInMode="AccordionFromBottom">
