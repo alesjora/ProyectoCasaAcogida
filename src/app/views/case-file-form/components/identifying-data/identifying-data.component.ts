@@ -4,7 +4,6 @@ import { LogoutService } from 'src/app/shared/services/logout.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { StayService } from 'src/app/shared/services/stay.service';
 import { ActivatedRoute } from '@angular/router';
-import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-identifying-data',
@@ -592,10 +591,5 @@ export class IdentifyingDataComponent implements OnInit {
     } else if (event.newSelection.length < event.oldSelection.length) {
       this.tipoAusenciaDocumento.removeAt(this.tipoAusenciaDocumento.length - 1);
     }
-  }
-  generapdf() {
-    const doc = new jsPDF();
-    doc.text('algo de texto', 10 , 10);
-    doc.save('test.pdf');
   }
 }

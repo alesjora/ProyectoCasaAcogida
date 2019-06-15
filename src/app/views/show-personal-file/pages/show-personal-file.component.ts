@@ -135,7 +135,6 @@ export class ShowPersonalFileComponent implements OnInit {
             'Fecha abandono': this.formatoFecha(est.fechaFinalCama),
           });
       });
-      console.log(element.idExpediente);
       fechas.push({
           'Número Registro': element.nRegistro,
           'Fecha Entrada': this.formatoFecha(element.fechaEntrada),

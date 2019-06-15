@@ -38,3 +38,9 @@
     text-align: center;
   }
 }
+
+kendo-pdf-export {
+  font-family: 'Roboto';
+  src: url('../../../assets/fonts/Roboto-Light.ttf') format('truetype');
+  font-size: 12px;
+}

@@ -41,7 +41,7 @@
         <div class="cell__inner_2">
           <span *ngIf='cell.value; else buttonSalida'>{{cell.value | dateFormat }}</span>
           <ng-template #buttonSalida>
-            <button mat-raised-button color="accent" (click)="alert.open()">Asignar fecha de salida</button>
+            <button class="actionbutton" mat-raised-button color="accent" (click)="alert.open()">Asignar</button>
           </ng-template>
         </div>
       </ng-template>
@@ -49,7 +49,7 @@
     <igx-column field="Expediente" [sortable]='true' [resizable]="true">
       <ng-template igxCell let-cell="cell">
         <div class="cell__inner_2">
-          <button class="button_expedient" [disabled]="storeService.getUserProfile() != 'tecnico'" routerLink="/dashboard/ver-expediente/{{cell.value}}" mat-raised-button color="accent" (click)="progressSpinner()">Ver expediente</button>
+          <button class="actionbutton" [disabled]="storeService.getUserProfile() != 'tecnico'" routerLink="/dashboard/ver-expediente/{{cell.value}}" mat-raised-button color="accent" (click)="progressSpinner()">Ver expediente</button>
         </div>
       </ng-template>
     </igx-column>

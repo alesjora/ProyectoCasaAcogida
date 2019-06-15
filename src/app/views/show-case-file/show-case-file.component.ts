@@ -28,9 +28,9 @@ export class ShowCaseFileComponent implements OnInit {
       this.apellido = response.data.mainData[0]['Primer apellido'];
       this.fecha_entrada = response.data.mainData[0]['Fecha ingreso'];
       this.nombrePdf = 'Expediente_' + this.nombre + this.apellido + this.fecha_entrada;
-    });
+    });  
     defineFont({
-      Roboto : '../../../assets/fonts/Roboto-Light.ttf'
+      Roboto : '../../assets/fonts/Roboto-Light.ttf',
     });
   }
   iterarJson(json, array) {
