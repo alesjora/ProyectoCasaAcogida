@@ -1,0 +1,21 @@
+<form [formGroup]="changeBedForm">
+  <div class="room_bed">
+      <mat-form-field>
+        <mat-label>Selecciona una habitación</mat-label>
+        <mat-select formControlName="room" (valueChange)='cambio()' required>
+          <mat-option *ngFor="let room of rooms" [value]="room.id">
+            Habitación {{room.number}} ({{room.type}})
+          </mat-option>
+        </mat-select>
+      </mat-form-field><br>
+      <mat-form-field>
+        <mat-label>Selecciona una cama</mat-label>
+        <mat-select formControlName="bed" required>
+          <mat-option *ngFor="let bed of selectBedsOfRoom()" [value]="bed.id">
+            Cama {{bed.number}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+</form>
+

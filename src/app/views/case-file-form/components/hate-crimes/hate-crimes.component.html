@@ -1,0 +1,160 @@
+<form [formGroup]="hateCrimesForm">
+  <fieldset class="sufridoViolencia">
+    <legend>¿Ha sufrido violencia?</legend>
+    <div class="containerRadios">
+      <igx-radio
+        *ngFor="let sufridoViolencia of afirmacionNegacion"
+        [value]="sufridoViolencia.value"
+        [(ngModel)]="selectedSufridoViolencia"
+        formControlName="sufridoViolencia"
+      >
+        {{ sufridoViolencia.viewValue }}
+      </igx-radio>
+    </div>
+  </fieldset>
+  <div class="agresionesContainer" *ngIf="sufridoViolencia.value == 1">
+    <div
+      *ngFor="let loquesea of detallesAgresion.controls; let j = index"
+      formArrayName="detallesAgresion"
+    >
+      <div [formGroupName]="j">
+        <fieldset>
+          <legend>Datos Sobre la agresión</legend>
+
+          <mat-form-field class="containerInputs">
+            <mat-label>Tipo Violencia</mat-label>
+            <mat-select formControlName="agressionType">
+              <mat-option
+                *ngFor="let tipoViolencia of tiposViolenciaSeleccionables"
+                [value]="tipoViolencia.value"
+              >
+                {{ tipoViolencia.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <fieldset>
+            <legend>Lugar Agresión</legend>
+            <mat-form-field class="containerInputs">
+              <mat-label>Lugar Agresión</mat-label>
+              <mat-select formControlName="agressionPlace">
+                <mat-option
+                  *ngFor="let lugarAgresion of lugaresAgresionSeleccionables"
+                  [value]="lugarAgresion.value"
+                >
+                  {{ lugarAgresion.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <ng-container *ngIf="getDetallesAgresion(j).agressionPlace">
+              <mat-form-field class="containerInputs">
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Tipología del lugar agresión"
+                  formControlName="agresionPlaceTypology"
+                />
+              </mat-form-field>
+            </ng-container>
+          </fieldset>
+          <mat-form-field class="containerInputs">
+            <mat-label>Momento Agresión</mat-label>
+            <mat-select formControlName="agressionMoment">
+              <mat-option
+                *ngFor="let momentoAgresion of momentosAgresionSeleccionables"
+                [value]="momentoAgresion.value"
+              >
+                {{ momentoAgresion.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div
+            *ngFor="let loquesea of getAgresores(j).controls; let i = index"
+            formArrayName="agresores"
+          >
+            <fieldset>
+              <legend>Agresor</legend>
+              <div [formGroupName]="i">
+                <mat-form-field class="containerInputs">
+                  <mat-label>Género Agresor</mat-label>
+                  <mat-select formControlName="agressorGlender">
+                    <mat-option
+                      *ngFor="let generoAgresor of generoAgresorSeleccionable"
+                      [value]="generoAgresor.value"
+                    >
+                      {{ generoAgresor.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field class="containerInputs">
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Edad agresor"
+                    formControlName="agressorAge"
+                  />
+                </mat-form-field>
+                <mat-form-field class="containerInputs">
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Elemento intimidatorio"
+                    formControlName="intimidatoryObjects"
+                  />
+                </mat-form-field>
+              </div>
+            </fieldset>
+          </div>
+            <fieldset>
+              <legend>¿Más agresores?</legend>
+              <div class="buttonsContainer">
+                <button
+                  type="button"
+                  mat-raised-button
+                  color="accent"
+                  class="addDocumentation"
+                  (click)="addAgresor(j)"
+                >
+                  <i class="material-icons">add_circle</i>
+                </button>
+                <button
+                  type="button"
+                  mat-raised-button
+                  color="accent"
+                  class="addDocumentation"
+                  (click)="deleteAgresor(j)"
+                >
+                  <i class="material-icons">remove_circle</i>
+                </button>
+              </div>
+            </fieldset>
+
+        </fieldset>
+      </div>
+    </div>
+    <fieldset>
+      <legend>¿Ha sufrido otra agresión?</legend>
+      <div class="buttonsContainer">
+        <button
+          type="button"
+          mat-raised-button
+          color="accent"
+          class="addDocumentation"
+          (click)="addAgression()"
+        >
+          <i class="material-icons">add_circle</i>
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          color="accent"
+          class="addDocumentation"
+          (click)="deleteAgression()"
+        >
+          <i class="material-icons">remove_circle</i>
+        </button>
+      </div>
+    </fieldset>
+  </div>
+</form>

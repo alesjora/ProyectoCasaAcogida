@@ -1,0 +1,244 @@
+<form #formulario [formGroup]="identifyingDataForm" *ngIf="identifyingDataForm">
+  <fieldset class="formaIngresoContainer">
+    <legend>Forma Ingreso</legend>
+    <div class="formaIngresoContainer">
+      <mat-form-field class="containerInputs">
+          <mat-label>Forma de Ingreso</mat-label>
+          <mat-select formControlName="formaIngreso" >
+            <mat-option *ngFor="let formaIngreso of formasIngreso" [value]="formaIngreso.value" >
+              {{formaIngreso.viewValue}}
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="formaIngreso.value==2 || formaIngreso.value == 3" class="containerInputs">
+          <mat-label>Origen de Ingreso</mat-label>
+          <mat-select formControlName="origenIngreso">
+            <mat-option *ngFor="let origenIngreso of origenesIngreso" [value]="origenIngreso.value" >
+              {{origenIngreso.viewValue}}
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
+  </fieldset>
+
+  <fieldset class="nameContainer">
+    <legend>Datos Identificación</legend>
+    <div class="nameContainer">
+      <mat-form-field class="containerInputs">
+          <input matInput type="text" placeholder="Nombre" formControlName="name">
+          <mat-error *ngIf="name?.invalid">El nombre es obligatorio</mat-error>
+      </mat-form-field>
+      <mat-form-field class="containerInputs">
+          <input matInput type="text" placeholder="Primer Apellido" formControlName="apellido1">
+          <mat-error *ngIf="apellido1?.invalid">El primer apellido es obligatorio</mat-error>
+      </mat-form-field>
+      <mat-form-field class="containerInputs">
+          <input matInput type="text" placeholder="Segundo Apellido" formControlName="apellido2">
+      </mat-form-field>
+    </div>
+  </fieldset>
+
+  <fieldset class="documentationContainer">
+    <legend>Documentación</legend>
+    <div class="documentationContainer">
+      <div class="documentationThatHas">
+          <div class="multiSelect">
+              <igx-combo #combo class="combo" (onSelectionChange)='createDocumentationInputs($event, combo1)' formControlName="documentationType" [itemsMaxHeight]="155" [data]="tiposDocumento"
+              [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Documentación" searchPlaceholder="Buscar...">
+            </igx-combo>
+          </div>
+
+          <ng-container *ngFor='let item of documentationType.value; let i= index'>
+            <fieldset *ngIf="item.value == 99; else noOtros" class='otherDocumentationContainer'>
+            <legend *ngIf="item.value == 99">Otra Documentación</legend>
+              <mat-form-field *ngIf="item.value == 99" class="containerInputs">
+                  <input matInput type="text" formControlName="documentationOtherType" placeholder="Tipo de documento">
+              </mat-form-field>
+              <mat-form-field  class="containerInputs" formArrayName="documentationNumber">
+                  <input matInput type="text" placeholder="Número documento" [formControlName]="i" >
+              </mat-form-field>
+            </fieldset>
+            <ng-template #noOtros>
+                <mat-form-field  class="containerInputs" formArrayName="documentationNumber">
+                    <input matInput type="text" placeholder="Número {{item.viewValue}}" [formControlName]="i" >
+                </mat-form-field>
+            </ng-template>
+          </ng-container>
+      </div>
+      <div class="documentationThatDoesNotHave">
+        <div class="multiSelect">
+            <igx-combo #combo1 class="combo" (onSelectionChange)='createMotivosAusenciaInputs($event)' formControlName="lackDocumentation" [itemsMaxHeight]="155" [data]="ausenciaDocumento"
+            [displayKey]="'viewValue'" [valueKey]="'value'" placeholder="Falta de documentación" searchPlaceholder="Buscar...">
+          </igx-combo>
+        </div>
+          <mat-form-field  *ngFor='let item of lackDocumentation.value; let i= index' class="containerInputs" formArrayName="tiposAusenciaDocumento">
+            <mat-label>Motivo ausencia de {{item.viewValue}}</mat-label>
+            <mat-select [formControlName]="i" >
+              <mat-option *ngFor="let tipoAusenciaDocumento of tiposAusenciaDocumento" [value]="tipoAusenciaDocumento.value" >
+                {{tipoAusenciaDocumento.viewValue}}
+              </mat-option>
+          </mat-select>
+          </mat-form-field>
+    </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="contactoContainer">
+    <legend>Contacto</legend>
+    <mat-form-field class="containerInputs">
+        <input matInput type="text" placeholder="Telefono" formControlName="telefono">
+    </mat-form-field>
+    <mat-form-field class="containerInputs">
+        <input matInput type="text" placeholder="Correo" formControlName="correo">
+    </mat-form-field>
+  </fieldset>
+
+  <fieldset class='bornContainer'>
+    <legend>Nacimiento</legend>
+    <div class="bornDate">
+      <igx-date-picker class="datePicker" formControlName="bornDate" [formatter]="formatter"
+                    label="Fecha Nacimiento" (onClose)="calculaEdad($event)"></igx-date-picker>
+      <mat-form-field class="containerInputs">
+          <input matInput type="text" placeholder="Edad" formControlName="edad">
+      </mat-form-field>
+    </div>
+  </fieldset>
+
+  <fieldset class='sexosContainer'>
+    <legend>Sexos</legend>
+    <div class="sexosContainer">
+      <mat-form-field class="containerInputs">
+        <mat-label>Sexo</mat-label>
+        <mat-select formControlName="sexoEv">
+          <mat-option *ngFor="let element of sexosEv" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="containerInputs">
+        <mat-label>Orientacion Sexual</mat-label>
+        <mat-select formControlName="orientacionSexual">
+          <mat-option *ngFor="let element of orientacionesSexual" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </fieldset>
+
+  <fieldset class='bornPlaceContainer'>
+    <legend> Lugar Nacimiento</legend>
+    <div class="residenciaNacimientoContainer">
+      <mat-form-field class="containerInputs">
+        <mat-label>País de Nacimiento</mat-label>
+        <mat-select formControlName="paisNacimiento" (openedChange)="getProvincias($event)">
+          <mat-option *ngFor="let element of paises" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="paisNacimiento.value" class="containerInputs">
+        <mat-label>Provincia de Nacimiento</mat-label>
+        <mat-select formControlName="provinciaNacimiento" (openedChange)="getMunicipios($event)">
+          <mat-option *ngFor="let element of provincias" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="provinciaNacimiento.value" class="containerInputs">
+          <mat-label>Municipio de Nacimiento</mat-label>
+          <mat-select formControlName="municipioNacimiento">
+            <mat-option *ngFor="let element of municipios" [value]="element.value">
+              {{element.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+  </fieldset>
+
+  <fieldset class='empadronamientoContainer'>
+    <legend>Empadronamiento</legend>
+    <div class="nacionalidadContainer">
+      <mat-form-field class="containerInputs">
+        <mat-label>Nacionalidad</mat-label>
+        <mat-select formControlName="nacionalidad" (openedChange)="getProvinciasEmpadronamiento($event)">
+          <mat-option *ngFor="let element of paises" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="nacionalidad.value" class="containerInputs">
+        <mat-label>Provincia de Empadronamiento</mat-label>
+        <mat-select formControlName="provinciaEmpadronamiento" (openedChange)="getMunicipiosEmpadronamiento($event)">
+          <mat-option *ngFor="let element of provinciasEmpadronamiento" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="provinciaEmpadronamiento.value" class="containerInputs">
+        <mat-label>Municipio de Empadronamiento</mat-label>
+        <mat-select formControlName="municipioEmpadronamiento">
+          <mat-option *ngFor="let element of municipiosEmpadronamiento" [value]="element.value">
+            {{element.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <igx-date-picker class="datePicker" formControlName="censusDate" [formatter]="formatter"
+      label="Fecha Empadronamiento"></igx-date-picker>
+    </div>
+  </fieldset>
+
+  <fieldset class='datosSanitariosContainer'>
+    <legend>Datos Sanitarios</legend>
+    <mat-form-field class="containerInputs">
+      <input matInput type="text" placeholder="Nº Afiliación SS" formControlName="sSNumber">
+    </mat-form-field>
+    <fieldset class='radioButomMarginBottom'>
+      <legend>Asistencia Sanitaria</legend>
+      <div class='containerRadios'>
+        <igx-radio #radioAsistenciaSanitaria *ngFor="let asistenciaSanitaria of afirmacionNegacion"  [(value)]="asistenciaSanitaria.value" [(ngModel)]="selectedAsistenciaSanitaria" formControlName="asistenciaSanitaria">
+          {{asistenciaSanitaria.viewValue}}
+        </igx-radio>
+      </div>
+    </fieldset>
+    <mat-form-field  class="containerInputs">
+      <input matInput type="text"  placeholder="Nº de asistencia sanitaria en Servicio Nacional de Salud" formControlName="sNSNumber">
+    </mat-form-field>
+  </fieldset>
+
+  <fieldset class='estadoCivilContainer'>
+    <legend>Estado Civil</legend>
+    <mat-form-field class="containerInputs" >
+      <mat-label>Estado Civil </mat-label>
+      <mat-select formControlName="estadoCivil" >
+        <mat-option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.value" >
+          {{estadoCivil.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </fieldset>
+
+  <fieldset class='permisoResidenciaContainer'>
+    <legend>Permiso Residencia</legend>
+    <div class='containerRadios radioButomMarginBottom'>
+      <igx-radio *ngFor="let permisoResidencia of afirmacionNegacion"  [value]="permisoResidencia.value" [(ngModel)]="selectedPermisoResidencia" formControlName="permisoResidencia">
+        {{permisoResidencia.viewValue}}
+      </igx-radio>
+    </div>
+    <mat-form-field *ngIf='permisoResidencia.value==1' class="containerInputs" >
+      <mat-label>Tipo permiso residencia </mat-label>
+      <mat-select formControlName="tipoPermisoResidencia" >
+        <mat-option *ngFor="let tipoPermisoResidencia of tipoPermisosResidencia" [value]="tipoPermisoResidencia.value" >
+          {{tipoPermisoResidencia.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <igx-date-picker *ngIf='permisoResidencia.value==1' class="datePicker" formControlName="residancePermitDate" [formatter]="formatter"
+      label="Renovación permiso residencia"></igx-date-picker>
+  </fieldset>
+</form>

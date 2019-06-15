@@ -1,0 +1,13 @@
+<div class="headerComponentContainer">
+  <fieldset disabled="disabled">
+    <legend>Expediente</legend>
+    <ul>
+      <li>Nombre<span>{{nombre}}</span></li>
+      <li>Apellidos<span>{{apellido1}} {{apellido2}}</span></li>
+      <li>Nº Expediente<span>{{nExpediente}}</span></li>
+      <li>Nº Ingreso<span>{{nIngreso}}</span></li>
+      <li>Fecha Ingreso<span>{{fechaIngreso ? (fechaIngreso | dateFormat) : '-' }}</span></li>
+      <li>Fecha Expediente<span>{{fechaExpediente ? (fechaExpediente | dateFormat) : '-'}}</span></li>
+    </ul>
+  </fieldset>
+</div>

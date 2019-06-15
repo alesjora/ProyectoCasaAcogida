@@ -1,0 +1,96 @@
+<div class="registrationForm-page">
+  <h2 class="myH2">Ficha personal</h2>
+  <div class="registrationForm-container">
+    <form class="registrationForm-form formularioContainer" #formDirective="ngForm" [formGroup]="registrationForm"
+      (ngSubmit)="registrationForm.valid ? sendData(): null">
+      <div class='formHeader'>
+        <div class='formLeft'>
+          <img [src]="urlImagen" alt="">
+          <div class="footerFormLeft">
+            <button type="button" mat-raised-button (click)="fileInput.click()" color="accent">Seleccionar imagen</button>
+            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" accept="image/*">
+          </div>
+        </div>
+        <div class='formRight'>
+          <mat-form-field>
+            <input matInput type="text" placeholder="Nombre" formControlName="name">
+            <mat-error *ngIf="name?.invalid">El nombre es obligatorio</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="text" placeholder="Apellido 1" formControlName="surname1">
+            <mat-error *ngIf="surname1?.invalid">Al menos un apellido es necesario</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="text" placeholder="Apellido 2" formControlName="surname2">
+          </mat-form-field>
+          <fieldset class='containerRadios'>
+            <legend>Sexo</legend>
+            <div class='subContainerRadios'>
+              <igx-radio *ngFor="let sexo of sexos" name="sexo"  [value]="sexo.value" [(ngModel)]="selectedSexo" formControlName="sexo">
+                {{sexo.viewValue}}
+              </igx-radio>
+            </div>
+          </fieldset>
+          <div class='containerInput' >
+              <igx-date-picker formControlName="bornDate" [formatter]="formatter"
+              label="Fecha Nacimiento"></igx-date-picker>
+          </div>
+          <mat-form-field class="containerInputs">
+              <mat-label>Lugar Nacimiento</mat-label>
+              <mat-select formControlName="lugarNacimiento">
+                <mat-option *ngFor="let element of paises" [value]="element.value" >
+                  {{element.viewValue}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field class="containerInputs">
+              <mat-label>Nacionalidad</mat-label>
+              <mat-select formControlName="nacionalidad">
+                <mat-option *ngFor="let element of paises" [value]="element.value" >
+                  {{element.viewValue}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="formBody">
+        <div class= 'containerDocumentation'>
+            <h2 class="myH2">Documentación</h2>
+            <div class='containerAddDocumentation '>
+              <button type='button' mat-raised-button color="accent" class='addDocumentation' (click)="addDocument()">Añadir documento</button>
+            </div>
+            <div class= 'containerInputsDocumentation'>
+              <div class= 'type_documentation'>
+              <div *ngFor="let loquesea of documentType.controls; let j=index" formArrayName="documentType">
+                <mat-form-field class="containerInputs">
+                  <mat-label>Tipo de documentación</mat-label>
+                  <mat-select [formControlName]="j">
+                    <mat-option *ngFor="let element of documents" [value]="element.value" >
+                      {{element.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+              <div class="documentation">
+                <div *ngFor="let adress of document.controls; let i=index" formArrayName="document">
+                  <mat-form-field class="containerInputs">
+                    <input matInput type="text" placeholder="Documento de identidad" [formControlName]="i">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <div class='containerTextArea'>
+            <h2 class="myH2">Observaciones</h2>
+          <textarea name="" id="" formControlName="observaciones"></textarea>
+        </div>
+      </div>
+      <div class='containerSubmit'>
+        <button type="submit" mat-raised-button color="primary">Crear ficha</button>
+      </div>
+
+    </form>
+  </div>
+</div>

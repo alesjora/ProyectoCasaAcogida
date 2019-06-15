@@ -1,0 +1,122 @@
+
+.materialTheme{
+  width: 100%;
+  padding-left:0px;
+  margin: 16px 0px 0px 0px;
+  @media (min-width: 800px) {
+    padding-left:0px;
+  }
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  li{
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    color: grey;
+    font-size: 1em;
+    justify-content: flex-end;
+    span{
+      margin-top: -3px;
+      margin-left: 10px;
+      font-size:1.5em;
+      color: black;
+    }
+  }
+}
+.containerInputs{
+  width: 100%;
+}
+.datePicker{
+  padding-bottom: 1.25rem;
+}
+
+.documentationContainer{
+  .multiSelect{
+    padding-bottom: 1.25rem;
+  }
+}
+.bornDate{
+  // .igx-input-group{
+  //   padding-bottom: 20px;
+  // }
+  .datePicker{
+    padding-bottom: 1.25rem;
+  }
+}
+.containerRadios{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.datesContainer{
+  grid-area: datesContainer;
+}
+.formaIngresoContainer{
+  grid-area: formaIngresoContainer;
+}
+.nameContainer{
+  grid-area: nameContainer;
+}
+.documentationContainer{
+  grid-area: documentationContainer;
+}
+.contactoContainer{
+  grid-area: contactoContainer;
+}
+.bornContainer{
+  grid-area: bornContainer;
+}
+.sexosContainer{
+  grid-area: sexosContainer;
+}
+.bornPlaceContainer{
+  grid-area: bornPlaceContainer;
+}
+.empadronamientoContainer{
+  grid-area: empadronamientoContainer;
+}
+.datosSanitariosContainer{
+  grid-area: datosSanitariosContainer;
+}
+.estadoCivilContainer{
+  grid-area: estadoCivilContainer;
+}
+.permisoResidenciaContainer{
+  grid-area: permisoResidenciaContainer;
+}
+form{
+  margin-top: 20px;
+  @media (min-width: 800px) {
+    display: grid;
+    grid-template-columns:repeat(2,1fr);
+    grid-gap: 10px;
+    grid-template-areas:
+    "nameContainer sexosContainer"
+    "documentationContainer documentationContainer"
+    "contactoContainer bornContainer"
+    "formaIngresoContainer bornPlaceContainer"
+    "empadronamientoContainer datosSanitariosContainer"
+    "estadoCivilContainer permisoResidenciaContainer";
+  }
+}
+
+.documentationContainer{
+  @media (min-width: 800px) {
+    display: flex;
+    .documentationThatHas, .documentationThatDoesNotHave{
+      width: 50%;
+      padding: 10px;
+      box-sizing: content-box;
+    }
+  }
+}
+.otherDocumentationContainer{
+  margin-bottom: 1.25rem;
+}
+
+.radioButomMarginBottom{
+  margin-bottom: 15px;
+}

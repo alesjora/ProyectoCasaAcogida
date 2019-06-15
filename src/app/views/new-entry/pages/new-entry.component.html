@@ -1,0 +1,56 @@
+<div class="container">
+  <h5>Nuevo registro de entrada</h5>
+  <form [formGroup]="newEntryForm" #formDirective="ngForm" (ngSubmit)="newEntryForm.valid ? sendData(): null">
+    <igx-input-group class="autocomplete" [disabled]="personalFiles.length === 0 || personalFiles === null">
+      <label igxLabel for="personalFile">Nombre de la persona</label>
+      <input igxInput name="personalFile" type="text" [igxAutocomplete]="personalFilesPanel" (onItemSelected)="selectPerson($event)"
+        [(ngModel)]="personalFileSelected" formControlName="personalFile"/>
+    </igx-input-group>
+    <igx-drop-down #personalFilesPanel maxHeight="300px">
+      <igx-drop-down-item *ngFor="let personalFile of personalFiles | startsWith:personalFileSelected"
+       [value]="personalFile.name + ' ' + personalFile.surname1 + ' ' + personalFile.surname2">
+        <igx-avatar [src]="personalFile.image" roundShape="true"></igx-avatar>
+        <span>&nbsp; {{ personalFile.name }} {{ personalFile.surname1 }} {{ personalFile.surname2 === 'null' ? '' :  personalFile.surname2}}</span>
+      </igx-drop-down-item>
+    </igx-drop-down>
+    <p>¿No existe la persona? Pulse <a (click)="goToRegistrationForm()">aquí</a> para crear una nueva ficha personal</p>
+    <br>
+    <div class="date_time">
+      <igx-date-picker formControlName="entryDate" [value]="date" [(ngModel)]="date" [formatter]="formatter"
+        label="Fecha de entrada"></igx-date-picker>
+      <br>
+      <igx-time-picker format="HH:mm" [value]="time" formControlName="entryTime" [(ngModel)]="time">
+        <ng-template igxTimePickerTemplate let-openDialog="openDialog" let-value="value" let-displayTime="displayTime">
+          <igx-input-group (click)="openDialog()">
+            <igx-prefix>
+              <igx-icon>access_time</igx-icon>
+            </igx-prefix>
+            <label igxLabel>Hora de entrada</label>
+            <input igxInput [value]="displayTime"/>
+          </igx-input-group>
+        </ng-template>
+      </igx-time-picker>
+    </div>
+    <br>
+    <div class="room_bed">
+      <mat-form-field>
+        <mat-label>Selecciona una habitación</mat-label>
+        <mat-select formControlName="room" [disabled]="rooms.length === 0" required>
+          <mat-option *ngFor="let room of rooms" [value]="room.id">
+            Habitación {{room.number}} ({{room.type}})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Selecciona una cama</mat-label>
+        <mat-select formControlName="bed" [disabled]="room.value === ''" required>
+          <mat-option *ngFor="let bed of selectBedsOfRoom()" [value]="bed.id">
+            Cama {{bed.number}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <button type="submit" mat-raised-button color="primary" [disabled]="newEntryForm.invalid || personalFile.value === ''">Crear registro de
+      entrada</button>
+  </form>
+</div>

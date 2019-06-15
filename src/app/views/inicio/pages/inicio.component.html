@@ -1,0 +1,9 @@
+<div class="container">
+  <div *ngIf="storeService.getUserProfile() == 'conserje'; else tecnico">
+    <app-table-people-at-home></app-table-people-at-home>
+  </div>
+
+  <ng-template #tecnico>
+    <app-taula-persones-expedients></app-taula-persones-expedients>
+  </ng-template>
+</div>

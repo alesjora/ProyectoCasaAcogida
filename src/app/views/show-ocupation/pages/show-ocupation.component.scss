@@ -1,0 +1,84 @@
+.card{
+    margin-bottom: 16px;
+    h5{
+        margin: 0 0 16px;
+        text-align: center;
+    }
+}
+
+.available{
+  *margin-left: 48px;
+  padding: 8px;
+  background: green !important;
+}
+.container_data{
+  outline: none;
+}
+
+.table-container {
+  overflow: auto;
+  height: 249px;
+  scrollbar-color: #dddddd white;
+  scrollbar-width: thin;
+  tr{
+    width: 100%;
+    .primeraColumna{
+      width: 20%;
+    }
+  }
+}
+.name_avatar:hover {
+  cursor: pointer;
+}
+
+
+.table-container::-webkit-scrollbar{
+  width: 7px;
+}
+.table-container::-webkit-scrollbar-thumb{
+  background: #dddddd;
+  border-radius: 7px;
+}
+
+.igx-avatar {
+    margin-right: 8px;
+}
+
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+
+  .mat-cell,
+  .mat-header-cell {
+    @media (max-width: 500px) {
+      word-wrap: initial;
+      display: table-cell;
+      padding: 0px 5px;
+      line-break: unset;
+      *width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: middle;
+    }
+  }
+.listCards{
+    @media (min-width: 800px) {
+        display: grid;
+        grid-gap: 16px;
+        grid-template-columns: 1fr 1fr;
+
+    }
+    @media (min-width: 1550px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}

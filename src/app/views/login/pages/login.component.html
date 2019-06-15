@@ -1,0 +1,35 @@
+<div class="login-page" *ngIf="show">
+  <div class="login-spacer"></div>
+  <div class="login-container">
+    <div id="login-fab" class="mdl-color--accent mdl-color-text--white">
+      <i id="lock-icon" class="material-icons">lock</i>
+    </div>
+    <h2 class="card-heading">
+      Panel de acceso
+    </h2>
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="loginForm.valid ? login(): null">
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" required>
+        <mat-error *ngIf="email?.hasError('required')">El email es obligatorio</mat-error>
+        <mat-error *ngIf="email?.hasError('email')">Formato de email incorrecto</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="password" required>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="password?.invalid">La contraseña es obligatoria</mat-error>
+      </mat-form-field>
+      <div class="buttons">
+        <div class="login">
+          <!-- <button mat-raised-button color="primary" [disabled]="!loginForm?.valid">Iniciar sesión</button> -->
+          <button type="submit" mat-raised-button color="primary">Iniciar sesión</button>
+        </div>
+      </div>
+    </form>
+    <div class="buttons">
+      <div class="register">
+        <button routerLink="/forgot_password" mat-button color="primary">He olvidado la contraseña</button>
+      </div>
+    </div>
+  </div>
+</div>
+

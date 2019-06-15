@@ -1,0 +1,40 @@
+<form [formGroup]="economicForm">
+    <div class="ingresosEconomicos">
+        <fieldset>
+            <legend>Ingresos económicos:</legend>
+            <label>Ingresos económicos: </label>
+            <mat-radio-group aria-label="Selecciona una opción" formControlName="economicIncome">
+                <mat-radio-button value="1">Sí</mat-radio-button>
+                <mat-radio-button value="2">No</mat-radio-button>
+            </mat-radio-group>
+            <igx-combo #combo class="combo" formControlName="comboboxTypeEconomicIncome" [itemsMaxHeight]="255"
+                [data]="valuesComboboxTypeEconomicIncome" [displayKey]="'viewValue'" [valueKey]="'value'"
+                placeholder="Tipo(s) de ingresos económicos" searchPlaceholder="Buscar..."
+                [disabled]="economicIncome.value != 1" (onSelectionChange)="handleTypeBenefits($event)">
+            </igx-combo>
+            <br>
+            <div class="beneficios" *ngIf="showTypeBenefit">
+                <igx-combo #combo class="combo" formControlName="comboboxTypeBenefit" [itemsMaxHeight]="255"
+                    [data]="valuesComboboxTypeBenefit" [displayKey]="'viewValue'" [valueKey]="'value'"
+                    placeholder="Tipo(s) de prestaciones/pensiones/subsidios" searchPlaceholder="Buscar..."
+                    (onSelectionChange)="handleOtherTypeBenefits($event)">
+                </igx-combo>
+                <mat-form-field [hidden]="!showOtherTypeBenefit">
+                    <input matInput type="text" placeholder="Otro tipo de beneficio" formControlName="otherTypeBenefit">
+                    <mat-error *ngIf="otherTypeBenefit?.invalid">El campo es obligatorio</mat-error>
+                </mat-form-field>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Cuantía económica</legend>
+            <mat-form-field>
+                    <mat-label>Cuantía económica</mat-label>
+                    <mat-select formControlName="economicAmount">
+                        <mat-option *ngFor="let element of valuesSelectEconomicAmount" [value]="element.value">
+                            {{element.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+        </fieldset>
+    </div>
+</form>

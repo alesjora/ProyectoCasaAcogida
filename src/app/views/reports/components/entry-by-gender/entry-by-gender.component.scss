@@ -1,0 +1,21 @@
+mat-form-field{
+    width: 100%;
+   
+    @media (min-width: 600px) {
+        margin-left: 8px;
+    }
+}
+.header{
+    text-align: right;
+    button{
+        margin-bottom: 8px;
+    }
+    @media (min-width: 600px) {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        .headerFilter{
+            display: flex;
+        }
+    }
+}

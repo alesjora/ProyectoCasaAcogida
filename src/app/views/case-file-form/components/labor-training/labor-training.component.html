@@ -1,0 +1,79 @@
+<form [formGroup]="laborTrainingForm">
+    <div class="nivelDeEstudios">
+        <fieldset>
+            <legend>Nivel de estudios</legend>
+            <mat-form-field>
+                <mat-label>Nivel de estudios</mat-label>
+                <mat-select formControlName="educationLevel">
+                    <mat-option *ngFor="let element of valuesSelectEducationLevel" [value]="element.value">
+                        {{element.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </fieldset>
+    </div>
+    <div class="situacionLaboral">
+        <fieldset>
+            <legend>Situación laboral</legend>
+            <mat-form-field>
+                <mat-label>Situación laboral</mat-label>
+                <mat-select formControlName="employmentSituation">
+                    <mat-option *ngFor="let element of valuesSelectEmploymentSituation" [value]="element.value">
+                        {{element.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="employmentSituation.value == 1">
+                <mat-form-field>
+                    <mat-label>Tiempo desempleado</mat-label>
+                    <mat-select formControlName="employmentSituation">
+                        <mat-option *ngFor="let element of valuesSelectUnemployedTime" [value]="element.value">
+                            {{element.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Contrato laboral</mat-label>
+                    <mat-select formControlName="workContractSelect">
+                        <mat-option *ngFor="let element of valuesSelectWorkContract" [value]="element.value">
+                            {{element.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="employmentSituation.value == 2">
+                <label>Contrato de trabajo: </label>
+                <mat-radio-group aria-label="Selecciona una opción" formControlName="workContractCheckbox">
+                    <mat-radio-button value="1">Si</mat-radio-button>
+                    <mat-radio-button value="2">No</mat-radio-button>
+                    <mat-radio-button value="3">Autónomo</mat-radio-button>
+                </mat-radio-group>
+                <mat-form-field [hidden]="workContractCheckbox.value != 1">
+                    <mat-label>Tipo de contrato</mat-label>
+                    <mat-select formControlName="typeWorkContract">
+                        <mat-option *ngFor="let element of valuesSelectTypeWorkContract" [value]="element.value">
+                            {{element.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </fieldset>
+    </div>
+    <div class="principalOcupacion">
+        <fieldset>
+            <legend>Principal ocupación</legend>
+            <mat-form-field>
+                <mat-label>Principal ocupación</mat-label>
+                <mat-select formControlName="mainOccupation">
+                    <mat-option *ngFor="let element of valuesSelectMainOccupation" [value]="element.value">
+                        {{element.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field [hidden]="mainOccupation.value != -1">
+                <input matInput type="text" placeholder="Otra ocupación principal" formControlName="otherMainOccupation">
+                <mat-error *ngIf="otherMainOccupation?.invalid">El campo es obligatorio</mat-error>
+            </mat-form-field>
+        </fieldset>
+    </div>
+</form>

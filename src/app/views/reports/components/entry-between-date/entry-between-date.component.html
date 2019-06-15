@@ -1,0 +1,51 @@
+<div class="header">
+  <button mat-raised-button color="primary" (click)="pdf.saveAs('informePorSexo.pdf')">
+    Exportar a PDF
+  </button>
+  <div class="headerFilter">
+    <form [formGroup]="formEntryBetweenDate">
+      <igx-date-picker class="datePicker" formControlName="date1" [formatter]="formatter" label="Desde el ">
+      </igx-date-picker>
+      <igx-date-picker class="datePicker" formControlName="date2" [formatter]="formatter" label="Hasta el">
+      </igx-date-picker>
+      <br>
+      <button mat-raised-button color="primary" [disabled]="!formEntryBetweenDate.valid"
+        (click)="submitData()">Buscar</button>
+    </form>
+  </div>
+</div>
+<br>
+<kendo-pdf-export #pdf paperSize="auto" margin="2cm">
+  <h5 class="title">{{tableTitle}}</h5>
+  <div class="table-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort (submit)="submitData()">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre y apellidos</th>
+        <td class="name_avatar" mat-cell *matCellDef="let element"
+          routerLink="/dashboard/ficha-personal/{{element.id}}">
+          {{element.name}} {{ element.surname1}} {{ element.surname2}}
+        </td>
+      </ng-container>
+
+      <!-- Sex Column -->
+      <ng-container matColumnDef="sex">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Sexo</th>
+        <td mat-cell *matCellDef="let element">
+          {{element.sex}}
+        </td>
+      </ng-container>
+
+      <!-- Entry_date Column -->
+      <ng-container matColumnDef="entry_date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de entrada </th>
+        <td mat-cell *matCellDef="let element"> {{element.entry_date | date:'dd/MM/yyyy hh:mm:ss'}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+    </table>
+  </div>
+
+</kendo-pdf-export>

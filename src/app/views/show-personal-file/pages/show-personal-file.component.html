@@ -1,0 +1,89 @@
+<h2>Ficha Personal</h2>
+<div class='topContainer'>
+  <div class='photoContainer'>
+    <img [src]="srcImagen" alt="imagen de perfil">
+  </div>
+  <div class='basicDescriptionContainer'>
+    <ul>
+      <li>Nombre: <span>{{nombre}}</span></li>
+      <li>Apellidos: <span>{{apellido1}} {{apellido2}}</span></li>
+      <li *ngIf="nacionalidad">Nacionalidad: <span>{{nacionalidad}}</span></li>
+      <li *ngIf="paisNacimiento">País Nacimiento: <span>{{paisNacimiento}}</span></li>
+      <li *ngIf="fechaNacimiento">Fecha Nacimiento <span>{{fechaNacimiento | dateFormat}}</span></li>
+      <li *ngIf="sexo">Sexo <span>{{sexo}}</span></li>
+      <ng-container *ngFor="let item of documentation">
+        <li>{{item.type}}<span>{{item.value}}</span></li>
+      </ng-container>
+    </ul>
+  </div>
+
+    <div class='roomsInfoContainer'>
+      <ul>
+        <li><i class="material-icons">meeting_room</i> {{nHabitacion}}</li>
+        <li><i class="material-icons">airline_seat_individual_suite</i> {{nCama}}</li>
+      </ul>
+      <button *ngIf="idRegistroCama" mat-raised-button color="accent" (click)="dialogCama.open()">Cambiar Cama</button>
+    </div>
+  </div>
+
+<igx-hierarchical-grid class="hierarchicalGrid" [data]="fechasTabla" (onColumnResized)="onResize($event)" [autoGenerate]="false"
+[height]="'500px'" [width]="'100%'" [allowFiltering]="true" #hierarchicalGrid>
+    <igx-column field="Número Registro"  [sortable]='true' [resizable]="true" [filterable]="true"></igx-column>
+    <igx-column field="Fecha Entrada"  [sortable]='true' [resizable]="true">
+      <ng-template igxCell let-cell="cell">
+        <div class="cell__inner_2">
+          {{cell.value | dateFormat }}
+        </div>
+      </ng-template>
+    </igx-column>
+    <igx-column field="Fecha Salida" [sortable]='true' [resizable]="true">
+      <ng-template igxCell let-cell="cell">
+        <div class="cell__inner_2">
+          <span *ngIf='cell.value; else buttonSalida'>{{cell.value | dateFormat }}</span>
+          <ng-template #buttonSalida>
+            <button mat-raised-button color="accent" (click)="alert.open()">Asignar fecha de salida</button>
+          </ng-template>
+        </div>
+      </ng-template>
+    </igx-column>
+    <igx-column field="Expediente" [sortable]='true' [resizable]="true">
+      <ng-template igxCell let-cell="cell">
+        <div class="cell__inner_2">
+          <button class="button_expedient" [disabled]="storeService.getUserProfile() != 'tecnico'" routerLink="/dashboard/ver-expediente/{{cell.value}}" mat-raised-button color="accent" (click)="progressSpinner()">Ver expediente</button>
+        </div>
+      </ng-template>
+    </igx-column>
+
+    <igx-row-island [key]="'Estancia'" [autoGenerate]="false">
+      <igx-column field="Número Habitación" [sortable]='true' [resizable]="true"></igx-column>
+      <igx-column field="Número Cama" [sortable]='true' [resizable]="true"></igx-column>
+      <igx-column field="Fecha asignación" [sortable]='true' [resizable]="true">
+        <ng-template igxCell let-cell="cell">
+          <div class="cell__inner_2">
+            {{cell.value | dateFormat }}
+          </div>
+        </ng-template>
+      </igx-column>
+      <igx-column field="Fecha abandono" [sortable]='true' [resizable]="true">
+        <ng-template igxCell let-cell="cell">
+          <div class="cell__inner_2">
+              <span *ngIf='cell.value; else dentroCasa'>{{cell.value | dateFormat}}</span>
+              <ng-template #dentroCasa>
+                <mat-chip class="inHome" selected>Actualmente en casa</mat-chip>
+              </ng-template>
+          </div>
+        </ng-template>
+      </igx-column>
+  </igx-row-island>
+</igx-hierarchical-grid>
+
+<igx-dialog #dialogCama title="Asignar Cama " (onLeftButtonSelect)="dialogCama.close()"
+  (onRightButtonSelect)="changeBed($event, changeRoomDialog)" leftButtonLabel="Cancelar" rightButtonLabel="Asignar"
+  closeOnOutsideSelect="true">
+  <app-change-room-dialog #changeRoomDialog></app-change-room-dialog>
+</igx-dialog>
+
+<igx-dialog #alert title="Asignar fecha de salida a {{nombre}} {{apellido1}}" (onLeftButtonSelect)="alert.close()"
+  (onRightButtonSelect)="sendDepartureDate($event, departureDialog)" leftButtonLabel="Cancelar" rightButtonLabel="Asignar" closeOnOutsideSelect="true">
+  <app-departure-dialog #departureDialog></app-departure-dialog>
+</igx-dialog>

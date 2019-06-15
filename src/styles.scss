@@ -1,0 +1,34 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.success{
+    background: #43A047;
+    color: #fff;
+}
+.error{
+    background: #D32F2F;
+    color: #fff;
+}
+.warning{
+    background: #FFA000;
+    color: #fff;
+}
+.igx-overlay__wrapper--flex{
+    z-index: 999 !important;
+}
+.igx-dialog__window{
+    padding: 16px;
+    width: 300px;
+    @media (min-width: 768px){
+        width: 450px;
+    }
+}
+.igx-dialog__window-title{
+    padding: 8px !important;
+    margin-bottom: 8px;
+}
+.mat-select-placeholder::after, .mat-input-placeholder::after {
+    content: "\00a0";
+}
