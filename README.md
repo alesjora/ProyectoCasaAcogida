@@ -1,27 +1,34 @@
-# ProyectoFinalGrado
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
+# :exclamation: Aplicación web para la casa de acogida de Córdoba :exclamation:
 
-## Development server
+## Por Jose Rafaél Álvarez Espino y Marcos Gallardo Pérez
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Surge de la necesidad de gestionar mediante una aplicación web el trabajo que se lleva a cabo en la casa de acogida Campo madre de Dios de Córdoba.
 
-## Code scaffolding
+------------
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+------------
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+ ### Funcionalidades:
 
-## Running unit tests
+------------
+**Registro de la persona**: Trabajo asignado a los conserjes, permite buscar a la persona en registro, si no se encuentra, esta se podría meter en el sistema y añadir el registro de dicha persona.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+![Alt Text](imgReadme/1.Registro&#32;Persona.gif)
 
-## Running end-to-end tests
+**Cambio de cama, y asignación fecha salida**: A una persona detro de la casa de acogida, se le debe permitir cambiar de cama, y asignar una fecha de salida. Siendo necesario un registro de las entradas/salidas de dicha persona además de las camas que ha ocupado y durante cuanto tiempo.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+![Alt Text](imgReadme/3.OcupacionYAbandonoCama.gif)
 
-## Further help
+**Vista Técnico**: La tarea del técnico es hacer un expediente técnico de la persona que visita la casa de acogida. Pudiendo ver los datos de todos los expedientes que se le han hecho a dicha persona. 
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+![Alt Text](imgReadme/4.Vista&#32;Técnico.gif)
+**Haciendolos**:
+![Alt Text](imgReadme/5.Comenzar&#32;expediente.gif)
+**Viendo los resultados**:
+![Alt Text](imgReadme/6.Comenzar&#32;y&#32;ver&#32;expediente.gif)
+
+**Informes**: En todo momento se pueden visitar distintos informes de la aplicación que te muestran distintas comparativas de algunos datos.
+![Alt Text](imgReadme/7.Informes.gif)
+
